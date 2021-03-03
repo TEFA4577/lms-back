@@ -1,0 +1,84 @@
+BASE DE DATOS
+
+	- Todas las tablas deben llevar como prefijo "LMS" que es la sigla del proyecto. Ej: lms_docentes.
+	- Todas las tablas y las vistas deben ir en plural.
+
+BACKEND
+	
+	- Controladores:
+		- Se utiliza la nomenclatura PascalCase. Ej: ListaDeActividadController.
+		- Todos los controladores deben ir en singular.
+		- Todos los controladores deben terminar con la palabra "Controller".
+		- No se deben utilizar barras bajas ni otros simbolos para simular espacios. Ej: lista_de_actividad_Controller.
+
+	- Funciones o metodos:
+		- Se utiliza la nomenclatura camelCase. Ej: registrarDocente().
+		- No se deben utilizar barras bajas ni otros simbolos para simular espacios. Ej: registrar_docente().
+
+	- Modelos:
+		- Todos los modelos deben ir en singular.
+		- Se utiliza la nomenclatura PascalCase. Ej: Docente (primera letra de cada palabra en mayuscula).
+
+	- Comentarios
+		- Cada funcion creada debe contar con su respectivo comentario.
+		
+			Ejemplo de comentario:
+		
+			/**
+			* Descripcion: La funcion registra a un nuevo docente.
+			* Tipo: POST
+			* URL: api/docente/create
+			* @Autor: Alex Aguilar
+			*/
+
+			public function registrarDocente()
+			{
+
+			}
+
+	- Metodos de peticion
+		- Dependiendo del tipo de peticion se utilizaran los distintos tipos de metodos.
+		- GET: Metodo utilizado para obtener datos (listados, reportes, etc.).
+		- POST: Metodo utilizado para registrar nuevos datos (formularios para registrar).
+		- PUT: Metodo utilizado para editar datos (formularios para editar).
+		
+
+	- URL's
+		- Las URL's deben ir en minuscula.
+		- Ahora cada URL debe ir en api.php, ya no en web.php. Esto provocara que se añada el prefijo "api" a la ruta.
+		- Las rutas, en caso de que lo necesiten, deben ir separadas por guiones (-).
+		- Las rutas siempre deben empezar con el nombre del modelo que esta utilizando en plural.
+		- Se debe añadir un comentario que indica el inicio de un grupo de rutas.
+
+			Ejemplo de rutas:
+
+			/* RUTAS PARA DOCENTES */
+			api/docentes/crear-docente
+			api/docentes/editar-docente/{id}
+			api/docentes/desactivar-docente/{id}
+			api/docentes/activar-docente/{id}
+			api/docentes/ver-datos/{id}
+
+			/* RUTAS PARA ESTUDIANTES */
+			api/estudiantes/crear-estudiante
+			api/estudiantes/editar-estudiantes/{id}
+			api/estudiantes/desactivar-estudiantes/{id}
+			api/estudiantes/activar-estudiantes/{id}
+			api/estudiantes/ver-datos/{id}
+
+	- Variables
+		- Se utiliza la nomenclatura camelCase. Ej: $idUsuario.
+		- Si la variable engloba varios datos (colecciones o arrays), el nombre debe ir en plural, si lleva un solo dato debe ir en singular.
+		- El nombre de una variable debe describir para que fue utilizada o cual es su valor.
+		- En lo posible no se deben utilizar abreviaciones de palabras para nombrar las variables.
+		- No se deben utilizar barras bajas ni otros simbolos para simular espacios. Ej: $id_usuario.
+		- No se deben utilizar numeros en los nombres de variables. Ej: $usuario1.
+
+GENERAL
+	
+	- Si creen que alguna parte del codigo necesita un comentario para explicar su funcionamiento, pueden agregar ese comentario.
+	- Debemos priorizar el uso de eloquent y dejar de usar el query builder (hacer consultas directas al BD en el controlador).
+	- Debemos utilizar un solo formato de fecha año/mes/dia.
+	- Si detectamos codigo repetitivo debemos buscar la forma de escribir una sola ves esas lineas de codigo, por ejemplo usar los helpers de laravel.
+	- En lo posible debemos usar la menor cantidad de lineas de codigo para realizar algun proceso.
+
