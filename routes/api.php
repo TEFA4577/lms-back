@@ -92,3 +92,15 @@ Route::get('comentarios', 'ForoController@index');
 Route::get('comentarios/clase/{id}', 'ForoController@comentariosRespuestasClase');
 Route::post('comentarios/registrar', 'ForoController@registrarComentario');
 Route::post('comentarios/respuesta/registrar', 'ForoController@registrarRespuestaComentario');
+
+//RUTAS PARA PREGUNTAS FRECUENTES
+Route::post('pregunta-frecuente/registrar', 'PreguntaFrecuenteController@registrarPreguntaFrecuente');
+Route::get('pregunta-frecuente/mostrar/{id}', 'PreguntaFrecuenteController@mostrarPreguntaFrecuente');
+Route::get('pregunta-frecuente/list', 'PreguntaFrecuenteController@listarPreguntasFrecuentes');
+Route::put('pregunta-frecuente/actualizar/{id}', 'PreguntaFrecuenteController@actualizarPreguntaFrecuente');
+Route::put('pregunta-frecuente/eliminar/{id}', 'PreguntaFrecuenteController@elimarPreguntaFrecuente');
+//RUTAS PARA RESPUESTAS PREGUNTAS FRECUENTES
+Route::post('respuesta-pregunta-frecuente/registrar', 'PreguntaFrecuenteController@registrarRespuestaPreguntaFrecuente');
+Route::get('respuesta-pregunta-frecuente/list', 'PreguntaFrecuenteController@listarRespuestaPreguntaFrecuente');
+Route::put('respuesta-pregunta-frecuente/actualizar/{id}', 'PreguntaFrecuenteController@actualizarRespuestaPreguntaFrecuente');
+Route::put('respuesta-pregunta-frecuente/eliminar/{id}', 'PreguntaFrecuenteController@eliminarRespuestaPreguntaFrecuente');
