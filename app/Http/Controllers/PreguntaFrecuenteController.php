@@ -35,10 +35,22 @@ class PreguntaFrecuenteController extends Controller
         return response()->json(['mensaje' => 'Pregunta modificada exitosamente', 'estado'=> 'success']);
     }
     public function elimarPreguntaFrecuente($id){
-        $preguntafrecuente = PreguntaFrecuente::where('id_pregunta_frecuente', $id)->first();
-        $preguntafrecuente->estado_pregunta_frecuente = 0;
-        $preguntafrecuente->save();
-        return response()->json(['mensaje' => 'Elimando', 'estado' => 'daner']);
+        //$preguntafrecuente = PreguntaFrecuente::where('id_pregunta_frecuente', $id)->first();
+        $pregunta=PreguntaFrecuente::find($id);
+        if ($pregunta->estado_pregunta_frecuente == 1) {
+            $pregunta->estado_pregunta_frecuente = 0;
+            $respuesta=RespuestaPreguntaFrecuente::where('id_pregunta', $id)
+                        ->where('estado_respuesta_pregunta', 1)
+                        ->update(['estado_respuesta_pregunta' => 0]);
+            //$respuesta->save();
+        }else {
+            $pregunta->estado_pregunta_frecuente = 1;
+            $respuesta=RespuestaPreguntaFrecuente::where('id_pregunta', $id)
+                        ->where('estado_respuesta_pregunta', 0)
+                        ->update(['estado_respuesta_pregunta' => 1]);
+        }
+        $pregunta->save();
+        return response()->json(['mensaje' => 'Elimando', 'estado' => 'daner', 'Pregunta'=>$pregunta, 'respuesta' => $respuesta]);
     }
     /**
      * Descripción: Registra las respuestas de preguntas frecuentes
