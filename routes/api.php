@@ -93,14 +93,14 @@ Route::get('comentarios/clase/{id}', 'ForoController@comentariosRespuestasClase'
 Route::post('comentarios/registrar', 'ForoController@registrarComentario');
 Route::post('comentarios/respuesta/registrar', 'ForoController@registrarRespuestaComentario');
 
-//RUTAS PARA PREGUNTAS FRECUENTES
-Route::post('pregunta-frecuente/registrar', 'PreguntaFrecuenteController@registrarPreguntaFrecuente');
-Route::get('pregunta-frecuente/mostrar/{id}', 'PreguntaFrecuenteController@mostrarPreguntaFrecuente');
-Route::get('pregunta-frecuente/list', 'PreguntaFrecuenteController@listarPreguntasFrecuentes');
-Route::put('pregunta-frecuente/actualizar/{id}', 'PreguntaFrecuenteController@actualizarPreguntaFrecuente');
-Route::put('pregunta-frecuente/eliminar/{id}', 'PreguntaFrecuenteController@elimarPreguntaFrecuente');
-//RUTAS PARA RESPUESTAS PREGUNTAS FRECUENTES
-Route::post('respuesta-pregunta-frecuente/registrar', 'PreguntaFrecuenteController@registrarRespuestaPreguntaFrecuente');
-Route::get('respuesta-pregunta-frecuente/list', 'PreguntaFrecuenteController@listarRespuestaPreguntaFrecuente');
-Route::put('respuesta-pregunta-frecuente/actualizar/{id}', 'PreguntaFrecuenteController@actualizarRespuestaPreguntaFrecuente');
-Route::put('respuesta-pregunta-frecuente/eliminar/{id}', 'PreguntaFrecuenteController@eliminarRespuestaPreguntaFrecuente');
+//RUTAS PARA PREGUNTAS
+Route::post('pregunta/registrar', 'PreguntaController@registrarPregunta');
+Route::get('pregunta/mostrar/{id}', 'PreguntaController@mostrarPregunta');
+Route::get('pregunta/list', 'PreguntaController@listarPreguntas');
+Route::put('pregunta/actualizar/{id}', 'PreguntaController@actualizarPregunta');
+Route::put('pregunta/eliminar/{id}', 'PreguntaController@elimarPregunta');
+//RUTAS PARA RESPUESTAS PREGUNTAS
+Route::post('respuesta_pregunta/registrar', 'PreguntaController@registrarRespuestaPregunta');
+Route::get('respuesta_pregunta/list', 'PreguntaController@listarRespuestaPregunta');
+Route::put('respuesta_pregunta/actualizar/{id}', 'PreguntaController@actualizarRespuestaPregunta');
+Route::put('respuesta_pregunta/eliminar/{id}', 'PreguntaController@eliminarRespuestaPregunta');
