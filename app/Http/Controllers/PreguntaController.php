@@ -23,6 +23,7 @@ class PreguntaController extends Controller
         $pregunta = Pregunta::findOrFail($id);
         return response()->json($pregunta);
     }
+
     public function listarPregunta(){
         $pregunta = Pregunta::orderBy('id_pregunta', 'asc')->get();
         return response()->json($pregunta);
@@ -30,7 +31,7 @@ class PreguntaController extends Controller
     public function actualizarPregunta(Request $request, $id){
         $pregunta = Pregunta::where('id_pregunta', $id)->first();
         $pregunta->texto_pregunta = $request->texto_pregunta;
-        $pregunta->estado_pregunta = $request->estado_pregunta;
+        // $pregunta->estado_pregunta = $request->estado_pregunta;
         $pregunta->save();
         return response()->json(['mensaje' => 'Pregunta modificada exitosamente', 'estado'=> 'success']);
     }
@@ -70,15 +71,19 @@ class PreguntaController extends Controller
             // return response()->json(['mensaje' => 'Respuesta No Registrada']);
         // }
     }
-    public function listarRespuestaPregunta(){
-        $respuestapregunta = RespuestaPregunta::orderBy('id_respuesta_pregunta', 'asc')->get();
-        return response()->json($pregunta);
+    public function listarRespuestaPregunta($id){
+        $respuesta =RespuestaPregunta::where('id_pregunta', $id)
+                    ->with('respuestaPregunta')
+                    ->get();
+        return response()->json($respuesta);
+    }
+    public function mostrarRespuestaPregunta($id){
+        $respuesta = RespuestaPregunta::findOrFail($id);
+        return response()->json($respuesta);
     }
     public function actualizarRespuestaPregunta(Request $request, $id){
         $respuestapregunta = RespuestaPregunta::where('id_respuesta_pregunta', $id)->first();
         $respuestapregunta->texto_respuesta_pregunta = $request->texto_respuesta_pregunta;
-        $respuestapregunta->estado_respuesta_pregunta = $request->estado_respuesta_pregunta;
-        // $respuestapregunta->id_pregunta = $request->id_pregunta;
         $respuestapregunta->save();
         return response()->json(['mensaje' => 'Respuesta modificada exitosamente', 'estado' => 'success']);
     }

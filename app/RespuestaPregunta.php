@@ -12,7 +12,7 @@ class RespuestaPregunta extends Model
         'created_at',
         'update_at'
     ];
-    public function preguntasRespuesta()
+    public function respuestaPregunta()
     {
         return $this->belongsTo('App\Pregunta', 'id_pregunta');
     }

@@ -96,11 +96,12 @@ Route::post('comentarios/respuesta/registrar', 'ForoController@registrarRespuest
 //RUTAS PARA PREGUNTAS
 Route::post('pregunta/registrar', 'PreguntaController@registrarPregunta');
 Route::get('pregunta/mostrar/{id}', 'PreguntaController@mostrarPregunta');
-Route::get('pregunta/list', 'PreguntaController@listarPreguntas');
+Route::get('pregunta/list', 'PreguntaController@listarPregunta');
 Route::put('pregunta/actualizar/{id}', 'PreguntaController@actualizarPregunta');
 Route::put('pregunta/eliminar/{id}', 'PreguntaController@elimarPregunta');
 //RUTAS PARA RESPUESTAS PREGUNTAS
-Route::post('respuesta_pregunta/registrar', 'PreguntaController@registrarRespuestaPregunta');
-Route::get('respuesta_pregunta/list', 'PreguntaController@listarRespuestaPregunta');
-Route::put('respuesta_pregunta/actualizar/{id}', 'PreguntaController@actualizarRespuestaPregunta');
-Route::put('respuesta_pregunta/eliminar/{id}', 'PreguntaController@eliminarRespuestaPregunta');
+Route::get('respuesta-pregunta/mostrar/{id}', 'PreguntaController@mostrarRespuestaPregunta');
+Route::post('respuesta-pregunta/registrar', 'PreguntaController@registrarRespuestaPregunta');
+Route::get('respuesta-pregunta/list/{id}', 'PreguntaController@listarRespuestaPregunta');
+Route::put('respuesta-pregunta/actualizar/{id}', 'PreguntaController@actualizarRespuestaPregunta');
+Route::put('respuesta-pregunta/eliminar/{id}', 'PreguntaController@eliminarRespuestaPregunta');

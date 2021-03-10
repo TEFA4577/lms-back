@@ -12,7 +12,7 @@ class Pregunta extends Model
         'created_at',
         'update_at'
     ];
-    public function respuestasPregunta()
+    public function preguntaRespuesta()
     {
         return $this->hasMany('App\RespuestaPregunta', 'id_pregunta');
     }
