@@ -25,7 +25,10 @@ class PreguntaController extends Controller
     }
 
     public function listarPregunta(){
-        $pregunta = Pregunta::orderBy('id_pregunta', 'asc')->get();
+        $pregunta = Pregunta::orderBy('id_pregunta', 'asc')
+                    ->where('estado_pregunta', 1)
+                    ->with('preguntaRespuesta')
+                    ->get();
         return response()->json($pregunta);
     }
     public function actualizarPregunta(Request $request, $id){
@@ -71,14 +74,16 @@ class PreguntaController extends Controller
             // return response()->json(['mensaje' => 'Respuesta No Registrada']);
         // }
     }
-    public function listarRespuestaPregunta($id){
-        $respuesta =RespuestaPregunta::where('id_pregunta', $id)
+    public function listarRespuestaPregunta(){
+        $respuesta =RespuestaPregunta::where('id_respuesta_pregunta', 'asc')
+                    ->where('estado_respuesta_pregunta', 1)
                     ->with('respuestaPregunta')
                     ->get();
         return response()->json($respuesta);
     }
     public function mostrarRespuestaPregunta($id){
-        $respuesta = RespuestaPregunta::findOrFail($id);
+        $respuesta = RespuestaPregunta::findOrFail($id)
+                    ->where('estado_respuesta_pregunta', 1);
         return response()->json($respuesta);
     }
     public function actualizarRespuestaPregunta(Request $request, $id){

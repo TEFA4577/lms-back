@@ -84,7 +84,7 @@ Route::put('etiquetas/actualizar/{id}', 'EtiquetaController@actualizarEtiqueta')
 Route::get('etiquetas/mostrar/{id}', 'EtiquetaController@mostrarEtiqueta');
 Route::put('etiquetas/cambiar-imagen', 'EtiquetaController@cambiarImagenEtiqueta');
 Route::get('etiquetas/cursos/{id}', 'EtiquetaController@etiquetaCursos');
-Route::get('etiquetas/eliminar/{id}', 'EtiquetaController@eliminarEtiqueta');
+Route::put('etiquetas/eliminar/{id}', 'EtiquetaController@eliminarEtiqueta');
 Route::get('usuario/mis-solicitudes/{id}', 'UsuarioController@misSolicitudes');
 
 //RUTAS PARA FORO
@@ -102,6 +102,6 @@ Route::put('pregunta/eliminar/{id}', 'PreguntaController@elimarPregunta');
 //RUTAS PARA RESPUESTAS PREGUNTAS
 Route::get('respuesta-pregunta/mostrar/{id}', 'PreguntaController@mostrarRespuestaPregunta');
 Route::post('respuesta-pregunta/registrar', 'PreguntaController@registrarRespuestaPregunta');
-Route::get('respuesta-pregunta/list/{id}', 'PreguntaController@listarRespuestaPregunta');
+Route::get('respuesta-pregunta/list', 'PreguntaController@listarRespuestaPregunta');
 Route::put('respuesta-pregunta/actualizar/{id}', 'PreguntaController@actualizarRespuestaPregunta');
 Route::put('respuesta-pregunta/eliminar/{id}', 'PreguntaController@eliminarRespuestaPregunta');
