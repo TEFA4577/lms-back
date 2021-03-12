@@ -82,8 +82,7 @@ class PreguntaController extends Controller
         return response()->json($respuesta);
     }
     public function mostrarRespuestaPregunta($id){
-        $respuesta = RespuestaPregunta::findOrFail($id)
-                    ->where('estado_respuesta_pregunta', 1);
+        $respuesta = RespuestaPregunta::findOrFail($id);
         return response()->json($respuesta);
     }
     public function actualizarRespuestaPregunta(Request $request, $id){

@@ -98,10 +98,10 @@ Route::post('pregunta/registrar', 'PreguntaController@registrarPregunta');
 Route::get('pregunta/mostrar/{id}', 'PreguntaController@mostrarPregunta');
 Route::get('pregunta/list', 'PreguntaController@listarPregunta');
 Route::put('pregunta/actualizar/{id}', 'PreguntaController@actualizarPregunta');
-Route::put('pregunta/eliminar/{id}', 'PreguntaController@elimarPregunta');
+Route::get('pregunta/eliminar/{id}', 'PreguntaController@elimarPregunta');
 //RUTAS PARA RESPUESTAS PREGUNTAS
 Route::get('respuesta-pregunta/mostrar/{id}', 'PreguntaController@mostrarRespuestaPregunta');
 Route::post('respuesta-pregunta/registrar', 'PreguntaController@registrarRespuestaPregunta');
 Route::get('respuesta-pregunta/list', 'PreguntaController@listarRespuestaPregunta');
 Route::put('respuesta-pregunta/actualizar/{id}', 'PreguntaController@actualizarRespuestaPregunta');
-Route::put('respuesta-pregunta/eliminar/{id}', 'PreguntaController@eliminarRespuestaPregunta');
+Route::get('respuesta-pregunta/eliminar/{id}', 'PreguntaController@eliminarRespuestaPregunta');
