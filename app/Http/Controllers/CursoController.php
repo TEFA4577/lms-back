@@ -33,8 +33,17 @@ class CursoController extends Controller
      */
     public function index()
     {
-        $cursos = Curso::orderBy('id_curso', 'desc')->where('estado_curso', 'aprobado')->with('etiquetasCurso')->get();
-        return response()->json($cursos);
+        $usuario = Usuario::orderBy('id_usuario', 'asc');
+        $cursos = Curso::orderBy('id_curso', 'desc')
+                        ->where('estado_curso', 'aprobado')
+                        ->with('etiquetasCurso')->get();
+
+        $usuarioCurso = UsuarioCurso::where('estado_usuario_curso', 'no adquirido')
+                        ->with('usuario')
+                        ->with('cursoSolicitado')
+                        ->where('estado_usuario_curso', 'no adquirido')
+                        ->get();
+        return response()->json([$cursos, $usuarioCurso]);
     }
     /**
      * Descripcion: La funcion devuelve todos los cursos no aprobados ordenados por id descendentemente
