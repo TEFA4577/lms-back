@@ -16,6 +16,6 @@ class EncuestaPregunta extends Model
     }
     public function respuestaEncuesta()
     {
-        return $this->hasMany('App\EncuestaRespuesta', 'id_encuesta_respuesta');
+        return $this->hasMany('App\EncuestaRespuesta', 'id_encuesta_pregunta');
     }
 }
