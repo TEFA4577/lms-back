@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMembresiasTable extends Migration
+class CreateLmsMembresiasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateMembresiasTable extends Migration
      */
     public function up()
     {
-        Schema::create('membresias', function (Blueprint $table) {
+        Schema::create('lms_membresias', function (Blueprint $table) {
             $table->bigIncrements('id_membresia')->comment('identificador de membresia');
-            $table->string('titulo_membresia')->comment('titulo de la membrecia');
+            $table->string('nombre_membresia')->comment('titulo de la membrecia');
             $table->string('texto_membresia')->comment('texto de membresia');
-            $table->string('estado_membresia')->comment('estado de membresia')->default('no confirmado');
+            $table->boolean('estado_membresia')->comment('estado de la membresia')->default(1);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateMembresiasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('membresias');
+        Schema::dropIfExists('lms_membresias');
     }
 }

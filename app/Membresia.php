@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Membresia extends Model
 {
-    protected $table = 'lms_membresia';
+    protected $table = 'lms_membresias';
     protected $primaryKey = 'id_membresia';
     protected $hidden = [
         'created_at',
         'update_at'
     ];
+
+    public function membresiaDocente()
+    {
+        return $this->hasMany('App\DocenteMembresia', 'id_membresia', 'id_membresia');
+    }
 }
