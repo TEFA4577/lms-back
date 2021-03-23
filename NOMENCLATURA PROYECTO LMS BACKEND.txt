@@ -4,8 +4,9 @@ BASE DE DATOS
 	- Todas las tablas y las vistas deben ir en plural.
 
 BACKEND
-	
+
 	- Controladores:
+        - Crear controlador: php artisan make:controller nombreController
 		- Se utiliza la nomenclatura PascalCase. Ej: ListaDeActividadController.
 		- Todos los controladores deben ir en singular.
 		- Todos los controladores deben terminar con la palabra "Controller".
@@ -16,14 +17,15 @@ BACKEND
 		- No se deben utilizar barras bajas ni otros simbolos para simular espacios. Ej: registrar_docente().
 
 	- Modelos:
+        - Crear modelo: php artisan make:model nombre | [nombre] debe ser en singular
 		- Todos los modelos deben ir en singular.
 		- Se utiliza la nomenclatura PascalCase. Ej: Docente (primera letra de cada palabra en mayuscula).
 
 	- Comentarios
 		- Cada funcion creada debe contar con su respectivo comentario.
-		
+
 			Ejemplo de comentario:
-		
+
 			/**
 			* Descripcion: La funcion registra a un nuevo docente.
 			* Tipo: POST
@@ -41,7 +43,7 @@ BACKEND
 		- GET: Metodo utilizado para obtener datos (listados, reportes, etc.).
 		- POST: Metodo utilizado para registrar nuevos datos (formularios para registrar).
 		- PUT: Metodo utilizado para editar datos (formularios para editar).
-		
+
 
 	- URL's
 		- Las URL's deben ir en minuscula.
@@ -75,10 +77,19 @@ BACKEND
 		- No se deben utilizar numeros en los nombres de variables. Ej: $usuario1.
 
 GENERAL
-	
+
 	- Si creen que alguna parte del codigo necesita un comentario para explicar su funcionamiento, pueden agregar ese comentario.
 	- Debemos priorizar el uso de eloquent y dejar de usar el query builder (hacer consultas directas al BD en el controlador).
 	- Debemos utilizar un solo formato de fecha año/mes/dia.
 	- Si detectamos codigo repetitivo debemos buscar la forma de escribir una sola ves esas lineas de codigo, por ejemplo usar los helpers de laravel.
 	- En lo posible debemos usar la menor cantidad de lineas de codigo para realizar algun proceso.
 
+MIGRATION
+    -php artisan migrate:reset | para eliminar todas las tablas
+    -php artisan migrate:rollback | para deshacer el último grupo de migraciones ejecutadas
+    -php artisan migrate:status | para ver el estatus de cada migración
+    -----------------------------------------------------------------------------------
+    -php artisan make:migration create_[nombre]_table
+                                create_ se indica como se llamará la tablas
+                                ej: create_lms_nombres_table  |nombre de la tabla en plural
+    php artisan migrate | para ejecutar las nuevas migraciones
