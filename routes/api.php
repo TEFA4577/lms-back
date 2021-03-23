@@ -106,6 +106,7 @@ Route::post('respuesta-pregunta/registrar', 'PreguntaController@registrarRespues
 Route::get('respuesta-pregunta/list', 'PreguntaController@listarRespuestaPregunta');
 Route::put('respuesta-pregunta/actualizar/{id}', 'PreguntaController@actualizarRespuestaPregunta');
 Route::get('respuesta-pregunta/eliminar/{id}', 'PreguntaController@eliminarRespuestaPregunta');
+<<<<<<< HEAD
 //RUTAS PARA ENCUESTAS
 Route::post('encuesta/registrar', 'EncuestaController@registrarEncuesta');
 Route::post('encuesta/registrar-pregunta', 'EncuestaController@registrarPregunta');
@@ -115,3 +116,5 @@ Route::put('encuesta/actualizar/{id}', 'EncuestaController@actualizarEncuesta');
 Route::put('encuesta/actualizar-pregunta/{id}', 'EncuestaController@actualizarPreguntaEncuesta');
 Route::put('encuesta/eliminar/{id}', 'EncuestaController@EliminarEncuesta');
 Route::put('encuesta/eliminar-pregunta/{id}', 'EncuestaController@EliminarPreguntaEncuesta');
+=======
+>>>>>>> 6f97bb9ea43fb0f818c746d69ffbc50ff31ab464
