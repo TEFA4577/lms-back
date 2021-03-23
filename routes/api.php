@@ -56,8 +56,8 @@ Route::get('cursos/eliminar/{id}', 'CursoController@eliminarCurso');
 Route::get('cursos/eliminar-etiquetas/{id}', 'CursoController@eliminarCursoEtiquetas');
 Route::get('cursos-solicitados', 'CursoController@listarSolicitudes');
 Route::put('progreso-curso/{id}', 'CursoController@progresoCurso');
-Route::get('cursos-de-docente/{id}' , 'CursoController@cursosDeDocente');
-Route::get('certificado/{idUsuarioCurso}','CursoController@certificado');
+Route::get('cursos-de-docente/{id}', 'CursoController@cursosDeDocente');
+Route::get('certificado/{idUsuarioCurso}', 'CursoController@certificado');
 
 // RUTAS PARA MODULOS
 Route::post('modulos/registrar', 'ModuloController@registrarModulo');
@@ -106,3 +106,12 @@ Route::post('respuesta-pregunta/registrar', 'PreguntaController@registrarRespues
 Route::get('respuesta-pregunta/list', 'PreguntaController@listarRespuestaPregunta');
 Route::put('respuesta-pregunta/actualizar/{id}', 'PreguntaController@actualizarRespuestaPregunta');
 Route::get('respuesta-pregunta/eliminar/{id}', 'PreguntaController@eliminarRespuestaPregunta');
+//RUTAS PARA ENCUESTAS
+Route::post('encuesta/registrar', 'EncuestaController@registrarEncuesta');
+Route::post('encuesta/registrar-pregunta', 'EncuestaController@registrarPregunta');
+Route::post('encuesta/registrar-respuesta', 'EncuestaController@registrarRespuesta');
+Route::get('encuesta/list', 'EncuestaController@listarPreguntasEncuesta');
+Route::put('encuesta/actualizar/{id}', 'EncuestaController@actualizarEncuesta');
+Route::put('encuesta/actualizar-pregunta/{id}', 'EncuestaController@actualizarPreguntaEncuesta');
+Route::put('encuesta/eliminar/{id}', 'EncuestaController@EliminarEncuesta');
+Route::put('encuesta/eliminar-pregunta/{id}', 'EncuestaController@EliminarPreguntaEncuesta');

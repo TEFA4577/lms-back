@@ -75,7 +75,7 @@ class PreguntaController extends Controller
         // }
     }
     public function listarRespuestaPregunta(){
-        $respuesta =RespuestaPregunta::where('id_respuesta_pregunta', 'asc')
+        $respuesta =RespuestaPregunta::orderBy('id_respuesta_pregunta', 'asc')
                     ->where('estado_respuesta_pregunta', 1)
                     ->with('respuestaPregunta')
                     ->get();
