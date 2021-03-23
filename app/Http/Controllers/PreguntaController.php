@@ -75,15 +75,14 @@ class PreguntaController extends Controller
         // }
     }
     public function listarRespuestaPregunta(){
-        $respuesta =RespuestaPregunta::where('id_respuesta_pregunta', 'asc')
+        $respuesta =RespuestaPregunta::orderBy('id_respuesta_pregunta', 'asc')
                     ->where('estado_respuesta_pregunta', 1)
                     ->with('respuestaPregunta')
                     ->get();
         return response()->json($respuesta);
     }
     public function mostrarRespuestaPregunta($id){
-        $respuesta = RespuestaPregunta::findOrFail($id)
-                    ->where('estado_respuesta_pregunta', 1);
+        $respuesta = RespuestaPregunta::findOrFail($id);
         return response()->json($respuesta);
     }
     public function actualizarRespuestaPregunta(Request $request, $id){

@@ -51,4 +51,8 @@ class Usuario extends Authenticatable
     {
         return $this->hasMany('App\respuesta','id_respuesta');
     }
+    public function usuarioRespuestaEncuesta()
+    {
+        return $this->hasMany('App\EncuestaRespuesta','id_encuesta_respuesta');
+    }
 }
