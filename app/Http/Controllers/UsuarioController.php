@@ -205,6 +205,15 @@ class UsuarioController extends Controller
         $usuario = UsuarioCurso::where('id_usuario', $id)->with('cursoSolicitado')->get();
         return response()->json($usuario);
     }
+
+    public function misEstudiantes($id){
+
+        $curso = Curso::where('id_usuario', $id)
+                        ->with('cursoEstudiante')
+                        ->get();
+        return response()->json($curso);
+    }
+
     /**
      * Descripcion: esta funcion lista los cursos creados por el usuario
      * Tipo: GET

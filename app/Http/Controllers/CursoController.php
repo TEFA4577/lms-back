@@ -33,7 +33,9 @@ class CursoController extends Controller
      */
     public function index()
     {
-        $cursos = Curso::orderBy('id_curso', 'desc')->where('estado_curso', 'aprobado')->with('etiquetasCurso')->get();
+        $cursos = Curso::orderBy('id_curso', 'desc')
+                        ->where('estado_curso', 'aprobado')
+                        ->with('etiquetasCurso')->get();
         return response()->json($cursos);
     }
     /**

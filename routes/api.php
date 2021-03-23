@@ -17,6 +17,7 @@ Route::post('login', 'UsuarioController@login');
 Route::post('usuario/registrar', 'UsuarioController@registrarUsuario');
 Route::get('usuario/mis-cursos/{id}', 'UsuarioController@misCursos');
 Route::get('usuario/cursos-creados/{id}', 'UsuarioController@cursosCreados');
+Route::get('usuario/cursos-estudiantes/{id}', 'UsuarioController@misEstudiantes');
 Route::post('adquirir-curso', 'UsuarioController@adquirirCurso');
 Route::get('habilitar-curso/{id}/{estado}', 'CursoController@habiliarCurso');
 Route::post('usuario-red-social/registrar', 'RedSocialController@registrarRedSocial');

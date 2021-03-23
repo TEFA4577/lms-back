@@ -17,5 +17,8 @@ class Curso extends Model
     {
         return $this->hasMany('App\Modulo', 'id_curso');
     }
-
+    public function cursoEstudiante()
+    {
+        return $this->hasMany('App\UsuarioCurso', 'id_curso', 'id_curso');
+    }
 }
