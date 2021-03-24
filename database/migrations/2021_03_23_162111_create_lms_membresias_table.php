@@ -17,7 +17,9 @@ class CreateLmsMembresiasTable extends Migration
             $table->bigIncrements('id_membresia')->comment('identificador de membresia');
             $table->string('nombre_membresia')->comment('titulo de la membrecia');
             $table->string('texto_membresia')->comment('texto de membresia');
+            $table->boolean('membresia')->comment('aprobar o no, membresia')->default(0);
             $table->boolean('estado_membresia')->comment('estado de la membresia')->default(1);
+            $table->decimal('precio_membresia',16,2)->comment('precio de la membresia');
             $table->timestamps();
         });
     }
