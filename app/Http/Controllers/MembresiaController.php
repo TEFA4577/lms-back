@@ -26,6 +26,7 @@ class MembresiaController extends Controller
                     ->get();
         return response()->json($membresia);
     }
+	
     public function registrarMembresia(Request $request){
         $membresia = new Membresia;
         $membresia->nombre_membresia = $request->nombre_membresia;
@@ -42,17 +43,21 @@ class MembresiaController extends Controller
         $membresia->save();
         return response()->json(['mensaje'=>'Membresia Modificada', 'estado' => 'success']);
     }
-    public function deshabilitarMembresia($id){
+    /*public function deshabilitarMembresia($id){
         $membresia = Membresia::find($id);
         $membresia->membresia = 0;
         $membresia->save();
         return response()->json(['mensaje' => 'Membresia Deshabilitada', 'estado'=>'daner']);
-    }
+    }*/
     public function habilitarMembresia($id){
-        $membresia = Membresia::find($id);
-        $membresia->membresia = 1;
+		$membresia = Membresia::find($id);
+		if($membresia->membresia == 1){
+			$membresia->membresia = 0;
+		}else {
+			$membresia->membresia = 1;
+		}
         $membresia->save();
-        return response()->json(['mensaje'=>'Membresia habilitada', 'estado'=>'success']);
+        return response()->json(['mensaje'=>'Estado actualizada', 'estado'=>'success']);		
     }
     public function eliminarMembresia($id){
         $membresia = Membresia::find($id);

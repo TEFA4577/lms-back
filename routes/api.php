@@ -116,10 +116,10 @@ Route::put('encuesta/actualizar-pregunta/{id}', 'EncuestaController@actualizarPr
 Route::put('encuesta/eliminar/{id}', 'EncuestaController@EliminarEncuesta');
 Route::put('encuesta/eliminar-pregunta/{id}', 'EncuestaController@EliminarPreguntaEncuesta');
 //RUTAS PARA MEMBRESIA
-Route::get('membresia/{id}', 'MembresiaController@mostrarMembresia');
-Route::get('membresia', 'MembresiaController@listarMembresia');
-Route::post('membresia/registrar', 'MembresiaController@registrarMembresia');
-Route::put('membresia/actualizar/{id}', 'MembresiaController@actualizarMembresia');
-Route::put('membresia/habilitar/{id}', 'MembresiaController@habilitarMembresia');
-Route::put('membresia/deshabilitar/{id}', 'MembresiaController@deshabilitarMembresia');
-Route::put('membresia/eliminar/{id}', 'MembresiaController@eliminarMembresia');
+Route::get('membresias/{id}', 'MembresiaController@mostrarMembresia');
+Route::get('membresias', 'MembresiaController@listarMembresia');
+Route::post('membresias/registrar', 'MembresiaController@registrarMembresia');
+Route::put('membresias/actualizar/{id}', 'MembresiaController@actualizarMembresia');
+Route::get('membresias/activar-desactivar/{id}', 'MembresiaController@habilitarMembresia');
+//Route::put('membresias/deshabilitar/{id}', 'MembresiaController@deshabilitarMembresia');
+Route::get('membresias/eliminar/{id}', 'MembresiaController@eliminarMembresia');
