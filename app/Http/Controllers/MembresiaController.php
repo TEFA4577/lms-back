@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Membresia;
 use App\Docente;
 use App\Usuario;
+use App\MembresiaDocente;
 
 
 class MembresiaController extends Controller
@@ -26,7 +27,7 @@ class MembresiaController extends Controller
                     ->get();
         return response()->json($membresia);
     }
-	
+
     public function registrarMembresia(Request $request){
         $membresia = new Membresia;
         $membresia->nombre_membresia = $request->nombre_membresia;
@@ -49,7 +50,7 @@ class MembresiaController extends Controller
         $membresia->save();
         return response()->json(['mensaje' => 'Membresia Deshabilitada', 'estado'=>'daner']);
     }*/
-    public function habilitarMembresia($id){
+    public function activarMembresia($id){
 		$membresia = Membresia::find($id);
 		if($membresia->membresia == 1){
 			$membresia->membresia = 0;
@@ -57,12 +58,65 @@ class MembresiaController extends Controller
 			$membresia->membresia = 1;
 		}
         $membresia->save();
-        return response()->json(['mensaje'=>'Estado actualizada', 'estado'=>'success']);		
+        return response()->json(['mensaje'=>'Estado actualizada', 'estado'=>'success']);
     }
     public function eliminarMembresia($id){
         $membresia = Membresia::find($id);
         $membresia->estado_membresia = 0;
         $membresia->save();
         return response()->json(['mensaje'=> 'Membresia eliminada', 'estado'=> 'daner']);
+    }
+    public function misSolicitudes($id)
+    {
+        $solicitudes = MembresiaDocente::where('id_docente', $id)->with('membresiaSolicitada')->get();
+        return response()->json($solicitudes);
+    }
+    public function adquirirMembresia(Request $request){
+        $verificar = MembresiaDocente::where('id_docente', $request->id_docente)
+                        ->where('id_membresia', $request->id_membresia)
+                        ->where('estado_membresia_docente', 'no confirmado')
+                        ->orWhere('estado_membresia_docente', 'aprobado')
+                        ->first();
+        if (!$verificar) {
+            $docenteMembresia = new MembresiaDocente;
+            $docenteMembresia->id_docente = $request->id_docente;
+            $docenteMembresia->id_membresia = $request->id_membresia;
+            $membresia = Membresia::find($request->id_membresia);
+            if ($membresia->precio == 0) {
+                $docenteMembresia->estado_membresia_docente = 'adquirido';
+            } else {
+                if ($request->hasFile('comprobante')) {
+                    $archivo = $request->file('comprobante');
+                    $nombre_foto = time() . "_" . $archivo->getClientOriginalName();
+                    $archivo->move(public_path($this->rutaComprobate), $nombre_foto);
+                    $docenteMembresia->comprobante = $this->hostBackend . $this->rutaComprobate . $nombre_foto;
+                } else {
+                    return response()->json(['mensaje' => 'error', 'estado' => 'danger']);
+                }
+            }
+            $docenteMembresia->save();
+            return response()->json(['mensaje' => 'membresia añadida a su cuenta']);
+        }else{
+            return response()->json(['mensaje' => 'la membresia está en proceso de confirmacion o ya se encuentra adquirido']);
+        }
+    }
+    public function habilitarMembresia($id, $estado)
+    {
+        $docenteMembresia = MembresiaDocente::findOrFail($id);
+        if ($estado == 'aprobado') {
+            $membresia = Membresia::find($docenteMembresia->id_membresia);
+            $docenteMembresia->estado_membresia_docente = 'adquirido';
+            $docenteMembresia->save();
+            $solicitudesAnteriores =  MembresiaDocente::where('id_docente', $docenteMembresia->id_docente)
+                ->where('id_curso', $docenteMembresia->id_curso)
+                ->where('estado_membresia_docente', 'no confirmado')
+                ->orWhere('estado_membresia_docente', 'rechazado')
+                ->delete();
+            return response()->json(['mensaje' => 'curso se a habilitado', 'curso' => $docenteMembresia]);
+        } else if ($estado == 'rechazado') {
+            $docenteMembresia->estado_membresia_docente = 'rechazado';
+            $docenteMembresia->save();
+            return response()->json(['mensaje' => 'la solicitud fue rechazada']);
+        }
     }
 }
