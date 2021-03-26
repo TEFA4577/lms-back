@@ -110,7 +110,8 @@ Route::get('respuesta-pregunta/eliminar/{id}', 'PreguntaController@eliminarRespu
 Route::post('encuesta/registrar', 'EncuestaController@registrarEncuesta');
 Route::post('encuesta/registrar-pregunta', 'EncuestaController@registrarPregunta');
 Route::post('encuesta/registrar-respuesta', 'EncuestaController@registrarRespuesta');
-Route::get('encuesta/list', 'EncuestaController@listarPreguntasEncuesta');
+Route::get('encuestas/list', 'EncuestaController@listarEncuestas');
+Route::get('encuesta-preguntas/list', 'EncuestaController@listarPreguntasEncuesta');
 Route::put('encuesta/actualizar/{id}', 'EncuestaController@actualizarEncuesta');
 Route::put('encuesta/actualizar-pregunta/{id}', 'EncuestaController@actualizarPreguntaEncuesta');
 Route::put('encuesta/eliminar/{id}', 'EncuestaController@EliminarEncuesta');
