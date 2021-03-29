@@ -23,7 +23,8 @@ class CursoController extends Controller
 
     public function __construct()
     {
-        $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
+        $this->hostBackend = env("HOST_BACKEND", 'http://127.0.0.1:8000');
+        //'http://back.academiacomarca.com'
     }
     /**
      * Descripcion: La funcion devuelve todos los cursos aprobados ordenados por id descendentemente.
@@ -199,9 +200,17 @@ class CursoController extends Controller
     }
     public function eliminarCurso($id)
     {
-        $curso = Curso::findOrFail($id);
-        $curso->delete();
-        return response()->json(['mensaje' => 'Borrado con Exito', 'estado' => 'success']);
+        /**
+        * $curso = Curso::findOrFail($id);
+        * $curso->delete();
+        * return response()->json(['mensaje' => 'Borrado con Exito', 'estado' => 'success']);
+        **/
+
+        $curso = Curso::where('id_curso', $id)->first();
+        $curso->estado = 0;
+        $curso->save();
+        return response()->json(['mensaje' => 'Elimando', 'estado' => 'daner']);
+
     }
     /**
      * Descripcion: La funcion actualiza los datos de un curso
