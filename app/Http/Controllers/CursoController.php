@@ -19,11 +19,11 @@ use Illuminate\Support\Carbon;
 class CursoController extends Controller
 {
     public $hostBackend;
-    public $ruta = '/almacenamiento/imagenes/cursos';
+    public $ruta = '/storage/almacenamiento/imagenes/cursos';
 
     public function __construct()
     {
-        $this->hostBackend = env("LMS_BACKEND", 'http://127.0.0.1:8000');
+        $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
         //'http://back.academiacomarca.com'
         //http://127.0.0.1:8000
     }
