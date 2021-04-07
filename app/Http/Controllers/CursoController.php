@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
 class CursoController extends Controller
 {
     public $hostBackend;
-    public $ruta = '/storage/almacenamiento/imagenes/cursos';
+    public $ruta = '/almacenamiento/imagenes/cursos';
 
     public function __construct()
     {
@@ -210,18 +210,27 @@ class CursoController extends Controller
     }
     public function eliminarCurso($id)
     {
-        /**
-        * $curso = Curso::findOrFail($id);
-        * $curso->delete();
-        * return response()->json(['mensaje' => 'Borrado con Exito', 'estado' => 'success']);
-        **/
+        $curso = Curso::findOrFail($id);
+        $curso->delete();
+        return response()->json(['mensaje' => 'Borrado con Exito', 'estado' => 'success']);
+    }
 
+    public function inhabilitarCurso($id)
+    {
         $curso = Curso::where('id_curso', $id)->first();
         $curso->estado = 0;
         $curso->save();
-        return response()->json(['mensaje' => 'Elimando', 'estado' => 'danger']);
-
+        return response()->json(['mensaje' => 'Inhabilitado', 'estado' => 'danger']);
     }
+
+    public function habilitarCurso($id)
+    {
+        $curso = Curso::where('id_curso', $id)->first();
+        $curso->estado = 1;
+        $curso->save();
+        return response()->json(['mensaje' => 'Habilitado', 'estado' => 'success']);
+    }
+
     /**
      * Descripcion: La funcion actualiza los datos de un curso
      * Tipo: PUT
