@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Encuesta;
 use App\EncuestaPregunta;
 use App\EncuestaRespuesta;
+use Illuminate\Support\Facades\DB;
 
 class EncuestaController extends Controller
 {
@@ -20,12 +21,13 @@ class EncuestaController extends Controller
 
     public function listarEncuestas()
     {
-        $encuesta = Encuesta::orderBy('id_encuesta', 'desc')
 
+        $encuesta = Encuesta::orderBy('id_encuesta', 'desc')
+            ->with('encuestaPregunta')
             ->get();
         return response()->json($encuesta);
-
     }
+
 
     public function registrarPregunta(Request $request)
     {
