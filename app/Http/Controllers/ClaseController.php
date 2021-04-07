@@ -13,7 +13,7 @@ class ClaseController extends Controller
 
     public function __construct()
     {
-        $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
+        $this->hostBackend = env("HOST_BACKEND", 'http://127.0.0.1:8000');
     }
 
     /**
