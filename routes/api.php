@@ -42,6 +42,7 @@ Route::post('docentes/cambiar-cv', 'DocenteController@actualizarCv');
 
 // RUTAS PARA CURSOS
 Route::get('cursos', 'CursoController@index');
+Route::get('estado-cursos', 'CursoController@estadoCursos');
 Route::get('cursos-no-revisados', 'CursoController@listarCursosNoAprobados');
 Route::post('cursos/cambiar-estado', 'CursoController@cambiarEstadoCurso');
 Route::get('cursos/{id}', 'CursoController@listadoDeCursoPorEtiqueta');

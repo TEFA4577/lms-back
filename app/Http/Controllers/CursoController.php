@@ -40,6 +40,15 @@ class CursoController extends Controller
                         ->with('etiquetasCurso')->get();
         return response()->json($cursos);
     }
+
+    public function estadoCursos()
+    {
+        $cursos = Curso::orderBy('id_curso', 'desc')
+                        ->where('estado_curso', 'aprobado')
+                        ->with('etiquetasCurso')->get();
+        return response()->json($cursos);
+    }
+
     /**
      * Descripcion: La funcion devuelve todos los cursos no aprobados ordenados por id descendentemente
      * Tipo: GET
