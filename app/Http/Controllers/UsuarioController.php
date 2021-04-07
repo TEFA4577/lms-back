@@ -222,7 +222,9 @@ class UsuarioController extends Controller
      */
     public function cursosCreados($id)
     {
-        $usuario = Curso::where('id_usuario', $id)->with('etiquetasCurso')->get();
+        $usuario = Curso::where('id_usuario', $id)
+        ->where('estado', 1)
+        ->with('etiquetasCurso')->get();
         return response()->json($usuario);
     }
     /**
