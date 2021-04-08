@@ -10,7 +10,7 @@ class Membresia extends Model
     protected $primaryKey = 'id_membresia';
     protected $hidden = [
         'created_at',
-        'update_at'
+        'updated_at'
     ];
 
     public function membresiaDocente()
