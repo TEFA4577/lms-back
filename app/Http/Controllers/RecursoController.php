@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class RecursoController extends Controller
 {
     public $hostBackend;
-    public $ruta = '/storage/almacenamiento/recursos/';
+    public $ruta = '/almacenamiento/recursos/';
 
     public function __construct()
     {

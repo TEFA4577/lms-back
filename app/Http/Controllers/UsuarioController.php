@@ -8,7 +8,7 @@ use App\UsuarioCurso;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\DB;
 class UsuarioController extends Controller
 {
     public $hostBackend;
@@ -207,10 +207,16 @@ class UsuarioController extends Controller
     }
 
     public function misEstudiantes($id){
-
-        $curso = Curso::where('id_usuario', $id)
-                        ->with('cursoEstudiante')
+        $curso = DB::table('lms_cursos')
+                        ->join('lms_usuario_cursos', 'lms_cursos.id_curso', '=', 'lms_usuario_cursos.id_curso')
+                        ->join('lms_usuarios', 'lms_usuario_cursos.id_usuario', '=', 'lms_usuarios.id_usuario')
+                        ->where('lms_usuario_cursos.estado_usuario_curso', 'aprobado')
+                        ->where('lms_cursos.id_usuario', $id)
+                        ->select('lms_cursos.nombre_curso', 'lms_usuarios.nombre_usuario')
                         ->get();
+        // $curso = Curso::where('id_usuario', $id)
+        //                 ->with('cursoEstudiante')
+        //                 ->get();
         return response()->json($curso);
     }
 

@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
 class CursoController extends Controller
 {
     public $hostBackend;
-    public $ruta = '/storage/almacenamiento/imagenes/cursos';
+    public $ruta = '/almacenamiento/imagenes/cursos';
 
     public function __construct()
     {

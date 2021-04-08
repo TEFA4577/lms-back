@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ClaseController extends Controller
 {
     public $hostBackend;
-    public $ruta = '/storage/almacenamiento/videos/clases/';
+    public $ruta = '/almacenamiento/videos/clases/';
 
     public function __construct()
     {

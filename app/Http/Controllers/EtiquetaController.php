@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class EtiquetaController extends Controller
 {
     public $hostBackend;
-    public $ruta = '/storage/almacenamiento/imagenes/etiquetas/';
+    public $ruta = '/almacenamiento/imagenes/etiquetas/';
 
     public function __construct()
     {
