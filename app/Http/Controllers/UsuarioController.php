@@ -230,8 +230,7 @@ class UsuarioController extends Controller
     {
         $usuario = Curso::where('id_usuario', $id)
         ->where('estado', 1)
-        ->with('etiquetasCurso')
-        ->get();
+        ->with('etiquetasCurso')->get();
         return response()->json($usuario);
     }
     /**

@@ -12,8 +12,7 @@ class Encuesta extends Model
 
     public function encuestaPregunta()
     {
-        return $this->hasMany('App\EncuestaPregunta', 'id_encuesta_pregunta
-        ');
+        return $this->hasMany('App\EncuestaPregunta', 'id_encuesta');
     }
 
     public function encuestaRol()

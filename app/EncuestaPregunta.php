@@ -12,7 +12,7 @@ class EncuestaPregunta extends Model
 
     public function preguntaEncuesta()
     {
-        return $this->belongsTo('App\Encuesta', 'id_encuesta');
+        return $this->hasOne('App\Encuesta', 'id_encuesta');
     }
     public function respuestaEncuesta()
     {
