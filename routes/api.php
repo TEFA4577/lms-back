@@ -53,7 +53,7 @@ Route::put('cursos/registrar-etiqueta/{id}', 'CursoController@registrarCursoEtiq
 Route::post('cursos/cambiar-imagen', 'CursoController@cambiarImagenCurso');
 Route::get('cursos/mostrar/{id}', 'CursoController@mostrarCurso');
 Route::get('cursar-curso/{id}', 'CursoController@cursarCurso');
-Route::put('cursos/eliminar/{id}', 'CursoController@eliminarCurso');
+Route::get('cursos/eliminar/{id}', 'CursoController@eliminarCurso');
 Route::get('cursos/eliminar-etiquetas/{id}', 'CursoController@eliminarCursoEtiquetas');
 Route::get('cursos-solicitados', 'CursoController@listarSolicitudes');
 Route::put('progreso-curso/{id}', 'CursoController@progresoCurso');

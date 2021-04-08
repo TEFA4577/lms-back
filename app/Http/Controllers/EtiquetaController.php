@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 class EtiquetaController extends Controller
 {
     public $hostBackend;
-    public $ruta = '/almacenamiento/imagenes/etiquetas/';
+    public $ruta = '/storage/almacenamiento/imagenes/etiquetas/';
 
     public function __construct()
     {
-        $this->hostBackend = env("HOST_BACKEND", 'http://127.0.0.1:8000');
+        $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
     }
 
     /**

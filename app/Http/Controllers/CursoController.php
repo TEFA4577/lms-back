@@ -37,6 +37,7 @@ class CursoController extends Controller
     {
         $cursos = Curso::orderBy('id_curso', 'desc')
                         ->where('estado_curso', 'aprobado')
+                        ->where('estado', 1)
                         ->with('etiquetasCurso')->get();
         return response()->json($cursos);
     }

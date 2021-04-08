@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 class ClaseController extends Controller
 {
     public $hostBackend;
-    public $ruta = '/almacenamiento/videos/clases/';
+    public $ruta = '/storage/almacenamiento/videos/clases/';
 
     public function __construct()
     {
-        $this->hostBackend = env("HOST_BACKEND", 'http://127.0.0.1:8000');
+        $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
     }
 
     /**
