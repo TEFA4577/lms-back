@@ -202,7 +202,8 @@ class UsuarioController extends Controller
      */
     public function misCursos($id)
     {
-        $usuario = UsuarioCurso::where('id_usuario', $id)->with('cursoSolicitado')->get();
+        $usuario = UsuarioCurso::where('id_usuario', $id)
+                                ->with('cursoSolicitado')->get();
         return response()->json($usuario);
     }
 
@@ -273,6 +274,7 @@ class UsuarioController extends Controller
             return response()->json(['mensaje' => 'el curso ya esta en proceso de confirmacion o ya se encuentra adquirido']);
         }
     }
+
     public function misSolicitudes($id)
     {
         $solicitudes = UsuarioCurso::where('id_usuario', $id)->with('cursoSolicitado')->get();

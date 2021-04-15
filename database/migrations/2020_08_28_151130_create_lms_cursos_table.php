@@ -21,10 +21,11 @@ class CreateLmsCursosTable extends Migration
             $table->string('descripcion_curso', 500)->comment('descripcion del curso');
             $table->string('imagen_curso')->comment('imagen del curso');
             $table->string('estado_curso')->comment('estado del curso')->default('no enviado para revision');
-            $table->boolean('estado')->default(1)->comment('estado del curso');
             $table->string('usuario_revisor')->comment('usuario que reviso la curso')->nullable();
             $table->string('mensaje')->comment('mensaje por parte del revisor')->nullable();
             $table->decimal('precio', 16, 2)->comment('precio del curso');
+           // $table->decimal('membresia_curso')->comment('para membresia gratuita o no')->default('');
+            $table->boolean('estado')->default(1)->comment('estado para eliminado logico del curso');
             $table->timestamps();
         });
     }

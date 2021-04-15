@@ -18,7 +18,7 @@ class CreateLmsRespuestasPreguntas extends Migration
             $table->unsignedbigInteger('id_pregunta')->comment('identificador de pregunta frecuente');
             $table->foreign('id_pregunta')->references('id_pregunta')->on('lms_preguntas')->onDelete('cascade');
             $table->string('texto_respuesta_pregunta')->comment('Respuesta a pregunta frecuente que se realiza');
-            $table->boolean('estado_respuesta_pregunta')->comment('estado de la respuesta')->default(1);
+            $table->boolean('estado_respuesta_pregunta')->comment('estado para eliminado lógico de la respuesta')->default(1);
             $table->timestamps();
         });
     }

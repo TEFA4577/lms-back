@@ -55,4 +55,14 @@ class Usuario extends Authenticatable
     {
         return $this->hasMany('App\EncuestaRespuesta','id_encuesta_respuesta');
     }
+    public function docenteMembresias()
+    {
+        return $this->belongsToMany('App\Membresia', 'lms_membresia_docentes', 'id_usuario', 'id_membresia')
+            ->wherePivot('estado_membresia_usuario', 'adquirido');
+    }
+    public function docenteMembresiasNoHabilitado()
+    {
+        return $this->belongsToMany('App\Membresia', 'lms_membresia_docentes', 'id_usuario', 'id_membresia')
+            ->wherePivot('estado_membresia_usuario', 'no confirmado');
+    }
 }

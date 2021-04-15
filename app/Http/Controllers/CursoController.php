@@ -37,6 +37,7 @@ class CursoController extends Controller
     {
         $cursos = Curso::orderBy('id_curso', 'desc')
                         ->where('estado_curso', 'aprobado')
+                        //->where('membresia_curso', '!=', '')
                         ->where('estado', 1)
                         ->with('etiquetasCurso')->get();
         return response()->json($cursos);
@@ -131,6 +132,11 @@ class CursoController extends Controller
         $curso->nombre_curso = $request->nombre_curso;
         $curso->descripcion_curso = $request->descripcion_curso;
         $curso->precio = $request->precio;
+        // if ($curso->precio == 0){
+        //     $curso->membresia_curso = 'gratuito';
+        // }else {
+        //     $curso->membresia_curso = '';
+        // }
         if ($request->hasFile('imagen_curso')) {
             // subir la imagen al servidor
             $archivo = $request->file('imagen_curso');
@@ -249,6 +255,11 @@ class CursoController extends Controller
         $curso->nombre_curso = $request->nombre_curso;
         $curso->descripcion_curso = $request->descripcion_curso;
         $curso->precio = $request->precio;
+        // if ($curso->precio == 0){
+        //     $curso->membresia_curso = 'gratuito';
+        // }else {
+        //     $curso->membresia_curso = '';
+        // }
         $curso->save();
         return response()->json(['mensaje' => 'Actualización Realizada con Exito', 'estado' => 'success']);
     }

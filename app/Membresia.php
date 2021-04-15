@@ -10,11 +10,11 @@ class Membresia extends Model
     protected $primaryKey = 'id_membresia';
     protected $hidden = [
         'created_at',
-        'update_at'
+        'updated_at'
     ];
 
     public function membresiaDocente()
     {
-        return $this->hasMany('App\DocenteMembresia', 'id_membresia', 'id_membresia');
+        return $this->hasMany('App\MembresiaDocente', 'id_membresia', 'id_membresia');
     }
 }
