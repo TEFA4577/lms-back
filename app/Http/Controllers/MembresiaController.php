@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Membresia;
 use App\Usuario;
 use App\MembresiaDocente;
+use App\Curso;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class MembresiaController extends Controller
@@ -58,8 +58,7 @@ class MembresiaController extends Controller
             $archivo->move(public_path($this->ruta), $nombre_foto);
             $membresia->imagen_membresia = $this->hostBackend . $this->ruta . $nombre_foto;
         } else {
-            $membresia->imagen_membresia = $this->hostBackend . $this->ruta . "/sin_imagen.jpg";
-            return response()->json(['mensaje' => 'error', 'estado' => 'danger']);
+            $membresia->imagen_membresia = $this->hostBackend . $this->ruta . "sin_imagen.jpg";
         }
         $membresia->save();
         return response()->json(['mensaje'=>'membresia registrada', 'estado'=>'success']);
@@ -69,22 +68,24 @@ class MembresiaController extends Controller
         $membresia->nombre_membresia = $request->nombre_membresia;
         $membresia->texto_membresia = $request->texto_membresia;
         $membresia->precio_membresia = $request->precio_membresia;
-        if ($request->hasFile('imagen_membresia')) {
-            $archivo = $request->file('imagen_membresia');
-            $extension = $archivo->getClientOriginalExtension();
-            $nombre_imagen = $etiqueta->nombre_etiqueta . '.' . $extension;
-            $archivo->move(public_path($this->ruta), $nombre_imagen);
-            $etiqueta->imagen_membresia = $this->hostBackend . $this->ruta . $nombre_imagen;
-        }
         $membresia->save();
         return response()->json(['mensaje'=>'Membresia Modificada', 'estado' => 'success']);
     }
-    /*public function deshabilitarMembresia($id){
-        $membresia = Membresia::find($id);
-        $membresia->membresia = 0;
-        $membresia->save();
-        return response()->json(['mensaje' => 'Membresia Deshabilitada', 'estado'=>'daner']);
-    }*/
+    public function cambiarImagenMem(Request $request)
+    {
+        $membresia = Membresia::findOrFail($request->id_membresia);
+        if ($request->hasFile('imagen_membresia')) {
+            $archivo = $request->file('imagen_membresia');
+            $extension = $archivo->getClientOriginalExtension();
+            $nombre_imagen = $membresia->nombre_membresia . '.' . $extension;
+            $archivo->move(public_path($this->ruta), $nombre_imagen);
+            $membresia->imagen_membresia = $this->hostBackend . $this->ruta . $nombre_imagen;
+            $membresia->save();
+            return response()->json(['mensaje' => 'Registro Actualizado exitosamente', 'estado' => 'success']);
+        } else {
+            return response()->json(['mensaje' => 'Error Archivo no encontrado', 'estado' => 'daner']);
+        }
+    }
     public function eliminarMembresia($id){
         $membresia = Membresia::find($id);
         if ($membresia->estado_membresia == 1) {
@@ -138,6 +139,9 @@ class MembresiaController extends Controller
         if ($estado == 'aprobado') {
             $membresia = Membresia::find($docenteMembresia->id_membresia);
             $docenteMembresia->estado_membresia_usuario = 'adquirido';
+            $curso=Curso::where('id_usuario', $docenteMembresia->id_usuario)
+                        ->where('membresia_curso', 'FIN')
+                        ->update(['membresia_curso' => 'INICIO']);
             $docenteMembresia->save();
             $solicitudesAnteriores =  MembresiaDocente::where('id_usuario', $docenteMembresia->id_usuario)
                 ->where('id_membresia', $docenteMembresia->id_membresia)
@@ -147,6 +151,9 @@ class MembresiaController extends Controller
             return response()->json(['mensaje' => 'curso se a habilitado', 'curso' => $docenteMembresia]);
         } else if ($estado == 'rechazado') {
             $docenteMembresia->estado_membresia_usuario = 'rechazado';
+            $curso=Curso::where('id_usuario', $docenteMembresia->id_usuario)
+                        ->where('membresia_curso', 'INICIO')
+                        ->update(['membresia_curso' => 'FIN']);
             $docenteMembresia->save();
             return response()->json(['mensaje' => 'la solicitud fue rechazada']);
         }

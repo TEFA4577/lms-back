@@ -24,7 +24,7 @@ class CreateLmsCursosTable extends Migration
             $table->string('usuario_revisor')->comment('usuario que reviso la curso')->nullable();
             $table->string('mensaje')->comment('mensaje por parte del revisor')->nullable();
             $table->decimal('precio', 16, 2)->comment('precio del curso');
-           // $table->decimal('membresia_curso')->comment('para membresia gratuita o no')->default('');
+            $table->string('membresia_curso')->comment('estado de membresía')->default('FIN');
             $table->boolean('estado')->default(1)->comment('estado para eliminado logico del curso');
             $table->timestamps();
         });

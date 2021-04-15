@@ -21,4 +21,8 @@ class MembresiaDocente extends Model
     {
         return $this->hasOne('App\Usuario', 'id_usuario', 'id_usuario');
     }
+    public function membresiaCurso()
+    {
+        return $this->belongsToMany('App\Curso', 'lms_membresia_cursos', 'id_membresia_usuario', 'id_curso');
+    }
 }

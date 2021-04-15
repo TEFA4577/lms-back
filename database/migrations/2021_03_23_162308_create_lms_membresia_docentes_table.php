@@ -22,6 +22,8 @@ class CreateLmsMembresiaDocentesTable extends Migration
             $table->string('comprobante')->comment('imagen del comprobante de pago')->nullable();
             $table->string('estado_membresia_usuario')->comment('estado de la menbresia que toma el docente')->default('no confirmado');
             $table->boolean('estado')->default(1)->comment('estado para eliminación lógica de membresia');
+            $table->date('inicio_membresia_curso')->nullable();
+            $table->date('fin_membresia_curso')->nullable();
             $table->timestamps();
         });
     }

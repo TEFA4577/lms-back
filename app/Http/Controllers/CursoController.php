@@ -10,9 +10,11 @@ use App\Modulo;
 use App\Recurso;
 use App\Usuario;
 use App\UsuarioCurso;
+use App\MembresiaDocente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use PDF;
 use Illuminate\Support\Carbon;
 
@@ -37,9 +39,12 @@ class CursoController extends Controller
     {
         $cursos = Curso::orderBy('id_curso', 'desc')
                         ->where('estado_curso', 'aprobado')
-                        //->where('membresia_curso', '!=', '')
+                        ->where('membresia_curso', '!=', 'FIN')
                         ->where('estado', 1)
-                        ->with('etiquetasCurso')->get();
+                        ->with('etiquetasCurso')
+                        // ->with(['membresiaDocente'=> function($q){
+                        //     $q->where('estado_membresia_usuario', 'adquirido');}])
+                        ->get();
         return response()->json($cursos);
     }
 
@@ -47,7 +52,7 @@ class CursoController extends Controller
     {
         $cursos = Curso::orderBy('id_curso', 'desc')
                         ->where('estado_curso', 'aprobado')
-                        ->with('etiquetasCurso')->get();
+                        ->with('id_usuario')->get();
         return response()->json($cursos);
     }
 
@@ -127,16 +132,23 @@ class CursoController extends Controller
      */
     public function registrarCurso(Request $request)
     {
+
         $curso =  new Curso;
         $curso->id_usuario = $request->id_usuario;
         $curso->nombre_curso = $request->nombre_curso;
         $curso->descripcion_curso = $request->descripcion_curso;
         $curso->precio = $request->precio;
-        // if ($curso->precio == 0){
-        //     $curso->membresia_curso = 'gratuito';
-        // }else {
-        //     $curso->membresia_curso = '';
-        // }
+
+        $membresia = MembresiaDocente::where('id_usuario', $curso->id_usuario)
+                                    ->where('estado_membresia_usuario', 'adquirido')
+                                    ->first();
+        if ($curso->precio == 0){
+            $curso->membresia_curso = 'GRATIS';
+        }elseif ($membresia) {
+            $curso->membresia_curso = 'INICIO';
+        }else {
+            $curso->membresia_curso = 'FIN';
+        }
         if ($request->hasFile('imagen_curso')) {
             // subir la imagen al servidor
             $archivo = $request->file('imagen_curso');
@@ -255,11 +267,16 @@ class CursoController extends Controller
         $curso->nombre_curso = $request->nombre_curso;
         $curso->descripcion_curso = $request->descripcion_curso;
         $curso->precio = $request->precio;
-        // if ($curso->precio == 0){
-        //     $curso->membresia_curso = 'gratuito';
-        // }else {
-        //     $curso->membresia_curso = '';
-        // }
+        $membresia = MembresiaDocente::where('id_usuario', $curso->id_usuario)
+                                    ->where('estado_membresia_usuario', 'adquirido')
+                                    ->first();
+        if ($curso->precio == 0){
+            $curso->membresia_curso = 'GRATIS';
+        }elseif ($membresia) {
+            $curso->membresia_curso = 'INICIO';
+        }else {
+            $curso->membresia_curso = 'FIN';
+        }
         $curso->save();
         return response()->json(['mensaje' => 'Actualización Realizada con Exito', 'estado' => 'success']);
     }

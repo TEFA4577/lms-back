@@ -125,6 +125,7 @@ Route::get('membresias', 'MembresiaController@listarMembresia');
 Route::get('membresias-administrar', 'MembresiaController@admMembresia');
 Route::post('membresias/registrar', 'MembresiaController@registrarMembresia');
 Route::put('membresias/actualizar/{id}', 'MembresiaController@actualizarMembresia');
+Route::put('membresia/cambiar-imagen', 'MembresiaController@cambiarImagenMem');
 Route::get('membresias/eliminar/{id}', 'MembresiaController@eliminarMembresia');
 Route::get('membresias-solicitada', 'MembresiaController@misSolicitudes');
 Route::post('membresias/adquirir/{id}', 'MembresiaController@adquirirMembresia');
