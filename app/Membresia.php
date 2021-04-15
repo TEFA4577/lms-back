@@ -15,6 +15,6 @@ class Membresia extends Model
 
     public function membresiaDocente()
     {
-        return $this->hasMany('App\DocenteMembresia', 'id_membresia', 'id_membresia');
+        return $this->hasMany('App\MembresiaDocente', 'id_membresia', 'id_membresia');
     }
 }

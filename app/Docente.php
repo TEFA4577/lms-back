@@ -16,9 +16,4 @@ class Docente extends Model
     {
         return $this->hasMany('App\RedSocial', 'id_usuario');
     }
-    public function membresiaNoHabilitada()
-    {
-        return $this->belongsToMany('App\Membresia', 'lms_membresia_docentes', 'id_docente', 'id_membresia')
-            ->wherePivot('estado_docente_membresia', 'no confirmado');
-    }
 }

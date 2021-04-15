@@ -16,7 +16,7 @@ class CreateLmsPreguntas extends Migration
         Schema::create('lms_preguntas', function (Blueprint $table) {
             $table->bigIncrements('id_pregunta')->comment('identificador de preguntas frecuentes');
             $table->string('texto_pregunta', 200)->comment('pregunta frecuente realizada');
-            $table->boolean('estado_pregunta')->comment('estado de la pregunta frecuente')->default(1);
+            $table->boolean('estado_pregunta')->comment('estado para eliminado logico de la pregunta frecuente')->default(1);
             $table->timestamps();
         });
     }

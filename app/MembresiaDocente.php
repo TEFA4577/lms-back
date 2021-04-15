@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MembresiaDocente extends Model
 {
     protected $table = 'lms_membresia_docentes';
-    protected $primaryKey = 'id_membresia_docente';
+    protected $primaryKey = 'id_membresia_usuario';
     protected $hidden = [
         'created_at',
         'updated_at'
