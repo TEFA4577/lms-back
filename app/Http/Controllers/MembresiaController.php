@@ -52,6 +52,10 @@ class MembresiaController extends Controller
         $membresia->nombre_membresia = $request->nombre_membresia;
         $membresia->texto_membresia = $request->texto_membresia;
         $membresia->precio_membresia = $request->precio_membresia;
+        $date = Carbon::now();
+        $date = $date->format('Y-m-d');
+        $duracion = $this->calcularTiempo($date, $request->duracion_membresia);
+        $membresia->duracion_membresia = $duracion[11];
         if ($request->hasFile('imagen_membresia')) {
             $archivo = $request->file('imagen_membresia');
             $nombre_foto = time() . "_" . $archivo->getClientOriginalName();
@@ -62,6 +66,16 @@ class MembresiaController extends Controller
         }
         $membresia->save();
         return response()->json(['mensaje'=>'membresia registrada', 'estado'=>'success']);
+    }
+    function calcularTiempo($inicio, $fechaFin){
+        $time1 = date_create($inicio);
+        $time2 = date_create($fechaFin);
+        $interval = date_diff($time1, $time2);
+        $tiempo=array();
+        foreach ($interval as $valor){
+        $tiempo[]=$valor;
+        }
+        return $tiempo;
     }
     public function actualizarMembresia(Request $request, $id){
         $membresia = Membresia::where('id_membresia', $id)->first();
@@ -100,7 +114,9 @@ class MembresiaController extends Controller
     }
     public function misSolicitudes()
     {
-        $solicitudes = MembresiaDocente::where('estado_membresia_usuario', 'no confirmado')->with('membresiaSolicitada', 'usuario')->get();
+        $solicitudes = MembresiaDocente::with('membresiaSolicitada', 'usuario')
+                                        ->orderBy('estado_membresia_usuario', 'desc')
+                                        ->get();
         return response()->json($solicitudes);
     }
 
@@ -117,6 +133,16 @@ class MembresiaController extends Controller
             $membresia = Membresia::find($request->id_membresia);
             if ($membresia->precio_membresia == 0) {
                 $docenteMembresia->estado_membresia_usuario = 'adquirido';
+                $time1 = Carbon::now();
+                $date = $time1;
+                $time1 = $time1->format('Y-m-d');
+                $time2 = $date->addDay($time);
+                $time2 = $time2->format('Y-m-d');
+                $docenteMembresia->inicio_membresia_usuario = $time1;
+                $docenteMembresia->fin_membresia_usuario = $time2;
+                $curso=Curso::where('id_usuario', $docenteMembresia->id_usuario)
+                ->where('membresia_curso', 'FIN')
+                ->update(['membresia_curso' => 'INICIO']);
             } else {
                 if ($request->hasFile('comprobante')) {
                     $archivo = $request->file('comprobante');
@@ -138,7 +164,15 @@ class MembresiaController extends Controller
         $docenteMembresia = MembresiaDocente::findOrFail($id);
         if ($estado == 'aprobado') {
             $membresia = Membresia::find($docenteMembresia->id_membresia);
+            $time = $membresia->duracion_membresia;
             $docenteMembresia->estado_membresia_usuario = 'adquirido';
+            $time1 = Carbon::now();
+            $date = $time1;
+            $time1 = $time1->format('Y-m-d');
+            $time2 = $date->addDay($time);
+            $time2 = $time2->format('Y-m-d');
+            $docenteMembresia->inicio_membresia_usuario = $time1;
+            $docenteMembresia->fin_membresia_usuario = $time2;
             $curso=Curso::where('id_usuario', $docenteMembresia->id_usuario)
                         ->where('membresia_curso', 'FIN')
                         ->update(['membresia_curso' => 'INICIO']);
@@ -148,14 +182,28 @@ class MembresiaController extends Controller
                 ->where('estado_membresia_usuario', 'no confirmado')
                 ->orWhere('estado_membresia_usuario', 'rechazado')
                 ->delete();
-            return response()->json(['mensaje' => 'curso se a habilitado', 'curso' => $docenteMembresia]);
+            return response()->json(['mensaje' => 'solicitud habilitado', 'curso' => $docenteMembresia]);
         } else if ($estado == 'rechazado') {
             $docenteMembresia->estado_membresia_usuario = 'rechazado';
             $curso=Curso::where('id_usuario', $docenteMembresia->id_usuario)
                         ->where('membresia_curso', 'INICIO')
                         ->update(['membresia_curso' => 'FIN']);
             $docenteMembresia->save();
-            return response()->json(['mensaje' => 'la solicitud fue rechazada']);
+            return response()->json(['mensaje' => 'solicitud rechazada']);
+        }
+        else if ($estado == 'finalizar') {
+            $time1 = Carbon::now();
+            $time1 = $time1->format('Y-m-d');
+            if($time1 >= $docenteMembresia->fin_membresia_usuario){
+                $docenteMembresia->estado_membresia_usuario = 'finalizado';
+                $curso=Curso::where('id_usuario', $docenteMembresia->id_usuario)
+                            ->where('membresia_curso', 'INICIO')
+                            ->update(['membresia_curso' => 'FIN']);
+                $docenteMembresia->save();
+                return response()->json(['mensaje' => ' membresia fue finalizada']);
+            }else {
+                return response()->json(['mensaje' => 'la membresia no puede finalizar debido a que no es la fecha indicada de finalización']);
+            }
         }
     }
 }

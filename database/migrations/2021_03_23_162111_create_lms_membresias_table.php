@@ -20,6 +20,7 @@ class CreateLmsMembresiasTable extends Migration
             $table->string('imagen_membresia')->comment('imagen de las opciones de la membresia')->nullable();
             $table->boolean('estado_membresia')->comment('estado para eliminación lógica de membresia')->default(1);
             $table->decimal('precio_membresia',16,2)->comment('precio de la membresia');
+            $table->decimal('duracion_membresia', 16,2)->comment('tiempo que dura la membresia en días, al ser adquirida por el usuario');
             $table->timestamps();
         });
     }
