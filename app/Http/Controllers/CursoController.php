@@ -11,6 +11,8 @@ use App\Recurso;
 use App\Usuario;
 use App\UsuarioCurso;
 use App\MembresiaDocente;
+use App\Prueba;
+use App\UsuarioEvaluacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
@@ -208,11 +210,13 @@ class CursoController extends Controller
         $curso->etiquetasCurso;
         $modulos = Modulo::where('id_curso', $id)->with('clasesModulo')->get();
         $docente = Usuario::find($curso->id_usuario);
+		$prueba = Prueba::where('id_curso', $id)->with('pruebaOpcion')->get();
         $docente->datosDocente;
         return response()->json([
             'curso' => $curso,
             'modulos' => $modulos,
-            'docente' => $docente
+            'docente' => $docente,
+			'prueba' => $prueba
         ]);
     }
     public function cursarCurso($id)
@@ -220,11 +224,13 @@ class CursoController extends Controller
         $cursoUsuario = UsuarioCurso::findOrFail($id);
         $curso = Curso::find($cursoUsuario->id_curso);
         $modulos = Modulo::where('id_curso', $cursoUsuario->id_curso)->with('clasesModulo')->get();
-
+		$evaluacion = UsuarioEvaluacion::where('id_curso', $cursoUsuario->id_curso)
+									->where('id_usuario', $cursoUsuario->id_usuario)->get();
         return response()->json([
             'cursoUsuario' => $cursoUsuario,
             'curso' => $curso,
             'modulos' => $modulos,
+			'evaluacion' => $evaluacion,
         ]);
     }
     public function eliminarCurso($id)

@@ -23,6 +23,20 @@ Route::get('habilitar-curso/{id}/{estado}', 'CursoController@habiliarCurso');
 Route::post('usuario-red-social/registrar', 'RedSocialController@registrarRedSocial');
 Route::put('usuario-red-social/actualizar/{id}', 'RedSocialController@actualizarRedSocial');
 Route::get('usuario-red-social/eliminar/{id}', 'RedSocialController@eliminarRedSocial');
+//GRUPO DE RUTAS PARA EVALUACIÓN USUARIO - CURSO
+Route::get('prueba', 'PruebaController@index');
+Route::get('prueba/mostrar/{id}', 'PruebaController@mostrarPrueba');
+Route::post('prueba/registrar', 'PruebaController@registrarPrueba');
+Route::put('prueba/actualizar/{id}', 'PruebaController@actualizarPrueba');
+Route::get('prueba/eliminar/{id}', 'PruebaController@eliminarPrueba');
+Route::post('opcion/registrar', 'PruebaController@registrarOpcion');
+Route::get('opcion/mostrar/{id}', 'PruebaController@mostrarOpcion');
+Route::put('opcion/actualizar/{id}', 'PruebaController@actualizarOpcion');
+Route::get('opcion/eliminar/{id}', 'PruebaController@eliminarOpcion');
+Route::get('prueba/evaluar/{id}', 'PruebaController@darExamen');
+Route::get('prueba/evaluando/{id}', 'PruebaController@evaluarExamen');
+Route::post('inicio/evaluacion', 'PruebaController@inicioExamen');
+Route::put('evaluacion-progreso/{id}', 'PruebaController@resultExamen');
 // GRUPO DE RUTAS POR AUTENTICACION
 Route::group(['middleware' => 'auth:api'], function () {
     Route::put('usuario/actualizar/{id}', 'UsuarioController@actualizarUsuario');
