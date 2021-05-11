@@ -17,10 +17,10 @@ class MembresiaController extends Controller
     public $hostBackend;
     public $ruta = '/almacenamiento/imagenes/membresias/';
     public $rutaComprobate = '/almacenamiento/imagenes/comprobantes/';
-    public $tiempoBloqueado = 1;
 
     public function __construct()
     {
+        $this->middleware('auth');
         $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
     }
 

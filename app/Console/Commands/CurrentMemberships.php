@@ -58,6 +58,6 @@ class CurrentMemberships extends Command
                 }else {
                     return response()->json(['mensaje' => 'la membresia no puede finalizar debido a que no es la fecha indicada de finalización']);
                 }
-              }
+            }
     }
 }
