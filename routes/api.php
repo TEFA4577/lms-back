@@ -32,6 +32,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     /** TODAS LAS RUTAS QUE SE DEBEN PROTEGER */
 });
 
+//RUTAS PARA ROLES
+Route::get('roles', 'RolController@index');
+
 // RUTAS PARA DOCENTE
 Route::get('docentes', 'DocenteController@index');
 Route::post('docentes/registrar', 'DocenteController@registrarDocente');
@@ -111,6 +114,7 @@ Route::put('respuesta-pregunta/actualizar/{id}', 'PreguntaController@actualizarR
 Route::get('respuesta-pregunta/eliminar/{id}', 'PreguntaController@eliminarRespuestaPregunta');
 //RUTAS PARA ENCUESTAS
 Route::post('encuesta/registrar', 'EncuestaController@registrarEncuesta');
+Route::put('encuesta/registrar-rol/{id}', 'EncuestaController@registrarEncuestaRoles');
 Route::post('encuesta/registrar-pregunta', 'EncuestaController@registrarPregunta');
 Route::post('encuesta/registrar-respuesta', 'EncuestaController@registrarRespuesta');
 Route::get('encuestas/list', 'EncuestaController@listarEncuestas');

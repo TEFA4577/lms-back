@@ -176,7 +176,7 @@ class CursoController extends Controller
     {
         $curso = CursoEtiqueta::where('id_etiqueta', $request->id_etiqueta)->where('id_curso', $id)->first();
         if ($curso) {
-            return response()->json(['mensaje' => 'la etiqueta ya esta relacinada con el curso']);
+            return response()->json(['mensaje' => 'la etiqueta ya esta relacionada con el curso']);
         }
         $etiquetas = new CursoEtiqueta;
         $etiquetas->id_curso = $id;
