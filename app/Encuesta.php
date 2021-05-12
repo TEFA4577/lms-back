@@ -18,7 +18,6 @@ class Encuesta extends Model
 
     public function encuestaRol()
     {
-        return $this->belongsToMany('App\Rol', 'lms_encuesta_roles', 'id_encuesta
-        ', 'id_rol');
+        return $this->belongsToMany('App\Rol', 'lms_encuesta_roles', 'id_rol');
     }
 }

@@ -25,6 +25,7 @@ class EncuestaController extends Controller
         $encuesta = Encuesta::orderBy('id_encuesta', 'desc')
             ->where('estado_encuesta', 1)
             ->with('encuestaPregunta')
+            ->with('encuestaRol')
             //->where('estado_encuesta_pregunta', 1)
             ->get();
         return response()->json($encuesta);
@@ -41,6 +42,12 @@ class EncuestaController extends Controller
         $roles->id_rol = $request->id_rol;
         $roles->save();
         return response()->json(['mensaje' => 'registro exitoso']);
+    }
+
+    public function eliminarEncuestaRoles($id)
+    {
+        EncuestaRol::where('id_encuesta', $id)->delete();
+        return response()->json(['mensaje' => 'roles eliminados', 'estado' => 'success']);
     }
 
     public function mostrarEncuesta($id)

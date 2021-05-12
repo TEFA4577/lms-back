@@ -75,9 +75,10 @@ class PruebaController extends Controller
         }
         $opcion->estado_prueba_opcion = 1;
         $opcion->save();
+        return response()->json(['mensaje' => 'Actualización Realizada con Exito', 'estado' => 'success']);
     }
     public function actualizarOpcion(Request $request, $id){
-        $opcion = PruebaOpcion::find($id);
+        $opcion = PruebaOpcion::findOrFail($id);
         $opcion->texto_prueba_opcion = $request->texto_prueba_opcion;
         if($request->respuesta_opcion == true){
             $opcion->respuesta_opcion = 1;
@@ -122,8 +123,8 @@ class PruebaController extends Controller
 			$result = new UsuarioEvaluacion;
 			$result->id_curso = $request->id_curso;
 			$result->id_usuario = $request->id_usuario;
-			$result->save();	
-			return response()->json('Empezando Exámen');		
+			$result->save();
+			return response()->json('Empezando Exámen');
 		}
     }
 	public function resultExamen(Request $request, $id){

@@ -13,8 +13,8 @@ class Rol extends Model
         'updated_at',
         'pivot'
     ];
-    public function encuestasRol()
+    public function encuestaRol()
     {
-        return $this->belongsToMany('App\Encuesta', 'lms_encuesta_roles', 'id_rol', 'id_encuesta');
+        return $this->belongsToMany('App\Encuesta', 'lms_encuesta_roles','id_encuesta');
     }
 }

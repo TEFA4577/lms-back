@@ -13,4 +13,5 @@ class RolController extends Controller
         $roles = Rol::orderBy('id_rol', 'desc')->get();
         return response()->json($roles);
     }
+
 }
