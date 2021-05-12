@@ -20,7 +20,7 @@ class MembresiaController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
         $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
     }
 
