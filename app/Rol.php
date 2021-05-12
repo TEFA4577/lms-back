@@ -10,6 +10,11 @@ class Rol extends Model
     protected $primaryKey = 'id_rol';
     protected $hidden = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'pivot'
     ];
+    public function encuestaRol()
+    {
+        return $this->belongsToMany('App\Encuesta', 'lms_encuesta_roles','id_encuesta');
+    }
 }
