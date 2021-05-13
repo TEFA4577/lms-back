@@ -25,8 +25,7 @@ class EncuestaController extends Controller
         $encuesta = Encuesta::orderBy('id_encuesta', 'desc')
             ->where('estado_encuesta', 1)
             ->with('encuestaPregunta')
-            ->with('encuestaRol')
-            //->where('estado_encuesta_pregunta', 1)
+            ->with('roles')
             ->get();
         return response()->json($encuesta);
     }

@@ -8,7 +8,6 @@ class Encuesta extends Model
 {
     protected $table = 'lms_encuestas';
     protected $primaryKey = 'id_encuesta';
-    //protected $hidden = ['create_at', 'update_at'];
     protected $hidden = ['pivot'];
 
     public function encuestaPregunta()
@@ -16,8 +15,8 @@ class Encuesta extends Model
         return $this->hasMany('App\EncuestaPregunta', 'id_encuesta');
     }
 
-    public function encuestaRol()
+    public function roles()
     {
-        return $this->belongsToMany('App\Rol', 'lms_encuesta_roles', 'id_rol');
+        return $this->belongsToMany('App\Rol', 'lms_encuesta_roles', 'id_encuesta', 'id_rol');
     }
 }
