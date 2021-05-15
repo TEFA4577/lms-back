@@ -25,4 +25,8 @@ class Curso extends Model
     {
         return $this->belongsToMany('\App\MembresiaDocente','lms_membresia_cursos', 'id_curso', 'id_membresia_usuario');
     }
+    public function cursoEvaluacion()
+    {
+        return $this->hasMany('App\UsuarioEvaluacion', 'id_curso', 'id_curso');
+    }
 }
