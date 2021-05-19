@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/video/add', 'ClaseController@registrarVideo');
+
 // RUTAS PARA USUARIOS
 Route::post('login', 'UsuarioController@login');
 Route::post('usuario/registrar', 'UsuarioController@registrarUsuario');
