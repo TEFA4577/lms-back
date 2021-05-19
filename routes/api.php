@@ -132,6 +132,7 @@ Route::get('encuestas/list', 'EncuestaController@listarEncuestas');
 Route::get('encuesta/mostrar/{id}', 'EncuestaController@mostrarEncuesta');
 Route::get('encuesta-preguntas/list', 'EncuestaController@listarPreguntasEncuesta');
 Route::get('encuesta-preguntas/mostrar/{id}', 'EncuestaController@mostrarPregunta');
+Route::get('encuesta-respuestas/cantidad/{id}', 'EncuestaController@cantRes');
 Route::put('encuesta/actualizar/{id}', 'EncuestaController@actualizarEncuesta');
 Route::put('encuesta/actualizar-pregunta/{id}', 'EncuestaController@actualizarPreguntaEncuesta');
 Route::get('encuesta/eliminar/{id}', 'EncuestaController@DeshabilitarEncuesta');
