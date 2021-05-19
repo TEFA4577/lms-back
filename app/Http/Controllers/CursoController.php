@@ -49,6 +49,13 @@ class CursoController extends Controller
                         ->get();
         return response()->json($cursos);
     }
+	public function verficClases($id){
+		$modulos = Modulo::where('id_curso', $id)
+						->with('clasesModulo')
+						->get('id_modulo');
+		
+		return response()->json($modulos);
+	}
 
     public function estadoCursos()
     {
@@ -108,6 +115,7 @@ class CursoController extends Controller
         $cursos = Curso::orderBy('id_curso', 'desc')
             ->where('estado_curso', 'aprobado')
             ->where('id_usuario', $id)
+			->where('membresia_curso', '!=', 'FIN')
             ->with('etiquetasCurso')
             ->get();
         return response()->json($cursos);
@@ -212,11 +220,13 @@ class CursoController extends Controller
         $docente = Usuario::find($curso->id_usuario);
 		$prueba = Prueba::where('id_curso', $id)->with('pruebaOpcion')->get();
         $docente->datosDocente;
+		$usuarioCurso = UsuarioCurso::where('id_curso',$curso->id_curso)->get();
         return response()->json([
             'curso' => $curso,
             'modulos' => $modulos,
             'docente' => $docente,
-			'prueba' => $prueba
+			'prueba' => $prueba,
+			'usuarioCurso' => $usuarioCurso
         ]);
     }
     public function cursarCurso($id)

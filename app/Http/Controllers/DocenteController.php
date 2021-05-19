@@ -29,7 +29,32 @@ class DocenteController extends Controller
         $docentes = Usuario::where('id_rol', 2)->with('datosDocente','redesDocente')->get();
         return response()->json($docentes);
     }
-
+	public function listaDocente(){
+		$docentes = Docente::orderBy('id_docente', 'asc')
+							->get();
+		foreach( $docentes as $docente ) {
+    		$usuario = Usuario::where('id_usuario', $docente->id_usuario)
+							->with('datosDocente', 'redesDocente')
+							->get();
+			return response()->json($usuario);
+        }
+	}
+	public function habiliarDocente($id){
+		$docente = Docente::where('id_usuario', $id)->first();
+		$usuario = Usuario::where('id_usuario',$id)->first();
+		if ($docente->estado_docente == 0) {
+			$usuario->id_rol = 2;
+			$usuario->save();
+			$docente->estado_docente = 1;
+			$docente->save();
+            return response()->json(['mensaje' => 'el usuario cambio a docente', 'estado' => 'danger']);
+        }
+		$usuario->id_rol = 3;
+		$usuario->save();
+		$docente->estado_docente = 0;
+		$docente->save();
+        return response()->json(['mensaje' => 'el usuario cambio a estudiante', 'estado' => 'danger']);
+	}
     /**
      * Descripcion: La funcion registra a un docente
      * Tipo: POST
@@ -38,17 +63,19 @@ class DocenteController extends Controller
      */
     public function registrarDocente(Request $request)
     {
-        $usuario = Usuario::where('id_usuario',$request->id_usuario)->first();
-        if ($usuario->id_rol == 2) {
-            return response()->json(['mensaje' => 'el usuario ya esta registro como docente', 'estado' => 'danger']);
-        }
-        $usuario->id_rol = 2;
-        $usuario->save();
+        //$usuario = Usuario::where('id_usuario',$request->id_usuario)->first();
+        //if ($usuario->id_rol == 2) {
+        //    return response()->json(['mensaje' => 'el usuario ya esta registro como docente', 'estado' => 'danger']);
+        //}
+        //$usuario->id_rol = 2;
+        //$usuario->save();
         $docente = new Docente;
         $docente->id_usuario = $request->id_usuario;
         $docente->telefono_docente = $request->telefono_docente;
         $docente->descripcion_docente = $request->descripcion_docente;
         $docente->experiencia_docente = $request->experiencia_docente;
+		$docente->estado_docente = 0;
+		
         if ($request->hasFile('video')) {
             // subir la imagen al servidor
             $archivo = $request->file('video');
