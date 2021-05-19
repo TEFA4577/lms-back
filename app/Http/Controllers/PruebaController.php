@@ -108,9 +108,9 @@ class PruebaController extends Controller
     public function evaluarExamen($id){
         $opcion = PruebaOpcion::find($id);
         if ($opcion->respuesta_opcion == 0) {
-            return response()->json("incorrecto");
+            return response()->json(['mensaje'=> 'incorrecta']);
         } elseif ($opcion->respuesta_opcion == 1) {
-            return response()->json("correcto");
+            return response()->json(['mensaje'=> 'correcta']);
         }
     }
     public function inicioExamen(Request $request){

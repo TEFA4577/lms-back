@@ -7,6 +7,7 @@ use App\Encuesta;
 use App\EncuestaPregunta;
 use App\EncuestaRespuesta;
 use App\EncuestaRol;
+use App\RespuestaPregunta;
 use Illuminate\Support\Facades\DB;
 
 class EncuestaController extends Controller
@@ -69,7 +70,23 @@ class EncuestaController extends Controller
     public function mostrarPregunta($id)
     {
         $pregunta = EncuestaPregunta::findOrFail($id);
-        return response()->json($pregunta);
+        $respuesta = EncuestaRespuesta::where('id_encuesta_pregunta', $id)
+            ->with('respuestaEncuesta')
+            ->get();
+        return response()->json($respuesta);
+    }
+
+    public function cantRes($id)
+    {
+        $pregunta = EncuestaPregunta::findOrFail($id);
+        EncuestaRespuesta::where('id_encuesta_pregunta', $id);
+        $res = EncuestaRespuesta::where('id_encuesta_pregunta', $id)
+            ->where('texto_encuesta_respuesta', 'si')
+            ->count();
+        $re = EncuestaRespuesta::where('id_encuesta_pregunta', $id)
+            ->where('texto_encuesta_respuesta', 'no')
+            ->count();
+        return response()->json([$pregunta, 'si' => $res, 'no' => $re]);
     }
 
     public function registrarRespuesta(Request $request)
@@ -110,21 +127,21 @@ class EncuestaController extends Controller
 
     public function deshabilitarEncuesta($id)
     {
-        $encuesta=Encuesta::find($id);
+        $encuesta = Encuesta::find($id);
         if ($encuesta->estado_encuesta == 1) {
             $encuesta->estado_encuesta = 0;
-            $pregunta=EncuestaPregunta::where('id_encuesta', $id)
-                        ->where('estado_encuesta_pregunta', 1)
-                        ->update(['estado_encuesta_pregunta' => 0]);
+            $pregunta = EncuestaPregunta::where('id_encuesta', $id)
+                ->where('estado_encuesta_pregunta', 1)
+                ->update(['estado_encuesta_pregunta' => 0]);
             //$respuesta->save();
-        }else {
+        } else {
             $encuesta->estado_encuesta = 1;
-            $pregunta=EncuestaPregunta::where('id_pregunta', $id)
-                        ->where('estado_encuesta_pregunta', 0)
-                        ->update(['estado_encuesta_pregunta' => 1]);
+            $pregunta = EncuestaPregunta::where('id_pregunta', $id)
+                ->where('estado_encuesta_pregunta', 0)
+                ->update(['estado_encuesta_pregunta' => 1]);
         }
         $encuesta->save();
-        return response()->json(['mensaje' => 'Elimando', 'estado' => 'danger', 'Encuesta'=>$encuesta, 'Pregunta' => $pregunta]);
+        return response()->json(['mensaje' => 'Elimando', 'estado' => 'danger', 'Encuesta' => $encuesta, 'Pregunta' => $pregunta]);
     }
 
     public function eliminarPreguntaEncuesta($id)

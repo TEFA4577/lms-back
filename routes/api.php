@@ -50,6 +50,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 // RUTAS PARA DOCENTE
 Route::get('docentes', 'DocenteController@index');
+Route::get('docentes-adm', 'DocenteController@listaDocente');
+Route::get('docente/habilitar/{id}', 'DocenteController@habiliarDocente');
 Route::post('docentes/registrar', 'DocenteController@registrarDocente');
 Route::put('docentes/actualizar/{id}', 'DocenteController@actualizarDocente');
 Route::get('docentes/mostrar/{id}', 'DocenteController@mostrarDocente');
@@ -75,6 +77,7 @@ Route::get('cursos/inhabilitar/{id}', 'CursoController@inhabilitarCurso');
 Route::get('cursos/eliminar-etiquetas/{id}', 'CursoController@eliminarCursoEtiquetas');
 Route::get('cursos-solicitados', 'CursoController@listarSolicitudes');
 Route::put('progreso-curso/{id}', 'CursoController@progresoCurso');
+Route::get('curso/modulo-clase/{id}', 'CursoController@verficClases');
 Route::get('cursos-de-docente/{id}', 'CursoController@cursosDeDocente');
 Route::get('certificado/{idUsuarioCurso}', 'CursoController@certificado');
 
@@ -134,6 +137,7 @@ Route::get('encuestas/list', 'EncuestaController@listarEncuestas');
 Route::get('encuesta/mostrar/{id}', 'EncuestaController@mostrarEncuesta');
 Route::get('encuesta-preguntas/list', 'EncuestaController@listarPreguntasEncuesta');
 Route::get('encuesta-preguntas/mostrar/{id}', 'EncuestaController@mostrarPregunta');
+Route::get('encuesta-respuestas/cantidad/{id}', 'EncuestaController@cantRes');
 Route::put('encuesta/actualizar/{id}', 'EncuestaController@actualizarEncuesta');
 Route::put('encuesta/actualizar-pregunta/{id}', 'EncuestaController@actualizarPreguntaEncuesta');
 Route::get('encuesta/eliminar/{id}', 'EncuestaController@DeshabilitarEncuesta');
@@ -145,13 +149,14 @@ Route::get('encuesta/eliminar-rol/{id}', 'EncuestaController@eliminarEncuestaRol
 
 
 //RUTAS PARA MEMBRESIA
-Route::get('membresias/{id}', 'MembresiaController@mostrarMembresia');
-Route::get('membresias', 'MembresiaController@listarMembresia');
-Route::get('membresias-administrar', 'MembresiaController@admMembresia');
-Route::post('membresias/registrar', 'MembresiaController@registrarMembresia');
-Route::put('membresias/actualizar/{id}', 'MembresiaController@actualizarMembresia');
+Route::get('membresias/{id}', 'MembresiaController@mostrarMembresia')->middleware('auth:api');
+Route::get('membresia/docente/{id}', 'MembresiaController@membresiaDocente')->middleware('auth:api');
+Route::get('membresias/{id}', 'MembresiaController@listarMembresia')->middleware('auth:api');
+Route::get('membresias-administrar', 'MembresiaController@admMembresia')->middleware('auth:api');
+Route::post('membresias/registrar', 'MembresiaController@registrarMembresia')->middleware('auth:api');
+Route::put('membresias/actualizar/{id}', 'MembresiaController@actualizarMembresia')->middleware('auth:api');
 Route::put('membresias/cambiar-imagen', 'MembresiaController@cambiarImagenMem');
-Route::get('membresias/eliminar/{id}', 'MembresiaController@eliminarMembresia');
-Route::get('membresias-solicitada', 'MembresiaController@misSolicitudes');
-Route::post('membresias/adquirir/{id}', 'MembresiaController@adquirirMembresia');
-Route::get('membresia-habilitar/{id}/{estado}', 'MembresiaController@habilitarMembresia');
+Route::get('membresias/eliminar/{id}', 'MembresiaController@eliminarMembresia')->middleware('auth:api');
+Route::get('membresias-solicitada', 'MembresiaController@misSolicitudes')->middleware('auth:api');
+Route::post('membresias/adquirir', 'MembresiaController@adquirirMembresia')->middleware('auth:api');
+Route::get('membresia-habilitar/{id}/{estado}', 'MembresiaController@habilitarMembresia')->middleware('auth:api');
