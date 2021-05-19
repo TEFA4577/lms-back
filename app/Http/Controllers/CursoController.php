@@ -40,28 +40,29 @@ class CursoController extends Controller
     public function index()
     {
         $cursos = Curso::orderBy('id_curso', 'desc')
-                        ->where('estado_curso', 'aprobado')
-                        ->where('membresia_curso', '!=', 'FIN')
-                        ->where('estado', 1)
-                        ->with('etiquetasCurso')
-                        // ->with(['membresiaDocente'=> function($q){
-                        //     $q->where('estado_membresia_usuario', 'adquirido');}])
-                        ->get();
+            ->where('estado_curso', 'aprobado')
+            ->where('membresia_curso', '!=', 'FIN')
+            ->where('estado', 1)
+            ->with('etiquetasCurso')
+            // ->with(['membresiaDocente'=> function($q){
+            //     $q->where('estado_membresia_usuario', 'adquirido');}])
+            ->get();
         return response()->json($cursos);
     }
 	public function verficClases($id){
 		$modulos = Modulo::where('id_curso', $id)
 						->with('clasesModulo')
 						->get('id_modulo');
-		
+
 		return response()->json($modulos);
 	}
 
     public function estadoCursos()
     {
         $cursos = Curso::orderBy('id_curso', 'desc')
-                        ->where('estado_curso', 'aprobado')
-                        ->with('id_usuario')->get();
+            ->where('estado_curso', '=', 'aprobado')
+            ->get();
+            //->with('id_usuario')->get();
         return response()->json($cursos);
     }
 
@@ -150,13 +151,13 @@ class CursoController extends Controller
         $curso->precio = $request->precio;
 
         $membresia = MembresiaDocente::where('id_usuario', $curso->id_usuario)
-                                    ->where('estado_membresia_usuario', 'adquirido')
-                                    ->first();
-        if ($curso->precio == 0){
+            ->where('estado_membresia_usuario', 'adquirido')
+            ->first();
+        if ($curso->precio == 0) {
             $curso->membresia_curso = 'GRATIS';
-        }elseif ($membresia) {
+        } elseif ($membresia) {
             $curso->membresia_curso = 'INICIO';
-        }else {
+        } else {
             $curso->membresia_curso = 'FIN';
         }
         if ($request->hasFile('imagen_curso')) {
@@ -218,7 +219,7 @@ class CursoController extends Controller
         $curso->etiquetasCurso;
         $modulos = Modulo::where('id_curso', $id)->with('clasesModulo')->get();
         $docente = Usuario::find($curso->id_usuario);
-		$prueba = Prueba::where('id_curso', $id)->with('pruebaOpcion')->get();
+        $prueba = Prueba::where('id_curso', $id)->with('pruebaOpcion')->get();
         $docente->datosDocente;
 		$usuarioCurso = UsuarioCurso::where('id_curso',$curso->id_curso)->get();
         return response()->json([
@@ -234,13 +235,13 @@ class CursoController extends Controller
         $cursoUsuario = UsuarioCurso::findOrFail($id);
         $curso = Curso::find($cursoUsuario->id_curso);
         $modulos = Modulo::where('id_curso', $cursoUsuario->id_curso)->with('clasesModulo')->get();
-		$evaluacion = UsuarioEvaluacion::where('id_curso', $cursoUsuario->id_curso)
-									->where('id_usuario', $cursoUsuario->id_usuario)->get();
+        $evaluacion = UsuarioEvaluacion::where('id_curso', $cursoUsuario->id_curso)
+            ->where('id_usuario', $cursoUsuario->id_usuario)->get();
         return response()->json([
             'cursoUsuario' => $cursoUsuario,
             'curso' => $curso,
             'modulos' => $modulos,
-			'evaluacion' => $evaluacion,
+            'evaluacion' => $evaluacion,
         ]);
     }
     public function eliminarCurso($id)
@@ -284,13 +285,13 @@ class CursoController extends Controller
         $curso->descripcion_curso = $request->descripcion_curso;
         $curso->precio = $request->precio;
         $membresia = MembresiaDocente::where('id_usuario', $curso->id_usuario)
-                                    ->where('estado_membresia_usuario', 'adquirido')
-                                    ->first();
-        if ($curso->precio == 0){
+            ->where('estado_membresia_usuario', 'adquirido')
+            ->first();
+        if ($curso->precio == 0) {
             $curso->membresia_curso = 'GRATIS';
-        }elseif ($membresia) {
+        } elseif ($membresia) {
             $curso->membresia_curso = 'INICIO';
-        }else {
+        } else {
             $curso->membresia_curso = 'FIN';
         }
         $curso->save();
@@ -379,7 +380,7 @@ class CursoController extends Controller
     {
         $datos = UsuarioCurso::find($idUsuarioCurso);
         if (!$datos) {
-            return response()->json(['mensaje' => 'error', 'estado' => 'danger', 'user'=>$datos]);
+            return response()->json(['mensaje' => 'error', 'estado' => 'danger', 'user' => $datos]);
         }
         $curso = Curso::find($datos->id_curso);
         $usuario = Usuario::find($datos->id_usuario);
