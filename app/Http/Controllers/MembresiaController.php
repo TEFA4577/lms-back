@@ -34,11 +34,14 @@ class MembresiaController extends Controller
         $membresia = Membresia::findOrFail($id);
         return response()->json($membresia);
     }
-    public function listarMembresia(){
+    public function listarMembresia($id){
         $membresia = Membresia::orderBy('id_membresia', 'asc')
                     ->where('estado_membresia', 1)
                     ->get();
-        return response()->json($membresia);
+		$docente = MembresiaDocente::where('id_usuario', $id)
+									->where('estado_membresia_usuario', 'adquirido')
+									->get();
+        return response()->json(['membresias' => $membresia, 'docenteMemb' => $docente]);
     }
 
     public function admMembresia(){
@@ -112,6 +115,12 @@ class MembresiaController extends Controller
         $membresia->save();
         return response()->json(['mensaje'=> 'Membresia deshabilitada', 'estado'=> 'daner']);
     }
+	public function membresiaDocente($id){
+		$docente = MembresiaDocente::where('id_usuario', $id)
+									->where('estado_membresia_usuario', 'adquirido')
+									->get();
+		return $docente;
+	}
     public function misSolicitudes()
     {
         $solicitudes = MembresiaDocente::with('membresiaSolicitada', 'usuario')
@@ -132,6 +141,7 @@ class MembresiaController extends Controller
             $docenteMembresia->id_membresia = $request->id_membresia;
             $membresia = Membresia::find($request->id_membresia);
             if ($membresia->precio_membresia == 0) {
+				$time = $membresia->duracion_membresia;
                 $docenteMembresia->estado_membresia_usuario = 'adquirido';
                 $time1 = Carbon::now();
                 $date = $time1;
