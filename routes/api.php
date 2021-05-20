@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/video/add', 'ClaseController@registrarVideo');
+
 // RUTAS PARA USUARIOS
 Route::post('login', 'UsuarioController@login');
 Route::post('usuario/registrar', 'UsuarioController@registrarUsuario');
@@ -134,6 +136,7 @@ Route::get('encuestas/list', 'EncuestaController@listarEncuestas');
 Route::get('encuesta/mostrar/{id}', 'EncuestaController@mostrarEncuesta');
 Route::get('encuesta-preguntas/list', 'EncuestaController@listarPreguntasEncuesta');
 Route::get('encuesta-preguntas/mostrar/{id}', 'EncuestaController@mostrarPregunta');
+Route::get('encuesta-respuestas/cantidad/{id}', 'EncuestaController@cantRes');
 Route::put('encuesta/actualizar/{id}', 'EncuestaController@actualizarEncuesta');
 Route::put('encuesta/actualizar-pregunta/{id}', 'EncuestaController@actualizarPreguntaEncuesta');
 Route::get('encuesta/eliminar/{id}', 'EncuestaController@DeshabilitarEncuesta');

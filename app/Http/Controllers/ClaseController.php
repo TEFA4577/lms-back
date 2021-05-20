@@ -13,7 +13,7 @@ class ClaseController extends Controller
 
     public function __construct()
     {
-        $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
+    $this->hostBackend = env("HOST_BACKEND", /*'http://back.academiacomarca.com'*/ 'http://localhost:8000');
     }
 
     /**
@@ -28,7 +28,8 @@ class ClaseController extends Controller
         $clase->id_modulo = $request->id_modulo;
         $clase->titulo_clase = $request->titulo_clase;
         $clase->descripcion_clase = $request->descripcion_clase;
-        if ($request->hasFile('video_clase')) {
+        $clase->video_clase = $request->video_clase;
+        /*if ($request->hasFile('video_clase')) {
             // subir la imagen al servidor
             $archivo = $request->file('video_clase');
             // $archivoNombre = $archivo->getClientOriginalName();
@@ -38,9 +39,22 @@ class ClaseController extends Controller
             // ruta donde se guardara la imagen en el servidor
             $archivo->move(public_path($this->ruta), $nombre_video);
             $clase->video_clase = $this->hostBackend . $this->ruta . $nombre_video;
-        }
+        }*/
         $clase->save();
         return response()->json(['mensaje' => 'Registro Realizado con Exito', 'estado' => 'success']);
+    }
+
+    public function registrarVideo(Request $request){
+        $archivo = $request->file('video_clase');
+        // $archivoNombre = $archivo->getClientOriginalName();
+        $extension = $archivo->getClientOriginalExtension();
+        // Nombre del archivo con el que se guardara en el servidor
+        $nombre_video = 3 . '-' . 'hola' . '.' . $extension;
+        // ruta donde se guardara la imagen en el servidor
+        $archivo->move(public_path($this->ruta), $nombre_video);
+        $video_clase = $this->hostBackend . $this->ruta . $nombre_video;
+
+        return response()->json(['mensaje' => 'Registro Realizado con Exito', 'estado' => 'success', 'data'=>$video_clase]);
     }
 
     /**
