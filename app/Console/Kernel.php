@@ -27,7 +27,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //php artisan schedule:work
-        $schedule->command('schedule:work')->everyMinute();
+        // $schedule->command('schedule:work')->everyMinute();
+        //php artisan current:memberships
         $schedule->command('current:memberships')->daily();
     }
     /**

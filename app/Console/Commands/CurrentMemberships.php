@@ -42,22 +42,21 @@ class CurrentMemberships extends Command
      */
     public function handle()
     {
-        $membresia = MembresiaDocente::orderBy('id_membresia_usuario', 'desc')
-                                        ->where('estado_membresia_usuario', 'adquirido')
-                                        ->get();
+        while(true){
+            $membresia = MembresiaDocente::orderBy('id_membresia_usuario', 'desc')
+            ->where('estado_membresia_usuario', 'adquirido')
+            ->get();
             $time1 = Carbon::now();
             $time1 = $time1->format('Y-m-d');
             foreach( $membresia as $docenteMembresia ) {
                 if($time1 >= $docenteMembresia->fin_membresia_usuario) {
-                    $docenteMembresia->estado_membresia_usuario = 'finalizado';
-                    $curso=Curso::where('id_usuario', $docenteMembresia->id_usuario)
-                                ->where('membresia_curso', 'INICIO')
-                                ->update(['membresia_curso' => 'FIN']);
-                    $docenteMembresia->save();
-                    return response()->json(['mensaje' => ' membresia finalizada']);
-                }else {
-                    return response()->json(['mensaje' => 'la membresia no puede finalizar debido a que no es la fecha indicada de finalización']);
+                $docenteMembresia->estado_membresia_usuario = 'finalizado';
+                $curso=Curso::where('id_usuario', $docenteMembresia->id_usuario)
+                    ->where('membresia_curso', 'INICIO')
+                    ->update(['membresia_curso' => 'FIN']);
+                $docenteMembresia->save();
                 }
             }
+        }
     }
 }
