@@ -21,4 +21,8 @@ class Prueba extends Model
     {
         return $this->hasMany('App\PruebaOpcion', 'id_prueba')->where('estado_prueba_opcion', 1);
     }
+	public function opcionCorrecta()
+	{
+		return $this->hasMany('App\PruebaOpcion', 'id_prueba')->where('estado_prueba_opcion', 1)->where('respuesta_opcion', 1);
+	}
 }

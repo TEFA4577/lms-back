@@ -53,8 +53,8 @@ Route::get('docente/habilitar/{id}', 'DocenteController@habiliarDocente');
 Route::post('docentes/registrar', 'DocenteController@registrarDocente');
 Route::put('docentes/actualizar/{id}', 'DocenteController@actualizarDocente');
 Route::get('docentes/mostrar/{id}', 'DocenteController@mostrarDocente');
-Route::post('docentes/cambiar-video', 'DocenteController@actualizarVideo');
-Route::post('docentes/cambiar-cv', 'DocenteController@actualizarCv');
+Route::post('docentes/cambiar-video', 'DocenteController@actualizarVideo')->middleware('auth:api');
+Route::post('docentes/cambiar-cv', 'DocenteController@actualizarCv')->middleware('auth:api');
 
 // RUTAS PARA CURSOS
 Route::get('cursos', 'CursoController@index');
@@ -63,21 +63,20 @@ Route::get('cursos-no-revisados', 'CursoController@listarCursosNoAprobados');
 Route::post('cursos/cambiar-estado', 'CursoController@cambiarEstadoCurso');
 Route::get('cursos/{id}', 'CursoController@listadoDeCursoPorEtiqueta');
 Route::get('cursos/buscar/{texto}', 'CursoController@listadoDeCursoPorNombreDescripcion');
-Route::post('cursos/registrar', 'CursoController@registrarCurso');
-Route::put('cursos/actualizar/{id}', 'CursoController@actualizarCurso');
-Route::put('cursos/registrar-etiqueta/{id}', 'CursoController@registrarCursoEtiquetas');
-Route::post('cursos/cambiar-imagen', 'CursoController@cambiarImagenCurso');
+Route::post('cursos/registrar', 'CursoController@registrarCurso')->middleware('auth:api');
+Route::put('cursos/actualizar/{id}', 'CursoController@actualizarCurso')->middleware('auth:api');
+Route::put('cursos/registrar-etiqueta/{id}', 'CursoController@registrarCursoEtiquetas')->middleware('auth:api');
+Route::post('cursos/cambiar-imagen', 'CursoController@cambiarImagenCurso')->middleware('auth:api');
 Route::get('cursos/mostrar/{id}', 'CursoController@mostrarCurso');
 Route::get('cursar-curso/{id}', 'CursoController@cursarCurso');
 Route::get('cursos/eliminar/{id}', 'CursoController@eliminarCurso');
-Route::get('cursos/habilitar/{id}', 'CursoController@habilitarCurso');
-Route::get('cursos/inhabilitar/{id}', 'CursoController@inhabilitarCurso');
+Route::get('cursos/habilitar/{id}', 'CursoController@habilitarCurso')->middleware('auth:api');
+Route::get('cursos/inhabilitar/{id}', 'CursoController@inhabilitarCurso')->middleware('auth:api');
 Route::get('cursos/eliminar-etiquetas/{id}', 'CursoController@eliminarCursoEtiquetas');
-Route::get('cursos-solicitados', 'CursoController@listarSolicitudes');
-Route::put('progreso-curso/{id}', 'CursoController@progresoCurso');
-Route::get('curso/modulo-clase/{id}', 'CursoController@verficClases');
+Route::get('cursos-solicitados', 'CursoController@listarSolicitudes')->middleware('auth:api');
+Route::put('progreso-curso/{id}', 'CursoController@progresoCurso')->middleware('auth:api');
 Route::get('cursos-de-docente/{id}', 'CursoController@cursosDeDocente');
-Route::get('certificado/{idUsuarioCurso}', 'CursoController@certificado');
+Route::get('certificado/{idUsuarioCurso}', 'CursoController@certificado')->middleware('auth:api');
 
 // RUTAS PARA MODULOS
 Route::post('modulos/registrar', 'ModuloController@registrarModulo');
@@ -86,17 +85,17 @@ Route::get('modulos/mostrar/{id}', 'ModuloController@mostrarModulo');
 Route::get('modulos/eliminar/{id}', 'ModuloController@eliminarModulo');
 
 // RUTAS PARA CLASES
-Route::post('clases/registrar', 'ClaseController@registrarClase');
-Route::put('clases/actualizar/{id}', 'ClaseController@actualizarClase');
+Route::post('clases/registrar', 'ClaseController@registrarClase')->middleware('auth:api');
+Route::put('clases/actualizar/{id}', 'ClaseController@actualizarClase')->middleware('auth:api');
 Route::get('clases/mostrar/{id}', 'ClaseController@mostrarClase');
-Route::get('clases/eliminar/{id}', 'ClaseController@eliminarClase');
-Route::post('clases/cambiar-video', 'ClaseController@cambiarVideo');
+Route::get('clases/eliminar/{id}', 'ClaseController@eliminarClase')->middleware('auth:api');
+Route::post('clases/cambiar-video', 'ClaseController@cambiarVideo')->middleware('auth:api');
 
 // RUTAS PARA RECURSOS
-Route::post('recursos/registrar', 'RecursoController@registrarRecurso');
-Route::put('recursos/actualizar/{id}', 'RecursoController@actualizarRecurso');
+Route::post('recursos/registrar', 'RecursoController@registrarRecurso')->middleware('auth:api');
+Route::put('recursos/actualizar/{id}', 'RecursoController@actualizarRecurso')->middleware('auth:api');
 Route::get('recursos/mostrar/{id}', 'RecursoController@mostrarRecurso');
-Route::get('recursos/eliminar/{id}', 'RecursoController@eliminarRecurso');
+Route::get('recursos/eliminar/{id}', 'RecursoController@eliminarRecurso')->middleware('auth:api');
 
 // RUTAS PARA ETIQUETAS
 Route::get('etiquetas', 'EtiquetaController@index');

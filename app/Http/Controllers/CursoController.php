@@ -49,13 +49,6 @@ class CursoController extends Controller
             ->get();
         return response()->json($cursos);
     }
-	public function verficClases($id){
-		$modulos = Modulo::where('id_curso', $id)
-						->with('clasesModulo')
-						->get('id_modulo');
-
-		return response()->json($modulos);
-	}
 
     public function estadoCursos()
     {
@@ -91,6 +84,33 @@ class CursoController extends Controller
         if ($request->mensaje != '') {
             $curso->mensaje = $request->mensaje;
         }
+        $modulos = Modulo::where('id_curso', $curso->id_curso)
+						->with('clasesModulo')
+						->get('id_modulo');
+        $numM = count($modulos);
+        if($numM > 0){
+            foreach ($modulos as $value) {
+                if(!count($value['clasesModulo'])){
+                    return response()->json(['mensaje' => 'El módulo necesita clases', 'estado' => 'error']);
+                }
+            }
+        }else {
+			return response()->json(['mensaje' => 'Su curso necesita módulo', 'estado' => 'error']);
+        }
+		$prueba = Prueba::where('id_curso', $curso->id_curso)
+						->with('opcionCorrecta')
+						->get('id_prueba');
+        $numP = count($prueba);
+		if($numP > 0){
+			foreach ($prueba as $value) {
+				if(!count($value['opcionCorrecta'])){
+					return response()->json(['mensaje' => 'Las preguntas de exámen necesitan respuesta correcta', 'estado' => 'error']);
+				}
+			}
+		}else {
+			return response()->json(['mensaje' => 'Su cursos necesita preguntas para el exámen', 'estado' => 'error']);
+		}
+
         $curso->save();
         return response()->json(['mensaje' => 'Cambio de estado exitoso', 'estado' => 'success']);
     }
