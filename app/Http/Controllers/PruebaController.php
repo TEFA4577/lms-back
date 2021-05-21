@@ -107,6 +107,7 @@ class PruebaController extends Controller
     }
     public function evaluarExamen($id){
         $opcion = PruebaOpcion::find($id);
+
         if ($opcion->respuesta_opcion == 0) {
             return response()->json(['mensaje'=> 'incorrecta']);
         } elseif ($opcion->respuesta_opcion == 1) {
@@ -123,13 +124,14 @@ class PruebaController extends Controller
 			$result = new UsuarioEvaluacion;
 			$result->id_curso = $request->id_curso;
 			$result->id_usuario = $request->id_usuario;
+			$result->progreso_evaluacion = 100;
 			$result->save();
 			return response()->json('Empezando Exámen');
 		}
     }
 	public function resultExamen(Request $request, $id){
         $result = UsuarioEvaluacion::find($id);
-        $result->progreso_evaluacion = $request->progreso_evaluacion;
+        $result->progreso_evaluacion = $result->progreso_evaluacion + $request->progreso_evaluacion;
         $result->save();
         return response()->json('Felicitaciones, terminaste el Exámen');
     }

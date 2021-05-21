@@ -57,8 +57,8 @@ class MembresiaController extends Controller
         $membresia->precio_membresia = $request->precio_membresia;
         $date = Carbon::now();
         $date = $date->format('Y-m-d');
-        $duracion = $this->calcularTiempo($date, $request->duracion_membresia);
-        $membresia->duracion_membresia = $duracion[11];
+        //$duracion = $this->calcularTiempo($date, $request->duracion_membresia);
+        $membresia->duracion_membresia = $request->duracion_membresia;
         if ($request->hasFile('imagen_membresia')) {
             $archivo = $request->file('imagen_membresia');
             $nombre_foto = time() . "_" . $archivo->getClientOriginalName();

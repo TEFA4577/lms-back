@@ -91,7 +91,7 @@ class CursoController extends Controller
         if($numM > 0){
             foreach ($modulos as $value) {
                 if(!count($value['clasesModulo'])){
-                    return response()->json(['mensaje' => 'El módulo necesita clases', 'estado' => 'error']);
+                    return response()->json(['mensaje' => 'Su módulo necesita clases', 'estado' => 'error']);
                 }
             }
         }else {
@@ -112,7 +112,7 @@ class CursoController extends Controller
 		}
 
         $curso->save();
-        return response()->json(['mensaje' => 'Cambio de estado exitoso', 'estado' => 'success']);
+        return response()->json(['mensaje' => 'Solicitud realizada con exito', 'estado' => 'success']);
     }
     /**
      * Descripcion: La funcion devuelve todos los cursos ordenados por id descendentemente.

@@ -148,14 +148,14 @@ Route::get('encuesta/eliminar-rol/{id}', 'EncuestaController@eliminarEncuestaRol
 
 
 //RUTAS PARA MEMBRESIA
-Route::get('membresias/{id}', 'MembresiaController@mostrarMembresia')->middleware('auth:api');
-Route::get('membresia/docente/{id}', 'MembresiaController@membresiaDocente')->middleware('auth:api');
-Route::get('membresias/{id}', 'MembresiaController@listarMembresia')->middleware('auth:api');
-Route::get('membresias-administrar', 'MembresiaController@admMembresia')->middleware('auth:api');
-Route::post('membresias/registrar', 'MembresiaController@registrarMembresia')->middleware('auth:api');
-Route::put('membresias/actualizar/{id}', 'MembresiaController@actualizarMembresia')->middleware('auth:api');
+Route::get('membresias/{id}', 'MembresiaController@mostrarMembresia');
+Route::get('membresia/docente/{id}', 'MembresiaController@membresiaDocente');
+Route::get('membresias/{id}', 'MembresiaController@listarMembresia');
+Route::get('membresias-administrar', 'MembresiaController@admMembresia');
+Route::post('membresias/registrar', 'MembresiaController@registrarMembresia');
+Route::put('membresias/actualizar/{id}', 'MembresiaController@actualizarMembresia');
 Route::put('membresias/cambiar-imagen', 'MembresiaController@cambiarImagenMem');
-Route::get('membresias/eliminar/{id}', 'MembresiaController@eliminarMembresia')->middleware('auth:api');
-Route::get('membresias-solicitada', 'MembresiaController@misSolicitudes')->middleware('auth:api');
-Route::post('membresias/adquirir', 'MembresiaController@adquirirMembresia')->middleware('auth:api');
-Route::get('membresia-habilitar/{id}/{estado}', 'MembresiaController@habilitarMembresia')->middleware('auth:api');
+Route::get('membresias/eliminar/{id}', 'MembresiaController@eliminarMembresia');
+Route::get('membresias-solicitada', 'MembresiaController@misSolicitudes');
+Route::post('membresias/adquirir', 'MembresiaController@adquirirMembresia');
+Route::get('membresia-habilitar/{id}/{estado}', 'MembresiaController@habilitarMembresia');
