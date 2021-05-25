@@ -30,15 +30,15 @@ class DocenteController extends Controller
         return response()->json($docentes);
     }
 	public function listaDocente(){
-		$docentes = Docente::orderBy('id_docente', 'asc')
+        $docentes= Docente::with('datosUsuario')->get();
+		/*$docentes = Docente::orderBy('id_docente', 'asc')
 							->get();
 		foreach( $docentes as $docente ) {
     		$usuario = Usuario::where('id_usuario', $docente->id_usuario)
 							->with('datosDocente', 'redesDocente')
-							->get();
-			return response()->json($usuario);
+							->get();*/
+			return response()->json($docentes);
         }
-	}
 	public function habiliarDocente($id){
 		$docente = Docente::where('id_usuario', $id)->first();
 		$usuario = Usuario::where('id_usuario',$id)->first();
@@ -75,7 +75,7 @@ class DocenteController extends Controller
         $docente->descripcion_docente = $request->descripcion_docente;
         $docente->experiencia_docente = $request->experiencia_docente;
 		$docente->estado_docente = 0;
-		
+
         if ($request->hasFile('video')) {
             // subir la imagen al servidor
             $archivo = $request->file('video');

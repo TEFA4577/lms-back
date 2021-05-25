@@ -16,4 +16,9 @@ class Docente extends Model
     {
         return $this->hasMany('App\RedSocial', 'id_usuario');
     }
+
+    public function datosUsuario()
+    {
+        return $this->belongsTo('App\Usuario', 'id_usuario');
+    }
 }
