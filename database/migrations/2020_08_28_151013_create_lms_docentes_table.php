@@ -20,7 +20,7 @@ class CreateLmsDocentesTable extends Migration
             $table->integer('telefono_docente')->comment('telefono del docente');
             $table->boolean('estado_docente')->comment('estado del docente')->default(1);
             $table->string('descripcion_docente')->comment('descripcion del docente')->nullable();
-            $table->string('video_presentacion')->comment('video de presentacion del docente(opcional)')->nullable();
+            $table->longText('video_presentacion')->comment('video de presentacion del docente(opcional)')->nullable();
             $table->string('cv_docente')->comment('cv del docente(opcional)')->nullable();
             $table->string('experiencia_docente')->comment('experiencia del docente(opcional)')->nullable();
             $table->timestamps();

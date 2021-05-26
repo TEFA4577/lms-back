@@ -18,7 +18,7 @@ class CreateLmsClasesTable extends Migration
             $table->foreign('id_modulo')->references('id_modulo')->on('lms_modulos')->onDelete('cascade');
             $table->unsignedbigInteger('id_modulo')->comment('identificador del modulo');
             $table->string('titulo_clase')->comment('titulo de la clase con el que se mostrara en el sistema');
-            $table->string('video_clase')->commet('video principal de la clase a desarrollar');
+            $table->longText('video_clase')->commet('video principal de la clase a desarrollar');
             $table->string('descripcion_clase',500)->comment('descripcion del clase');
             $table->boolean('estado_clase')->comment('estado del clase')->default(1);
             $table->timestamps();

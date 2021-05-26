@@ -74,9 +74,10 @@ class DocenteController extends Controller
         $docente->telefono_docente = $request->telefono_docente;
         $docente->descripcion_docente = $request->descripcion_docente;
         $docente->experiencia_docente = $request->experiencia_docente;
+        $docente->video_presentacion = $request->video_instructor;
 		$docente->estado_docente = 0;
 
-        if ($request->hasFile('video')) {
+        /*if ($request->hasFile('video')) {
             // subir la imagen al servidor
             $archivo = $request->file('video');
             // $archivoNombre = $archivo->getClientOriginalName();
@@ -89,7 +90,7 @@ class DocenteController extends Controller
             $docente->video_presentacion = $this->hostBackend . $this->rutaVideo . $nombre_video;
         } else {
             $docente->video_presentacion = $this->hostBackend . $this->rutaVideo . "video_presentacion.mp4";
-        }
+        }*/
         if ($request->hasFile('cv')) {
             // subir la imagen al servidor
             $archivo = $request->file('cv');
