@@ -14,6 +14,6 @@ class Modulo extends Model
     ];
     public function clasesModulo()
     {
-        return $this->hasMany('App\Clase','id_modulo');
+        return $this->hasMany('App\Clase','id_modulo')->where('estado_clase', 1);
     }
 }

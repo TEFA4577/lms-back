@@ -119,7 +119,14 @@ class EtiquetaController extends Controller
      */
     public function etiquetaCursos($id)
     {
-        $cursos = Etiqueta::find($id)->cursosEtiqueta()->get();
+        $cursos = Etiqueta::find($id)
+				->with(['cursosEtiqueta' => function($q){
+					$q->where('estado', 1)
+						->where('estado_curso', '=', 'aprobado')
+						->where('membresia_curso', '!=', 'FIN');
+				}])
+				->get();
+			
         return response()->json($cursos);
     }
 

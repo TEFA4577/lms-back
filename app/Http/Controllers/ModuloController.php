@@ -33,7 +33,7 @@ class ModuloController extends Controller
      */
     public function mostrarModulo($id)
     {
-        $modulo = Modulo::findOrFail($id);
+        $modulo = Modulo::findOrFail($id)->where('estado_modulo', 1);
         $clases = Modulo::findOrFail($id)->clasesModulo;
         return response()->json(['modulo' => $modulo, 'clases' => $clases]);
     }
@@ -61,25 +61,10 @@ class ModuloController extends Controller
     public function eliminarModulo($id)
     {
         $modulo = Modulo::findOrFail($id);
-        $clases = Clase::where('id_modulo', $id)->get();
-        foreach ($clases as $clase) {
-            $recursos = Recurso::where('id_clase', $clase->id_clase)->get();
-            foreach ($recursos as $recurso) {
-                $rutaRecurso = explode("/", $recurso->link_recurso);
-                $image_path = public_path() . "/" . $rutaRecurso[3] . "/" . $rutaRecurso[4];
-                if (filesize($image_path)) {
-                    unlink($image_path);
-                }
-            }
-            Recurso::where('id_clase', $clase->id_clase)->delete();
-            $rutaVideo = explode("/", $clase->video_clase);
-            $image_path = public_path() . "/" . $rutaVideo[3] . "/" . $rutaVideo[4] . "/" . $rutaVideo[5];
-            if (filesize($image_path)) {
-                unlink($image_path);
-            }
-            Clase::find($clase->id_clase)->delete();
-        }
-        $modulo->delete();
+		$clases = Clase::where('id_modulo', $id)
+					->where('estado_clase', 1)
+					->update(['estado_clase' => 0]);
+        $modulo->save();
         return response()->json(['mensaje' => 'Borrado con Exito', 'estado' => 'success']);
     }
 }

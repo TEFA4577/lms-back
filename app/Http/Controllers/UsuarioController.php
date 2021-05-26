@@ -208,13 +208,6 @@ class UsuarioController extends Controller
     }
 
     public function misEstudiantes($id){
-        // $curso = DB::table('lms_cursos')
-        //                 ->join('lms_usuario_cursos', 'lms_cursos.id_curso', '=', 'lms_usuario_cursos.id_curso')
-        //                 ->join('lms_usuarios', 'lms_usuario_cursos.id_usuario', '=', 'lms_usuarios.id_usuario')
-        //                 ->where('lms_usuario_cursos.estado_usuario_curso', 'aprobado')
-        //                 ->where('lms_cursos.id_usuario', $id)
-        //                 ->select('lms_cursos.nombre_curso', 'lms_usuarios.nombre_usuario')
-        //                 ->get();
         $curso = Curso::where('id_usuario', $id)
                         ->with('cursoEstudiante')
                         ->with('cursoEvaluacion')
@@ -258,6 +251,19 @@ class UsuarioController extends Controller
             $curso = Curso::find($request->id_curso);
             if ($curso->precio == 0) {
                 $usuarioCurso->estado_usuario_curso = 'adquirido';
+				
+				$progreso = array();
+				foreach ($curso->modulosCurso as $modulo) {
+					$arr = array(
+						'id_modulo' => $modulo->id_modulo,
+						'nombre_modulo' => $modulo->nombre_modulo,
+						'estado' => False
+					);
+					$mod = ($arr);
+					array_push($progreso, $mod);
+				}
+				$usuarioCurso->progreso_curso = $progreso;
+								
             } else {
                 if ($request->hasFile('comprobante')) {
                     // subir la imagen al servidor

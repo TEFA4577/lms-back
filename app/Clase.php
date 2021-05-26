@@ -14,6 +14,6 @@ class Clase extends Model
     ];
     public function recursosClase()
     {
-        return $this->hasMany('App\Recurso','id_clase');
+        return $this->hasMany('App\Recurso','id_clase')->where('estado_recurso', 1);
     }
 }
