@@ -251,7 +251,7 @@ class UsuarioController extends Controller
             ->where('estado_usuario_curso', 'no confirmado')
             ->orWhere('estado_usuario_curso','aprobado')
             ->first();
-        if (!$verificar) {
+        if (!$verificar){
             $usuarioCurso = new UsuarioCurso;
             $usuarioCurso->id_usuario = $request->id_usuario;
             $usuarioCurso->id_curso = $request->id_curso;

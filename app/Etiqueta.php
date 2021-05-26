@@ -15,6 +15,7 @@ class Etiqueta extends Model
     ];
     public function cursosEtiqueta()
     {
-        return $this->belongsToMany('App\Curso', 'lms_curso_etiquetas', 'id_etiqueta', 'id_curso');
+        return $this->belongsToMany('App\Curso', 'lms_curso_etiquetas', 'id_etiqueta', 'id_curso')->where('estado', 1)
+									->where('estado_curso', 'aprobado')->where('membresia_curso', '!=', 'FIN');
     }
 }

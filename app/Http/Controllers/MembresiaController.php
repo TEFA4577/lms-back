@@ -25,7 +25,7 @@ class MembresiaController extends Controller
     }
 
     public function index(){
-        $solicitud = MembresiaDocente::orderBy('id_membresia_usuario', 'asc')
+        $solicitud = MembresiaDocente::orderBy('id_membresia_usuario', 'desc')
                                     ->with('membresiaSolicitada')
                                     ->with('usuario')
                                     ->get();
@@ -45,7 +45,7 @@ class MembresiaController extends Controller
     }
 
     public function admMembresia(){
-        $membresia = Membresia::orderBy('id_membresia', 'asc')
+        $membresia = Membresia::orderBy('id_membresia', 'desc')
                     ->get();
         return response()->json($membresia);
     }
@@ -192,14 +192,14 @@ class MembresiaController extends Controller
                 ->where('estado_membresia_usuario', 'no confirmado')
                 ->orWhere('estado_membresia_usuario', 'rechazado')
                 ->delete();
-            return response()->json(['mensaje' => 'solicitud habilitado', 'curso' => $docenteMembresia]);
+            return response()->json(['mensaje' => 'solicitud habilitado', 'curso' => $docenteMembresia, 'state' => 'success']);
         } else if ($estado == 'rechazado') {
             $docenteMembresia->estado_membresia_usuario = 'rechazado';
             $curso=Curso::where('id_usuario', $docenteMembresia->id_usuario)
                         ->where('membresia_curso', 'INICIO')
                         ->update(['membresia_curso' => 'FIN']);
             $docenteMembresia->save();
-            return response()->json(['mensaje' => 'solicitud rechazada']);
+            return response()->json(['mensaje' => 'solicitud rechazada', 'state' => 'error']);
         }
         else if ($estado == 'finalizar') {
             $time1 = Carbon::now();
@@ -210,9 +210,9 @@ class MembresiaController extends Controller
                             ->where('membresia_curso', 'INICIO')
                             ->update(['membresia_curso' => 'FIN']);
                 $docenteMembresia->save();
-                return response()->json(['mensaje' => ' membresia fue finalizada']);
+                return response()->json(['mensaje' => ' membresia finalizada', 'state' => 'success']);
             }else {
-                return response()->json(['mensaje' => 'la membresia no puede finalizar debido a que no es la fecha indicada de finalización']);
+                return response()->json(['mensaje' => 'la membresia no puede finalizar debido a que no es la fecha indicada de finalización', 'state'=> 'warning']);
             }
         }
     }
