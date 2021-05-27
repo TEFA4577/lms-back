@@ -251,11 +251,6 @@ class UsuarioController extends Controller
             $curso = Curso::find($request->id_curso);
             if ($curso->precio == 0) {
 				$usuarioCurso->estado_usuario_curso = 'no confirmado';
-				$solicitudesAnteriores =  UsuarioCurso::where('id_usuario', $usuarioCurso->id_usuario)
-					->where('id_curso', $usuarioCurso->id_curso)
-					->where('estado_usuario_curso', 'no confirmado')
-					->orWhere('estado_usuario_curso', 'rechazado')
-					->delete();
             } else {
                 if ($request->hasFile('comprobante')) {
                     // subir la imagen al servidor
