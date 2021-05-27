@@ -250,27 +250,12 @@ class UsuarioController extends Controller
             $usuarioCurso->id_curso = $request->id_curso;
             $curso = Curso::find($request->id_curso);
             if ($curso->precio == 0) {
-				$curso->modulosCurso;
-				$progreso = array();
-				foreach ($curso->modulosCurso as $modulo) {
-					$arr = array(
-						'id_modulo' => $modulo->id_modulo,
-						'nombre_modulo' => $modulo->nombre_modulo,
-						'estado' => False
-					);
-					$mod = ($arr);
-					array_push($progreso, $mod);
-				}
-				$usuarioCurso->progreso_curso = $progreso;
-				$usuarioCurso->estado_usuario_curso = 'adquirido';
-				$usuarioCurso->save();
+				$usuarioCurso->estado_usuario_curso = 'no confirmado';
 				$solicitudesAnteriores =  UsuarioCurso::where('id_usuario', $usuarioCurso->id_usuario)
 					->where('id_curso', $usuarioCurso->id_curso)
 					->where('estado_usuario_curso', 'no confirmado')
 					->orWhere('estado_usuario_curso', 'rechazado')
 					->delete();
-				return response()->json(['mensaje' => 'curso se a habilitado']);
-
             } else {
                 if ($request->hasFile('comprobante')) {
                     // subir la imagen al servidor
@@ -288,7 +273,7 @@ class UsuarioController extends Controller
             $usuarioCurso->save();
             return response()->json(['mensaje' => 'curso añadido a su cuenta']);
         }else{
-            return response()->json(['mensaje' => 'el curso ya esta en proceso de confirmacion o ya se encuentra adquirido']);
+            return response()->json(['mensaje' => 'el curso se encuentra en proceso de confirmación o ya se encuentra adquirido']);
         }
     }
 
