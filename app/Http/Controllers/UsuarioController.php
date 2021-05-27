@@ -208,13 +208,6 @@ class UsuarioController extends Controller
     }
 
     public function misEstudiantes($id){
-        // $curso = DB::table('lms_cursos')
-        //                 ->join('lms_usuario_cursos', 'lms_cursos.id_curso', '=', 'lms_usuario_cursos.id_curso')
-        //                 ->join('lms_usuarios', 'lms_usuario_cursos.id_usuario', '=', 'lms_usuarios.id_usuario')
-        //                 ->where('lms_usuario_cursos.estado_usuario_curso', 'aprobado')
-        //                 ->where('lms_cursos.id_usuario', $id)
-        //                 ->select('lms_cursos.nombre_curso', 'lms_usuarios.nombre_usuario')
-        //                 ->get();
         $curso = Curso::where('id_usuario', $id)
                         ->with('cursoEstudiante')
                         ->with('cursoEvaluacion')
@@ -251,13 +244,13 @@ class UsuarioController extends Controller
             ->where('estado_usuario_curso', 'no confirmado')
             ->orWhere('estado_usuario_curso','aprobado')
             ->first();
-        if (!$verificar) {
+        if (!$verificar){
             $usuarioCurso = new UsuarioCurso;
             $usuarioCurso->id_usuario = $request->id_usuario;
             $usuarioCurso->id_curso = $request->id_curso;
             $curso = Curso::find($request->id_curso);
             if ($curso->precio == 0) {
-                $usuarioCurso->estado_usuario_curso = 'adquirido';
+				$usuarioCurso->estado_usuario_curso = 'no confirmado';
             } else {
                 if ($request->hasFile('comprobante')) {
                     // subir la imagen al servidor
@@ -275,7 +268,7 @@ class UsuarioController extends Controller
             $usuarioCurso->save();
             return response()->json(['mensaje' => 'curso añadido a su cuenta']);
         }else{
-            return response()->json(['mensaje' => 'el curso ya esta en proceso de confirmacion o ya se encuentra adquirido']);
+            return response()->json(['mensaje' => 'el curso se encuentra en proceso de confirmación o ya se encuentra adquirido']);
         }
     }
 

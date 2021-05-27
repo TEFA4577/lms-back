@@ -115,22 +115,12 @@ class ClaseController extends Controller
      */
     public function eliminarClase($id)
     {
-        $recursos = Recurso::where('id_clase', $id)->get();
-        foreach ($recursos as $recurso) {
-            $rutaRecurso = explode("/", $recurso->link_recurso);
-            $image_path = public_path() . "/" . $rutaRecurso[3] . "/" . $rutaRecurso[4];
-            if (filesize($image_path)) {
-                unlink($image_path);
-            }
-        }
-        Recurso::where('id_clase', $id)->delete();
-        $clase = Clase::find($id);
-        $rutaVideo = explode("/", $clase->video_clase);
-        $image_path = public_path() . "/" . $rutaVideo[3] . "/" . $rutaVideo[4] . "/" . $rutaVideo[5];
-        if (filesize($image_path)) {
-            unlink($image_path);
-        }
-        $clase->delete();
-        return response()->json(['mensaje' => 'Borrado con Exito', 'estado' => 'success']);
+        $clases = Clase::where('id_modulo', $id)->first();
+		$clases->estado_clase = 0;
+        $recursos = Recurso::where('id_clase', $id)
+                        ->where('estado_recurso', 1)
+                        ->update(['estado_recurso' => 0]);
+		$clase->save();
+        return response()->json(['mensaje' => 'Eliminado con Exito', 'estado' => 'success']);
     }
 }

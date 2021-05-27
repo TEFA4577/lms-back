@@ -104,11 +104,11 @@ class CursoController extends Controller
 		if($numP > 0){
 			foreach ($prueba as $value) {
 				if(!count($value['opcionCorrecta'])){
-					return response()->json(['mensaje' => 'Las preguntas de exámen necesitan respuesta correcta', 'estado' => 'error']);
+					return response()->json(['mensaje' => 'Las preguntas de exámen necesitan una respuesta correcta', 'estado' => 'error']);
 				}
 			}
 		}else {
-			return response()->json(['mensaje' => 'Su cursos necesita preguntas para el exámen', 'estado' => 'error']);
+			return response()->json(['mensaje' => 'Su curso necesita preguntas para el exámen', 'estado' => 'error']);
 		}
 
         $curso->save();
@@ -400,7 +400,7 @@ class CursoController extends Controller
     {
         $datos = UsuarioCurso::find($idUsuarioCurso);
         if (!$datos) {
-            return response()->json(['mensaje' => 'error', 'estado' => 'danger', 'user' => $datos]);
+            return response()->json(['mensaje' => 'error', 'estado' => 'error', 'user' => $datos]);
         }
         $curso = Curso::find($datos->id_curso);
         $usuario = Usuario::find($datos->id_usuario);

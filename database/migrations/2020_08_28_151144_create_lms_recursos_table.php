@@ -20,6 +20,7 @@ class CreateLmsRecursosTable extends Migration
             $table->foreign('id_recurso_tipo')->references('id_recurso_tipo')->on('lms_recurso_tipos')->onDelete('cascade');
             $table->unsignedbigInteger('id_recurso_tipo')->comment('identificador del tipo de recurso');
             $table->string('link_recurso')->comment('link de alojamiento del recurso en el servidor');
+            $table->boolean('estado_recurso')->comment('estado del recurso')->default(1);
             $table->string('nombre_recurso')->comment('nombre del recurso con el que se guardo en el servidor');
             $table->timestamps();
         });

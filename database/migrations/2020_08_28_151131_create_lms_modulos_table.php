@@ -19,6 +19,7 @@ class CreateLmsModulosTable extends Migration
             $table->unsignedbigInteger('id_curso')->comment('identificador del curso');
             $table->string('nombre_modulo')->comment('nombre del modulo');
             $table->string('descripcion_modulo',500)->comment('descripcion del modulo');
+            $table->boolean('estado_modulo')->comment('estado del módulo')->default(1);
             $table->timestamps();
         });
     }
