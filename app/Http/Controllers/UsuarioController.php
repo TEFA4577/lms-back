@@ -249,7 +249,7 @@ class UsuarioController extends Controller
             $usuarioCurso->id_usuario = $request->id_usuario;
             $usuarioCurso->id_curso = $request->id_curso;
             $curso = Curso::find($request->id_curso);
-            if ($curso->precio == 0) {         
+            if ($curso->precio == 0) {
 				$curso->modulosCurso;
 				$progreso = array();
 				foreach ($curso->modulosCurso as $modulo) {
@@ -269,8 +269,8 @@ class UsuarioController extends Controller
 					->where('estado_usuario_curso', 'no confirmado')
 					->orWhere('estado_usuario_curso', 'rechazado')
 					->delete();
-				return response()->json(['mensaje' => 'curso se a habilitado', 'curso' => $usuarioCurso]);
-				
+				return response()->json(['mensaje' => 'curso se a habilitado']);
+
             } else {
                 if ($request->hasFile('comprobante')) {
                     // subir la imagen al servidor
