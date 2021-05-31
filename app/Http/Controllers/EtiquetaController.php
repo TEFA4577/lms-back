@@ -13,7 +13,7 @@ class EtiquetaController extends Controller
 
     public function __construct()
     {
-        $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
+        $this->hostBackend = env("HOST_BACKEND", 'http://127.0.0.1:8000');
 
         //http://back.academiacomarca.com
         //http://127.0.0.1:8000
@@ -94,9 +94,9 @@ class EtiquetaController extends Controller
             // registrar los datos del usuario
             $etiqueta->imagen_etiqueta = $this->hostBackend . $this->ruta . $nombre_imagen;
             $etiqueta->save();
-            return response()->json(['mensaje' => 'Registro Actualizado exitosamente', 'estado' => 'success']);
+            return response()->json(['mensaje' => 'Imagen actualizada exitosamente', 'estado' => 'success']);
         } else {
-            return response()->json(['mensaje' => 'Error Archivo no encontrado', 'estado' => 'daner']);
+            return response()->json(['mensaje' => 'Error de archivo no encontrado', 'estado' => 'daner']);
         }
     }
     /**
