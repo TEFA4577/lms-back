@@ -69,7 +69,7 @@ class EtiquetaController extends Controller
         $etiqueta = Etiqueta::findOrFail($id);
         $etiqueta->nombre_etiqueta = $request->nombre_etiqueta;
         $etiqueta->descripcion_etiqueta = $request->descripcion_etiqueta;
-        $etiqueta->estado_etiqueta = $request->estado_etiqueta;
+        //$etiqueta->estado_etiqueta = $request->estado_etiqueta;
         $etiqueta->save();
         return response()->json(['mensaje' => 'etiqueta actualizada exitosamente', 'estado' => 'success']);
     }
@@ -126,7 +126,7 @@ class EtiquetaController extends Controller
 						->where('membresia_curso', '!=', 'FIN');
 				}])
 				->get();
-			
+
         return response()->json($cursos);
     }
 
