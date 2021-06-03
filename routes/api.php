@@ -78,7 +78,7 @@ Route::get('cursos/eliminar-etiquetas/{id}', 'CursoController@eliminarCursoEtiqu
 Route::get('cursos-solicitados', 'CursoController@listarSolicitudes')->middleware('auth:api');
 Route::put('progreso-curso/{id}', 'CursoController@progresoCurso')->middleware('auth:api');
 Route::get('cursos-de-docente/{id}', 'CursoController@cursosDeDocente');
-Route::get('certificado/{idUsuarioCurso}', 'CursoController@certificado')->middleware('auth:api');
+Route::get('certificado/{idUsuarioCurso}', 'CursoController@certificado');
 
 // RUTAS PARA MODULOS
 Route::post('modulos/registrar', 'ModuloController@registrarModulo');

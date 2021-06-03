@@ -13,6 +13,7 @@ class UsuarioController extends Controller
 {
     public $hostBackend;
     public $ruta = '/almacenamiento/imagenes/usuarios/foto-perfil/';
+    public $rutaImagenComprobante = '/almacenamiento/imagenes/cursos';
     public $rutaComprobate = '/almacenamiento/imagenes/comprobantes/';
     public $tiempoBloqueado = 1;
 
@@ -20,7 +21,6 @@ class UsuarioController extends Controller
     {
         $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
     }
-
     /**
      * Descripcion: esta funcion realiza el inicio de sesion y devuelve un token
      * Tipo: POST
@@ -251,6 +251,7 @@ class UsuarioController extends Controller
             $curso = Curso::find($request->id_curso);
             if ($curso->precio == 0) {
 				$usuarioCurso->estado_usuario_curso = 'no confirmado';
+                $usuarioCurso->comprobante = $this->hostBackend . $this->rutaImagenComprobante . "/sin_imagen.jpg";
             } else {
                 if ($request->hasFile('comprobante')) {
                     // subir la imagen al servidor

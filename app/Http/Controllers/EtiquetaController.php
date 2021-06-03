@@ -71,7 +71,7 @@ class EtiquetaController extends Controller
         $etiqueta->descripcion_etiqueta = $request->descripcion_etiqueta;
         //$etiqueta->estado_etiqueta = $request->estado_etiqueta;
         $etiqueta->save();
-        return response()->json(['mensaje' => 'etiqueta actualizada exitosamente', 'estado' => 'success']);
+        return response()->json(['mensaje' => 'Categoría actualizada exitosamente', 'estado' => 'success']);
     }
     /**
      * Descripcion: esta funcion actualiza la imagen de una etiqueta
