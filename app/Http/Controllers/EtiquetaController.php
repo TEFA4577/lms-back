@@ -53,10 +53,10 @@ class EtiquetaController extends Controller
             // registrar los datos del usuario
             $etiqueta->imagen_etiqueta = $this->hostBackend . $this->ruta . $nombre_imagen;
         } else {
-            return response()->json(['mensaje' => 'error con el archivo', 'estado' => 'danger']);
+            return response()->json(['mensaje' => 'Error con el archivo', 'estado' => 'danger']);
         }
         $etiqueta->save();
-        return response()->json(['mensaje' => 'etiqueta registrada exitosamente', 'estado' => 'success']);
+        return response()->json(['mensaje' => 'Categoría registrada exitosamente', 'estado' => 'success']);
     }
     /**
      * Descripcion: esta funcion actualiza los datos de una etiqueta
@@ -120,12 +120,12 @@ class EtiquetaController extends Controller
     public function etiquetaCursos($id)
     {
         $cursos = Etiqueta::find($id)
-				->with(['cursosEtiqueta' => function($q){
-					$q->where('estado', 1)
-						->where('estado_curso', '=', 'aprobado')
-						->where('membresia_curso', '!=', 'FIN');
-				}])
-				->get();
+            ->with(['cursosEtiqueta' => function ($q) {
+                $q->where('estado', 1)
+                    ->where('estado_curso', '=', 'aprobado')
+                    ->where('membresia_curso', '!=', 'FIN');
+            }])
+            ->get();
 
         return response()->json($cursos);
     }

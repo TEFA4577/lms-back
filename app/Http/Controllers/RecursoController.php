@@ -38,10 +38,10 @@ class RecursoController extends Controller
             $archivo->move(public_path($this->ruta), $nombre_archivo);
             $recurso->link_recurso = $this->hostBackend . $this->ruta . $nombre_archivo;
         } else {
-            return response()->json(['mensaje' => 'No se encontro el archivo', 'estado' => 'danger']);
+            return response()->json(['mensaje' => 'No se encontró el archivo', 'estado' => 'danger']);
         }
         $recurso->save();
-        return response()->json(['mensaje' => 'Registro Realizado con Exito', 'estado' => 'success']);
+        return response()->json(['mensaje' => 'Registro Realizado con éxito', 'estado' => 'success']);
     }
 
     /**
@@ -105,6 +105,6 @@ class RecursoController extends Controller
     {
         $recurso = Recurso::find($id);
         $recurso->delete();
-        return response()->json(['mensaje' => 'Borrado con Exito', 'estado' => 'success']);
+        return response()->json(['mensaje' => 'Eliminado con éxito', 'estado' => 'success']);
     }
 }

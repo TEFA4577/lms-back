@@ -135,6 +135,7 @@ class CursoController extends Controller
     {
         $cursos = Curso::orderBy('id_curso', 'desc')
             ->where('estado_curso', 'aprobado')
+            ->where('estado', 1)
             ->where('id_usuario', $id)
 			->where('membresia_curso', '!=', 'FIN')
             ->with('etiquetasCurso')

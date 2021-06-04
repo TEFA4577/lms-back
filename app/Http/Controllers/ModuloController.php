@@ -33,7 +33,7 @@ class ModuloController extends Controller
      */
     public function mostrarModulo($id)
     {
-        $modulo = Modulo::findOrFail($id)->where('estado_modulo', 1);
+        $modulo = Modulo::findOrFail($id);
         $clases = Modulo::findOrFail($id)->clasesModulo;
         return response()->json(['modulo' => $modulo, 'clases' => $clases]);
     }
@@ -61,10 +61,10 @@ class ModuloController extends Controller
     public function eliminarModulo($id)
     {
         $modulo = Modulo::findOrFail($id);
-		$clases = Clase::where('id_modulo', $id)
-					->where('estado_clase', 1)
-					->update(['estado_clase' => 0]);
-        $modulo->save();
-        return response()->json(['mensaje' => 'Borrado con Exito', 'estado' => 'success']);
+        $modulo->delete();;
+					//->where('estado_clase', 1)
+					//->update(['estado_clase' => 0])
+                    //$modulo->save();
+        return response()->json(['mensaje' => 'Eliminado con Exito', 'estado' => 'success']);
     }
 }

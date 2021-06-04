@@ -63,57 +63,11 @@ class DocenteController extends Controller
      */
     public function registrarDocente(Request $request)
     {
-<<<<<<< HEAD
-        //$usuario = Usuario::where('id_usuario',$request->id_usuario)->first();
-        //if ($usuario->id_rol == 2) {
-        //    return response()->json(['mensaje' => 'el usuario ya esta registro como docente', 'estado' => 'danger']);
-        //}
-        //$usuario->id_rol = 2;
-        //$usuario->save();
-        $docente = new Docente;
-        $docente->id_usuario = $request->id_usuario;
-        $docente->telefono_docente = $request->telefono_docente;
-        $docente->descripcion_docente = $request->descripcion_docente;
-        $docente->experiencia_docente = $request->experiencia_docente;
-        $docente->video_presentacion = $request->video_instructor;
-		$docente->estado_docente = 0;
-
-        /*if ($request->hasFile('video')) {
-            // subir la imagen al servidor
-            $archivo = $request->file('video');
-            // $archivoNombre = $archivo->getClientOriginalName();
-            $extension = $archivo->getClientOriginalExtension();
-            // Nombre del archivo con el que se guardara en el servidor
-            $nombre_video = $usuario->correo_usuario . '.' . $extension;
-            // ruta donde se guardara la imagen en el servidor
-            $archivo->move(public_path($this->rutaVideo), $nombre_video);
-            // registrar los datos del usuario
-            $docente->video_presentacion = $this->hostBackend . $this->rutaVideo . $nombre_video;
-        } else {
-            $docente->video_presentacion = $this->hostBackend . $this->rutaVideo . "video_presentacion.mp4";
-        }*/
-        if ($request->hasFile('cv')) {
-            // subir la imagen al servidor
-            $archivo = $request->file('cv');
-            // $archivoNombre = $archivo->getClientOriginalName();
-            $extension = $archivo->getClientOriginalExtension();
-            // Nombre del archivo con el que se guardara en el servidor
-            $nombre_cv = $usuario->correo_usuario . '.' . $extension;
-            // ruta donde se guardara la imagen en el servidor
-            $archivo->move(public_path($this->rutaCv), $nombre_cv);
-            // registrar los datos del usuario
-            $docente->cv_docente = $this->hostBackend . $this->rutaCv . $nombre_cv;
-        } else {
-            $docente->cv_docente = $this->hostBackend . $this->rutaCv . "sin_cv.pdf";
-        }
-        $docente->save();
-        return response()->json(['mensaje' => 'Registro creado exitosamente', 'estado' => 'success']);
-=======
         $usuario = Usuario::where('id_usuario',$request->id_usuario)->first();
         if ($usuario->id_rol == 2) {
             return response()->json(['mensaje' => 'el usuario ya esta registro como docente', 'estado' => 'warning']);
         }
-		
+
 		$verificar = Docente::where('id_usuario', $request->id_usuario)
 							->get();
 		if(count($verificar) >= 1){
@@ -124,8 +78,8 @@ class DocenteController extends Controller
 			$docente->telefono_docente = $request->telefono_docente;
 			$docente->descripcion_docente = $request->descripcion_docente;
 			$docente->experiencia_docente = $request->experiencia_docente;
-			$docente->estado_docente = 0;	
-			
+			$docente->estado_docente = 0;
+
 	        if ($request->hasFile('video')) {
 				// subir la imagen al servidor
 				$archivo = $request->file('video');
@@ -157,7 +111,6 @@ class DocenteController extends Controller
 			$docente->save();
 			return response()->json(['mensaje' => 'Registro creado exitosamente', 'estado' => 'success']);
 		}
->>>>>>> b10e38fc6474157ba6de6b2e895b2df2a2b9411c
     }
 
     /**

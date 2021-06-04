@@ -13,7 +13,7 @@ class ClaseController extends Controller
 
     public function __construct()
     {
-    $this->hostBackend = env("HOST_BACKEND", /*'http://back.academiacomarca.com'*/ 'http://localhost:8000');
+    $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com'/* 'http://localhost:8000'*/);
     }
 
     /**
@@ -115,12 +115,13 @@ class ClaseController extends Controller
      */
     public function eliminarClase($id)
     {
-        $clases = Clase::where('id_modulo', $id)->first();
-		$clases->estado_clase = 0;
+        $clases = Clase::where('id_clase', $id)->first();
+        $clases->delete();
+		/*$clases->estado_clase = 0;
         $recursos = Recurso::where('id_clase', $id)
                         ->where('estado_recurso', 1)
-                        ->update(['estado_recurso' => 0]);
-		$clase->save();
+                        //->update(['estado_recurso' => 0]);*/
+		//$clases->save();
         return response()->json(['mensaje' => 'Eliminado con Exito', 'estado' => 'success']);
     }
 }
