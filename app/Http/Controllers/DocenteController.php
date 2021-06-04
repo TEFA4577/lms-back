@@ -113,6 +113,7 @@ class DocenteController extends Controller
 		}
     }
 
+
     /**
      * Descripcion: La funcion muestra los datos de un docente
      * Tipo: GET
