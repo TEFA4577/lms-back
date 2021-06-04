@@ -106,7 +106,7 @@ Route::put('etiquetas/actualizar/{id}', 'EtiquetaController@actualizarEtiqueta')
 Route::get('etiquetas/mostrar/{id}', 'EtiquetaController@mostrarEtiqueta');
 Route::put('etiquetas/cambiar-imagen', 'EtiquetaController@cambiarImagenEtiqueta');
 Route::get('etiquetas/cursos/{id}', 'EtiquetaController@etiquetaCursos');
-Route::put('etiquetas/eliminar/{id}', 'EtiquetaController@eliminarEtiqueta');
+Route::get('etiquetas/eliminar/{id}', 'EtiquetaController@eliminarEtiqueta');
 Route::get('usuario/mis-solicitudes/{id}', 'UsuarioController@misSolicitudes');
 
 //RUTAS PARA FORO

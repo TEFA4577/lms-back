@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\CursoEtiqueta;
 use App\Etiqueta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EtiquetaController extends Controller
 {
@@ -67,6 +68,11 @@ class EtiquetaController extends Controller
     public function actualizarEtiqueta(Request $request, $id)
     {
         $etiqueta = Etiqueta::findOrFail($id);
+        if ($request->hasFile('imagen_etiqueta')) {
+            // subir la imagen al servidor
+            $archivo = $request->file('imagen_etiqueta')->store('public' . $this->ruta);
+            $etiqueta->imagen_etiqueta = $this->hostBackend . Storage::url($archivo);
+        }
         $etiqueta->nombre_etiqueta = $request->nombre_etiqueta;
         $etiqueta->descripcion_etiqueta = $request->descripcion_etiqueta;
         //$etiqueta->estado_etiqueta = $request->estado_etiqueta;
