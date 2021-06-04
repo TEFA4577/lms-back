@@ -91,7 +91,7 @@ class UsuarioController extends Controller
         });
         $user->save;
         return response()->json([
-            'mensaje' => 'salida del sistema'
+            'mensaje' => 'Saliste de la plataforma'
         ]);
     }
     /**
@@ -203,7 +203,9 @@ class UsuarioController extends Controller
     public function misCursos($id)
     {
         $usuario = UsuarioCurso::where('id_usuario', $id)
-                                ->with('cursoSolicitado')->get();
+                                ->with('cursoSolicitado')
+                                ->where('estado', 1)
+                                ->get();
         return response()->json($usuario);
     }
 
