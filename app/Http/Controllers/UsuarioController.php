@@ -204,7 +204,6 @@ class UsuarioController extends Controller
     {
         $usuario = UsuarioCurso::where('id_usuario', $id)
                                 ->with('cursoSolicitado')
-                                ->where('estado', 1)
                                 ->get();
         return response()->json($usuario);
     }

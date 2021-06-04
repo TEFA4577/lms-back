@@ -15,7 +15,7 @@ class UsuarioCurso extends Model
 
     public function cursoSolicitado()
     {
-        return $this->hasOne('App\Curso', 'id_curso', 'id_curso');
+        return $this->hasOne('App\Curso', 'id_curso', 'id_curso')->where('estado', 1);
     }
     public function usuario()
     {
