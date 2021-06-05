@@ -362,8 +362,8 @@ class CursoController extends Controller
             $usuarioCurso->estado_usuario_curso = 'adquirido';
             $usuarioCurso->save();
 			
-			$examen = UsuarioEvaluacion::where('id_usuario', $request->id_usuario)
-								->where('id_curso', $request->id_curso)
+			$examen = UsuarioEvaluacion::where('id_usuario', $usuarioCurso->id_usuario)
+								->where('id_curso', $usuarioCurso->id_curso)
 								->get();
 			if(count($examen) == 0){
 				$result = new UsuarioEvaluacion;
