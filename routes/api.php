@@ -35,7 +35,7 @@ Route::post('opcion/registrar', 'PruebaController@registrarOpcion');
 Route::get('opcion/mostrar/{id}', 'PruebaController@mostrarOpcion');
 Route::put('opcion/actualizar/{id}', 'PruebaController@actualizarOpcion');
 Route::get('opcion/eliminar/{id}', 'PruebaController@eliminarOpcion');
-Route::get('prueba/evaluar/{id}', 'PruebaController@darExamen');
+Route::get('prueba-evaluar/{id}/{datos}', 'PruebaController@darExamen');
 Route::get('prueba/evaluando/{id}', 'PruebaController@evaluarExamen');
 Route::post('inicio/evaluacion', 'PruebaController@inicioExamen');
 Route::put('evaluacion-progreso/{id}', 'PruebaController@resultExamen');
