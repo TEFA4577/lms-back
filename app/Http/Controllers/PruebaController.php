@@ -97,13 +97,18 @@ class PruebaController extends Controller
         }
         $opcion->save();
     }
-    public function darExamen($id){
+    public function darExamen($id, $datos){
+		$examen = UsuarioEvaluacion::where('id_usuario', $datos)
+								->where('id_curso', $id)
+								->first();
+		$examen->progreso_evaluacion = 100;
+		$examen->save();
+			
         $prueba = Prueba::where('id_curso', $id)
                 ->where('estado_prueba', 1)
-                ->whereHas('pruebaOpcion')
                 ->with('pruebaOpcion')
                 ->get();
-        return $prueba;
+        return response()->json($prueba);
     }
     public function evaluarExamen($id){
         $opcion = PruebaOpcion::find($id);
@@ -115,19 +120,13 @@ class PruebaController extends Controller
         }
     }
     public function inicioExamen(Request $request){
-		$examen = UsuarioEvaluacion::where('id_usuario', $request->id_usuario)
+			$examen = UsuarioEvaluacion::where('id_usuario', $request->id_usuario)
 								->where('id_curso', $request->id_curso)
 								->get();
-		if(count($examen) >= 1){
+	
+			$examen->progreso_evaluacion = 100;
+			$examen->update();
 			return response()->json('Empezando Exámen');
-		}else{
-			$result = new UsuarioEvaluacion;
-			$result->id_curso = $request->id_curso;
-			$result->id_usuario = $request->id_usuario;
-			$result->progreso_evaluacion = 100;
-			$result->save();
-			return response()->json('Empezando Exámen');
-		}
     }
 	public function resultExamen(Request $request, $id){
         $result = UsuarioEvaluacion::find($id);

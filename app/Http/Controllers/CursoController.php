@@ -257,7 +257,7 @@ class CursoController extends Controller
         $curso = Curso::find($cursoUsuario->id_curso);
         $modulos = Modulo::where('id_curso', $cursoUsuario->id_curso)->with('clasesModulo')->get();
         $evaluacion = UsuarioEvaluacion::where('id_curso', $cursoUsuario->id_curso)
-            ->where('id_usuario', $cursoUsuario->id_usuario)->get();
+            ->where('id_usuario', $cursoUsuario->id_usuario)->first();
         return response()->json([
             'cursoUsuario' => $cursoUsuario,
             'curso' => $curso,
@@ -361,7 +361,19 @@ class CursoController extends Controller
             $usuarioCurso->progreso_curso = $progreso;
             $usuarioCurso->estado_usuario_curso = 'adquirido';
             $usuarioCurso->save();
-            $solicitudesAnteriores =  UsuarioCurso::where('id_usuario', $usuarioCurso->id_usuario)
+			
+			$examen = UsuarioEvaluacion::where('id_usuario', $usuarioCurso->id_usuario)
+								->where('id_curso', $usuarioCurso->id_curso)
+								->get();
+			if(count($examen) == 0){
+				$result = new UsuarioEvaluacion;
+				$result->id_curso = $usuarioCurso->id_curso;
+				$result->id_usuario = $usuarioCurso->id_usuario;
+				$result->progreso_evaluacion = 0;
+				$result->save();
+			}
+            
+			$solicitudesAnteriores =  UsuarioCurso::where('id_usuario', $usuarioCurso->id_usuario)
                 ->where('id_curso', $usuarioCurso->id_curso)
                 ->where('estado_usuario_curso', 'no confirmado')
                 ->orWhere('estado_usuario_curso', 'rechazado')
