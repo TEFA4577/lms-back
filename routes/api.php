@@ -36,7 +36,7 @@ Route::get('opcion/mostrar/{id}', 'PruebaController@mostrarOpcion');
 Route::put('opcion/actualizar/{id}', 'PruebaController@actualizarOpcion');
 Route::get('opcion/eliminar/{id}', 'PruebaController@eliminarOpcion');
 Route::get('prueba-evaluar/{id}/{datos}', 'PruebaController@darExamen');
-Route::get('prueba/evaluando/{id}', 'PruebaController@evaluarExamen');
+Route::get('prueba/evaluando/{id}/{idC}/{idU}', 'PruebaController@evaluarExamen');
 Route::post('inicio/evaluacion', 'PruebaController@inicioExamen');
 Route::put('evaluacion-progreso/{id}', 'PruebaController@resultExamen');
 // GRUPO DE RUTAS POR AUTENTICACION

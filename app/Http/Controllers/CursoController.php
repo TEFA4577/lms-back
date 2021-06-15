@@ -369,7 +369,7 @@ class CursoController extends Controller
 				$result = new UsuarioEvaluacion;
 				$result->id_curso = $usuarioCurso->id_curso;
 				$result->id_usuario = $usuarioCurso->id_usuario;
-				$result->progreso_evaluacion = $progreso;
+				$result->progreso_evaluacion = json_encode(0);
 				$result->save();
 			}
 

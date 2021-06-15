@@ -18,117 +18,130 @@ class PruebaController extends Controller
         $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
     }
 
-    public function index(){
+    public function index()
+    {
         $prueba = Prueba::where('estado_prueba', 1)
-                ->with('pruebaOpcion')
-                ->get();
+            ->with('pruebaOpcion')
+            ->get();
         return $prueba;
     }
 
-	public function mostrarPrueba($id){
-		$prueba = Prueba::findOrFail($id);
+    public function mostrarPrueba($id)
+    {
+        $prueba = Prueba::findOrFail($id);
         $opcion = Prueba::findOrFail($id)->pruebaOpcion;
         return response()->json(['prueba' => $prueba, 'opciones' => $opcion]);
-	}
+    }
 
-	public function mostrarOpcion($id){
-		$opcion = PruebaOpcion::findOrFail($id);
-		return $opcion;
-	}
+    public function mostrarOpcion($id)
+    {
+        $opcion = PruebaOpcion::findOrFail($id);
+        return $opcion;
+    }
 
-    public function registrarPrueba(Request $request){
+    public function registrarPrueba(Request $request)
+    {
         $prueba = new Prueba;
         $prueba->id_curso = $request->id_curso;
         $prueba->texto_prueba = $request->texto_prueba;
         $prueba->save();
     }
-    public function actualizarPrueba(Request $request, $id){
+    public function actualizarPrueba(Request $request, $id)
+    {
         $prueba = Prueba::findOrFail($id);
         $prueba->texto_prueba = $request->texto_prueba;
         $prueba->save();
-		return response()->json(['mensaje' => 'Actualización Realizada con Exito', 'estado' => 'success']);
+        return response()->json(['mensaje' => 'Actualización Realizada con Exito', 'estado' => 'success']);
     }
 
-    public function eliminarPrueba($id){
+    public function eliminarPrueba($id)
+    {
         $prueba = Prueba::find($id);
-        if ($prueba->estado_prueba == 1){
+        if ($prueba->estado_prueba == 1) {
             $prueba->estado_prueba = 0;
-            $opcion=PruebaOpcion::where('id_prueba', $id)
-                    ->where('estado_prueba_opcion', 1)
-                    ->update(['estado_prueba_opcion' => 0]);
-        } else{
+            $opcion = PruebaOpcion::where('id_prueba', $id)
+                ->where('estado_prueba_opcion', 1)
+                ->update(['estado_prueba_opcion' => 0]);
+        } else {
             $prueba->estado_prueba = 1;
-            $opcion=PruebaOpcion::where('id_prueba', $id)
-                    ->where('estado_prueba_opcion', 0)
-                    ->update(['estado_prueba_opcion' => 1]);
+            $opcion = PruebaOpcion::where('id_prueba', $id)
+                ->where('estado_prueba_opcion', 0)
+                ->update(['estado_prueba_opcion' => 1]);
         }
         $prueba->save();
     }
-    public function registrarOpcion(Request $request){
+    public function registrarOpcion(Request $request)
+    {
         $opcion = new PruebaOpcion;
         $opcion->id_prueba = $request->id_prueba;
         $opcion->texto_prueba_opcion = $request->texto_prueba_opcion;
-        if($request->respuesta_opcion == true){
+        if ($request->respuesta_opcion == true) {
             $opcion->respuesta_opcion = 1;
-        }else{
+        } else {
             $opcion->respuesta_opcion = 0;
         }
         $opcion->estado_prueba_opcion = 1;
         $opcion->save();
         return response()->json(['mensaje' => 'Actualización Realizada con Exito', 'estado' => 'success']);
     }
-    public function actualizarOpcion(Request $request, $id){
+    public function actualizarOpcion(Request $request, $id)
+    {
         $opcion = PruebaOpcion::findOrFail($id);
         $opcion->texto_prueba_opcion = $request->texto_prueba_opcion;
-        if($request->respuesta_opcion == true){
+        if ($request->respuesta_opcion == true) {
             $opcion->respuesta_opcion = 1;
-        }else{
+        } else {
             $opcion->respuesta_opcion = 0;
         }
         $opcion->save();
-		return response()->json(['mensaje' => 'Actualización Realizada con Exito', 'estado' => 'success']);
+        return response()->json(['mensaje' => 'Actualización Realizada con Exito', 'estado' => 'success']);
     }
-    public function eliminarOpcion($id){
+    public function eliminarOpcion($id)
+    {
         $opcion = PruebaOpcion::find($id);
-        if($opcion->estado_prueba_opcion == 1){
+        if ($opcion->estado_prueba_opcion == 1) {
             $opcion->estado_prueba_opcion = 0;
-        } else{
+        } else {
             $opcion->estado_prueba_opcion = 1;
         }
         $opcion->save();
     }
-    public function darExamen($id, $datos){
-		$examen = UsuarioEvaluacion::where('id_usuario', $datos)
-								->where('id_curso', $id)
-								->first();
-		$examen->progreso_evaluacion = 100;
-		$examen->save();
-			
+    public function darExamen($id, $datos)
+    {
         $prueba = Prueba::where('id_curso', $id)
-                ->where('estado_prueba', 1)
-                ->with('pruebaOpcion')
-                ->get();
+            ->where('estado_prueba', 1)
+            ->with('pruebaOpcion')
+            ->get();
         return response()->json($prueba);
     }
-    public function evaluarExamen($id){
+    public function evaluarExamen($id, $idC, $idU)
+    {
+        $prueba = Prueba::where('id_curso', $idC)->get();
+        $valor = count($prueba);
+        $result = 100 / $valor;
         $opcion = PruebaOpcion::find($id);
-
         if ($opcion->respuesta_opcion == 0) {
-            return response()->json(['mensaje'=> 'incorrecta']);
+            return response()->json(['mensaje' => 'incorrecta']);
         } elseif ($opcion->respuesta_opcion == 1) {
-            return response()->json(['mensaje'=> 'correcta']);
+
+            $examen = UsuarioEvaluacion::where('id_curso', $idC)
+                        ->where('id_usuario', $idU)
+                        ->first();
+            $examen->progreso_evaluacion = $examen->progreso_evaluacion + $result;
+            $examen->update();
+
+            return response()->json(['mensaje' => 'correcta']);
         }
     }
-    public function inicioExamen(Request $request){
-			$examen = UsuarioEvaluacion::where('id_usuario', $request->id_usuario)
-								->where('id_curso', $request->id_curso)
-								->get();
-	
-			$examen->progreso_evaluacion = 100;
-			$examen->update();
-			return response()->json('Empezando Exámen');
+    public function inicioExamen(Request $request)
+    {
+        $examen = UsuarioEvaluacion::where('id_usuario', $request->id_usuario)
+            ->where('id_curso', $request->id_curso)
+            ->get();
+        return response()->json('Empezando Exámen');
     }
-	public function resultExamen(Request $request, $id){
+    public function resultExamen(Request $request, $id)
+    {
         $result = UsuarioEvaluacion::find($id);
         $result->progreso_evaluacion = $result->progreso_evaluacion + $request->progreso_evaluacion;
         $result->save();
