@@ -127,7 +127,7 @@ class PruebaController extends Controller
             $examen = UsuarioEvaluacion::where('id_curso', $idC)
                         ->where('id_usuario', $idU)
                         ->first();
-            $examen->progreso_evaluacion = $examen->progreso_evaluacion + $result;
+            $examen->progreso_evaluacion = json_encode($examen->progreso_evaluacion + $result);
             $examen->update();
 
             return response()->json(['mensaje' => 'correcta']);
