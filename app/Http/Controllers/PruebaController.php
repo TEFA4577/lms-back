@@ -118,7 +118,7 @@ class PruebaController extends Controller
     {
         $prueba = Prueba::where('id_curso', $idC)->get();
         $valor = count($prueba);
-        $result = 100 / $valor;
+        $result = ($valor * 100) / $valor;
         $opcion = PruebaOpcion::find($id);
         if ($opcion->respuesta_opcion == 0) {
             return response()->json(['mensaje' => 'incorrecta']);
@@ -127,9 +127,9 @@ class PruebaController extends Controller
             $examen = UsuarioEvaluacion::where('id_curso', $idC)
                 ->where('id_usuario', $idU)
                 ->first();
-            $res = $examen->progreso_evaluacion = $examen->progreso_evaluacion + $result;
-            json_encode($res);
-            $examen->update();
+            $res = $examen->progreso_evaluacion + $result;
+            $examen->progreso_evaluacion = json_encode($res);
+            $examen->save();
         }
     }
     public function inicioExamen(Request $request)

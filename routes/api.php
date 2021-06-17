@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::post('/video/add', 'ClaseController@registrarVideo');
+Route::post('/video/add', 'DocenteController@registrarVideo');
 
 // RUTAS PARA USUARIOS
 Route::post('login', 'UsuarioController@login');
