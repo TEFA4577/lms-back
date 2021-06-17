@@ -15,7 +15,7 @@ class DocenteController extends Controller
 
     public function __construct()
     {
-        $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
+    $this->hostBackend = env("HOST_BACKEND", /*'http://back.academiacomarca.com'*/'http://127.0.0.1:8000/api');
     }
 
     /**
@@ -81,6 +81,7 @@ class DocenteController extends Controller
             $docente->descripcion_docente = $request->descripcion_docente;
             $docente->experiencia_docente = $request->experiencia_docente;
             $docente->video_presentacion = $request->video_presentacion;
+            //$docente->cv_docente = $request->cv_docente;
             $docente->estado_docente = 0;
 
             /*if ($request->hasFile('video')) {
@@ -97,13 +98,13 @@ class DocenteController extends Controller
 			} else {
 				$docente->video_presentacion = $this->hostBackend . $this->rutaVideo . "video_presentacion.mp4";
 			}*/
-            if ($request->hasFile('cv')) {
+            if ($request->hasFile('cv_docente')) {
                 // subir la imagen al servidor
-                $archivo = $request->file('cv');
+                $archivo = $request->file('cv_docente');
                 // $archivoNombre = $archivo->getClientOriginalName();
                 $extension = $archivo->getClientOriginalExtension();
                 // Nombre del archivo con el que se guardara en el servidor
-                $nombre_cv = $usuario->correo_usuario . '.' . $extension;
+                $nombre_cv = $usuario->nombre_usuario . '.' . $extension;
                 // ruta donde se guardara la imagen en el servidor
                 $archivo->move(public_path($this->rutaCv), $nombre_cv);
                 // registrar los datos del usuario
@@ -111,6 +112,21 @@ class DocenteController extends Controller
             } else {
                 $docente->cv_docente = $this->hostBackend . $this->rutaCv . "sin_cv.pdf";
             }
+            /*if ($request->hasFile('cv_docente')) {
+                // subir el archivo al servidor
+                $archivo = $request->file('cv_docente');
+                // $archivoNombre = $archivo->getClientOriginalName();
+                $extension = $archivo->getClientOriginalExtension();
+                // Nombre del archivo con el que se guardara en el servidor
+                $nombre_archivo = $request->correo_usuario . '-' . $extension;
+                // ruta donde se guardara la imagen en el servidor
+                $archivo->move(public_path($this->rutaCv), $nombre_archivo);
+
+                $docente->cv_docente = $this->hostBackend . $this->rutaCv . $nombre_archivo;
+            } else {
+                $docente->cv_docente = $this->hostBackend . $this->rutaCv . "sin_cv.pdf";
+                return response()->json(['mensaje' => 'No se encontró el archivo', 'estado' => 'danger']);
+            }*/
             $docente->save();
             return response()->json(['mensaje' => 'Registro creado exitosamente', 'estado' => 'success']);
         }
