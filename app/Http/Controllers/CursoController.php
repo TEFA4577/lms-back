@@ -365,7 +365,6 @@ class CursoController extends Controller
 			$examen = UsuarioEvaluacion::where('id_usuario', $usuarioCurso->id_usuario)
 								->where('id_curso', $usuarioCurso->id_curso)
 								->get();
-            $cadena='hola mundo';
 			if(count($examen) == 0){
 				$result = new UsuarioEvaluacion;
 				$result->id_curso = $usuarioCurso->id_curso;
