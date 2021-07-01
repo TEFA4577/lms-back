@@ -8,6 +8,7 @@ use App\PruebaOpcion;
 use App\Curso;
 use App\Usuario;
 use App\UsuarioEvaluacion;
+use Carbon\Carbon;
 
 class PruebaController extends Controller
 {
@@ -108,12 +109,32 @@ class PruebaController extends Controller
     }
     public function darExamen($id, $datos)
     {
-        $prueba = Prueba::where('id_curso', $id)
-            ->where('estado_prueba', 1)
-            ->with('pruebaOpcion')
-            ->get();
-        return response()->json($prueba);
+		$examen = UsuarioEvaluacion::where('id_curso', $id)
+					->where('id_usuario', $datos)
+					->first();
+					
+		$prueba = Prueba::where('id_curso', $id)
+					->where('estado_prueba', 1)
+					->with('pruebaOpcion')
+					->get();
+					
+		$date = date('Y-m-d');
+		$date2 = $examen->updated_at;
+		$date2 = $date2->format('Y-m-d');
+		
+		if($examen->progreso_evaluacion > 0){
+			if($date2 < $date){
+				$examen->progreso_evaluacion = json_encode(0);
+				$examen->save();
+				return response()->json(['prueba' => $prueba, 'mensaje' => 'Iniciando nueva ronda de exámen', 'estado' => 'success']);
+			}else{
+				return response()->json(['prueba' => 'ok', 'mensaje' => 'Vuelva a intentar mañana', 'estado' => 'warning']);
+			}
+		}else {
+			return response()->json(['prueba' => $prueba, 'mensaje' => 'Iniciando examen', 'estado' => 'success']);
+		} 
     }
+	
     public function evaluarExamen($id, $idC, $idU)
     {
         $prueba = Prueba::where('id_curso', $idC)->get();
@@ -130,7 +151,6 @@ class PruebaController extends Controller
             $examen->progreso_evaluacion = json_encode($examen->progreso_evaluacion + $result);
             $examen->update();
             return response()->json(['mensaje' => 'correcta']);
-            //$examen->save();
         }
     }
     public function inicioExamen(Request $request)
@@ -140,11 +160,19 @@ class PruebaController extends Controller
             ->get();
         return response()->json('Empezando Exámen');
     }
-    public function resultExamen(Request $request, $id)
+    public function resultExamen($id, $datos)
     {
-        $result = UsuarioEvaluacion::find($id);
-        $result->progreso_evaluacion = $result->progreso_evaluacion + $request->progreso_evaluacion;
-        $result->save();
-        return response()->json('Felicitaciones, terminaste el Exámen');
+        $result = UsuarioEvaluacion::where('id_curso', $id)
+									->where('id_usuario', $datos)
+									->first();
+		if($result->progreso_evaluacion > 50){
+			return response()->json(['mensaje' => 'Felicitaciones, terminaste el Exámen', 'estado' => 'success']);
+		}else{
+			if($result->progreso_evaluacion == 0){
+				$result->progreso_evaluacion = json_encode(1);
+				$result->save();
+			}
+			return response()->json(['mensaje' => 'Vuelva a intentar mañana', 'estado' => 'warning' ]);
+		}
     }
 }

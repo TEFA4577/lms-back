@@ -39,7 +39,7 @@ Route::get('opcion/eliminar/{id}', 'PruebaController@eliminarOpcion');
 Route::get('prueba-evaluar/{id}/{datos}', 'PruebaController@darExamen');
 Route::get('prueba/evaluando/{id}/{idC}/{idU}', 'PruebaController@evaluarExamen');
 Route::post('inicio/evaluacion', 'PruebaController@inicioExamen');
-Route::put('evaluacion-progreso/{id}', 'PruebaController@resultExamen');
+Route::get('evaluacion-progreso/{id}/{datos}', 'PruebaController@resultExamen');
 // GRUPO DE RUTAS POR AUTENTICACION
 Route::group(['middleware' => 'auth:api'], function () {
     Route::put('usuario/actualizar/{id}', 'UsuarioController@actualizarUsuario');
