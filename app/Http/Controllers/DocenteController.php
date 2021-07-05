@@ -18,12 +18,6 @@ class DocenteController extends Controller
     $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com'/*'http://127.0.0.1:8000/api'*/);
     }
 
-    /**
-     * Descripcion: La funcion devuelve todos los docentes ordenados por id descendentemente.
-     * Tipo: GET
-     * URL: api/docentes
-     * @Autor: @AlexAguilarP
-     */
     public function index()
     {
         $docentes = Usuario::where('id_rol', 2)->with('datosDocente', 'redesDocente')->get();
@@ -57,12 +51,7 @@ class DocenteController extends Controller
         $docente->save();
         return response()->json(['mensaje' => 'el usuario cambio a estudiante', 'estado' => 'danger']);
     }
-    /**
-     * Descripcion: La funcion registra a un docente
-     * Tipo: POST
-     * URL: api/docentes/registrar
-     * @Autor: @AlexAguilarP
-     */
+
     public function registrarDocente(Request $request)
     {
         $usuario = Usuario::where('id_usuario', $request->id_usuario)->first();
@@ -81,7 +70,7 @@ class DocenteController extends Controller
             $docente->descripcion_docente = $request->descripcion_docente;
             $docente->experiencia_docente = $request->experiencia_docente;
             $docente->video_presentacion = $request->video_presentacion;
-            //$docente->cv_docente = $request->cv_docente;
+            $docente->cv_docente = $request->cv_docente;
             $docente->estado_docente = 0;
 
             /*if ($request->hasFile('video')) {
@@ -98,7 +87,7 @@ class DocenteController extends Controller
 			} else {
 				$docente->video_presentacion = $this->hostBackend . $this->rutaVideo . "video_presentacion.mp4";
 			}*/
-            if ($request->hasFile('cv_docente')) {
+            /*if ($request->hasFile('cv_docente')) {
                 // subir la imagen al servidor
                 $archivo = $request->file('cv_docente');
                 // $archivoNombre = $archivo->getClientOriginalName();
@@ -111,7 +100,7 @@ class DocenteController extends Controller
                 $docente->cv_docente = $this->hostBackend . $this->rutaCv . $nombre_cv;
             } else {
                 $docente->cv_docente = $this->hostBackend . $this->rutaCv . "sin_cv.pdf";
-            }
+            }*/
             /*if ($request->hasFile('cv_docente')) {
                 // subir el archivo al servidor
                 $archivo = $request->file('cv_docente');
@@ -147,12 +136,6 @@ class DocenteController extends Controller
     }
 
 
-    /**
-     * Descripcion: La funcion muestra los datos de un docente
-     * Tipo: GET
-     * URL: api/docentes/mostrar/{id}
-     * @Autor: @AlexAguilarP
-     */
     public function mostrarDocente($id)
     {
         $usuario = Usuario::findOrFail($id);
@@ -161,12 +144,6 @@ class DocenteController extends Controller
         return response()->json($usuario);
     }
 
-    /**
-     * Descripcion: La funcion actualiza la informacion de un docente
-     * Tipo: PUT
-     * URL: api/docentes/actualizar/{id}
-     * @Autor: @AlexAguilarP
-     */
     public function actualizarDocente(Request $request, $id)
     {
         $docente = Docente::where('id_usuario', $id)->first();
@@ -180,12 +157,7 @@ class DocenteController extends Controller
         $usuario->redesDocente;
         return response()->json(['mensaje' => 'Registro actualizado exitosamente', 'estado' => 'success', 'datosUsuario' => $usuario]);
     }
-    /**
-     * Descripcion: esta funcion actualiza el cv del docente
-     * Tipo: POST
-     * URL: api/docentes/cambiar-cv
-     * @Autor: @AlexAguilarP
-     */
+
     public function actualizarCv(Request $request)
     {
         $docente = Docente::findOrFail($request->id_docente);
@@ -207,12 +179,7 @@ class DocenteController extends Controller
             return response()->json(['mensaje' => 'Error Archivo no encontrado', 'estado' => 'error']);
         }
     }
-    /**
-     * Descripcion: esta funcion actualiza el video de presentacion del docente
-     * Tipo: POST
-     * URL: api/docentes/cambiar-video
-     * @Autor: @AlexAguilarP
-     */
+
     public function actualizarVideo(Request $request)
     {
         $docente = Docente::findOrFail($request->id_docente);

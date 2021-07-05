@@ -44,6 +44,8 @@ class CursoController extends Controller
             ->where('membresia_curso', '!=', 'FIN')
             ->where('estado', 1)
             ->with('etiquetasCurso')
+            ->with('cursoEstudiante')
+            ->with('modulosCurso')
             // ->with(['membresiaDocente'=> function($q){
             //     $q->where('estado_membresia_usuario', 'adquirido');}])
             ->get();
