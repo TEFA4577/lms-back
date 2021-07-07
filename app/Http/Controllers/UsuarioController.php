@@ -204,6 +204,7 @@ class UsuarioController extends Controller
     {
         $usuario = UsuarioCurso::where('id_usuario', $id)
                                 ->with('cursoSolicitado')
+                                ->orderBy('id_curso','desc')
                                 ->get();
         return response()->json($usuario);
     }
