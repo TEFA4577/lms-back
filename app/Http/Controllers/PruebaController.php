@@ -126,12 +126,12 @@ class PruebaController extends Controller
 			if($date2 < $date){
 				$examen->progreso_evaluacion = json_encode(0);
 				$examen->save();
-				return response()->json(['prueba' => $prueba, 'mensaje' => 'Iniciando nueva ronda de exámen', 'estado' => 'success']);
+				return response()->json(['prueba' => $prueba, 'mensaje' => 'Iniciando exámen', 'estado' => 'success']);
 			}else{
 				return response()->json(['prueba' => 'ok', 'mensaje' => 'Vuelva a intentar mañana', 'estado' => 'warning']);
 			}
 		}else {
-			return response()->json(['prueba' => $prueba, 'mensaje' => 'Iniciando examen', 'estado' => 'success']);
+			return response()->json(['prueba' => $prueba, 'mensaje' => 'Iniciando exámen. Recibe tu certificado tras completar la ronda con éxito ', 'estado' => 'success']);
 		} 
     }
 	
@@ -166,13 +166,13 @@ class PruebaController extends Controller
 									->where('id_usuario', $datos)
 									->first();
 		if($result->progreso_evaluacion > 50){
-			return response()->json(['mensaje' => 'Felicitaciones, terminaste el Exámen', 'estado' => 'success']);
+			return response()->json(['mensaje' => 'Felicitaciones, terminaste el Exámen. Puedes acceder a tu certificado', 'estado' => 'success']);
 		}else{
 			if($result->progreso_evaluacion == 0){
 				$result->progreso_evaluacion = json_encode(1);
 				$result->save();
 			}
-			return response()->json(['mensaje' => 'Vuelva a intentar mañana', 'estado' => 'warning' ]);
+			return response()->json(['mensaje' => 'Vuelva a intentar mañana. Una vez terminado on éxito podrás acceder a tu certificado.', 'estado' => 'warning' ]);
 		}
     }
 }
