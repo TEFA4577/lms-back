@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\UsuarioCurso;
+use Illuminate\Support\Facades\Auth;
 
 class Course
 {
@@ -17,10 +18,11 @@ class Course
     public function handle($request, Closure $next)
     {
         $id = $request->id;
+		$user=Auth::user()->id_usuario;
         $cursoUsuario = UsuarioCurso::findOrFail($id);
-        if($cursoUsuario){
+        if($cursoUsuario->id_usuario == $user){
             return $next($request);
         }
-        abort(403, "¡No puedes acceder al curso!.");
+		return route('cursos');
     }
 }
