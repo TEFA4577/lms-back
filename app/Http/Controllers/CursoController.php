@@ -96,8 +96,8 @@ class CursoController extends Controller
         }elseif($curso->membresia_curso == 'INICIO'){
             $memb = Membresia::find($membresia->id_membresia);
             if($memb->precio_membresia == 0){
-                $usuario = UsuarioCurso::where('id_usuario', $curso->id_usuario)
-                        ->get('id_usuario_curso');
+                $usuario = Curso::where('id_usuario', $curso->id_usuario)
+                        ->get('id_curso');
 
                 $numUc = count($usuario);
                 if($numUc > 3){
