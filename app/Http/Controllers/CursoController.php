@@ -10,6 +10,7 @@ use App\Modulo;
 use App\Recurso;
 use App\Usuario;
 use App\UsuarioCurso;
+use App\Membresia;
 use App\MembresiaDocente;
 use App\Prueba;
 use App\UsuarioEvaluacion;
@@ -86,6 +87,25 @@ class CursoController extends Controller
         if ($request->mensaje != '') {
             $curso->mensaje = $request->mensaje;
         }
+
+        $membresia = MembresiaDocente::where('id_usuario', $curso->id_usuario)
+                        ->where('estado_membresia_usuario', 'adquirido')
+                        ->first();
+        if ($curso->membresia_curso == 'FIN') {
+            return response()->json(['mensaje' => 'Necesita adquirir una membresia, para enviar su curso a revisión', 'estado' => 'error']);
+        }elseif($curso->membresia_curso == 'INICIO'){
+            $memb = Membresia::find($membresia->id_membresia);
+            if($memb->precio_membresia == 0){
+                $usuario = UsuarioCurso::where('id_usuario', $curso->id_usuario)
+                        ->get('id_usuario_curso');
+
+                $numUc = count($usuario);
+                if($numUc > 3){
+                    return response()->json(['mensaje' => 'La cantidad de cursos permitidos en la membresia gratuita llegó a su límite', 'estado' => 'warning']);
+                }
+            }
+        }
+
         $modulos = Modulo::where('id_curso', $curso->id_curso)
 						->with('clasesModulo')
 						->get('id_modulo');
