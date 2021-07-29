@@ -55,6 +55,11 @@ class MembresiaController extends Controller
         $membresia->nombre_membresia = $request->nombre_membresia;
         $membresia->texto_membresia = $request->texto_membresia;
         $membresia->precio_membresia = $request->precio_membresia;
+
+        if($membresia->precio_membresia == 0){
+            return response()->json(['mensaje'=>'tu membresia es gratuita']);
+        }
+
         $date = Carbon::now();
         $date = $date->format('Y-m-d');
         //$duracion = $this->calcularTiempo($date, $request->duracion_membresia);

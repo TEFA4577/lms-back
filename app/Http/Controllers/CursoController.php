@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use PDF;
 use Illuminate\Support\Carbon;
+use App\Mail\AprobacionCompraCursoMail;
+use Illuminate\Support\Facades\Mail;
 
 class CursoController extends Controller
 {
@@ -58,7 +60,7 @@ class CursoController extends Controller
         $cursos = Curso::orderBy('id_curso', 'desc')
             ->where('estado_curso', '=', 'aprobado')
             ->get();
-            //->with('id_usuario')->get();
+        //->with('id_usuario')->get();
         return response()->json($cursos);
     }
 
@@ -89,49 +91,49 @@ class CursoController extends Controller
         }
 
         $membresia = MembresiaDocente::where('id_usuario', $curso->id_usuario)
-                        ->where('estado_membresia_usuario', 'adquirido')
-                        ->first();
+            ->where('estado_membresia_usuario', 'adquirido')
+            ->first();
         if ($curso->membresia_curso == 'FIN') {
             return response()->json(['mensaje' => 'Necesita adquirir una membresia, para enviar su curso a revisión', 'estado' => 'error']);
-        }elseif($curso->membresia_curso == 'INICIO'){
+        } elseif ($curso->membresia_curso == 'INICIO') {
             $memb = Membresia::find($membresia->id_membresia);
-            if($memb->precio_membresia == 0){
+            if ($memb->precio_membresia == 0) {
                 $usuario = Curso::where('id_usuario', $curso->id_usuario)
-                        ->get('id_curso');
+                    ->get('id_curso');
 
                 $numUc = count($usuario);
-                if($numUc > 3){
+                if ($numUc > 3) {
                     return response()->json(['mensaje' => 'La cantidad de cursos permitidos en la membresia gratuita llegó a su límite', 'estado' => 'warning']);
                 }
             }
         }
 
         $modulos = Modulo::where('id_curso', $curso->id_curso)
-						->with('clasesModulo')
-						->get('id_modulo');
+            ->with('clasesModulo')
+            ->get('id_modulo');
         $numM = count($modulos);
-        if($numM > 0){
+        if ($numM > 0) {
             foreach ($modulos as $value) {
-                if(!count($value['clasesModulo'])){
+                if (!count($value['clasesModulo'])) {
                     return response()->json(['mensaje' => 'Su módulo necesita clases', 'estado' => 'error']);
                 }
             }
-        }else {
-			return response()->json(['mensaje' => 'Su curso necesita módulo', 'estado' => 'error']);
+        } else {
+            return response()->json(['mensaje' => 'Su curso necesita módulo', 'estado' => 'error']);
         }
-		$prueba = Prueba::where('id_curso', $curso->id_curso)
-						->with('opcionCorrecta')
-						->get('id_prueba');
+        $prueba = Prueba::where('id_curso', $curso->id_curso)
+            ->with('opcionCorrecta')
+            ->get('id_prueba');
         $numP = count($prueba);
-		if($numP > 0){
-			foreach ($prueba as $value) {
-				if(!count($value['opcionCorrecta'])){
-					return response()->json(['mensaje' => 'Las preguntas de exámen necesitan una respuesta correcta', 'estado' => 'error']);
-				}
-			}
-		}else {
-			return response()->json(['mensaje' => 'Su curso necesita preguntas para el exámen', 'estado' => 'error']);
-		}
+        if ($numP > 0) {
+            foreach ($prueba as $value) {
+                if (!count($value['opcionCorrecta'])) {
+                    return response()->json(['mensaje' => 'Las preguntas de exámen necesitan una respuesta correcta', 'estado' => 'error']);
+                }
+            }
+        } else {
+            return response()->json(['mensaje' => 'Su curso necesita preguntas para el exámen', 'estado' => 'error']);
+        }
 
         $curso->save();
         return response()->json(['mensaje' => 'Solicitud realizada con exito', 'estado' => 'success']);
@@ -159,7 +161,7 @@ class CursoController extends Controller
             ->where('estado_curso', 'aprobado')
             ->where('estado', 1)
             ->where('id_usuario', $id)
-			->where('membresia_curso', '!=', 'FIN')
+            ->where('membresia_curso', '!=', 'FIN')
             ->with('etiquetasCurso')
             ->get();
         return response()->json($cursos);
@@ -264,13 +266,13 @@ class CursoController extends Controller
         $docente = Usuario::find($curso->id_usuario);
         $prueba = Prueba::where('id_curso', $id)->with('pruebaOpcion')->get();
         $docente->datosDocente;
-		$usuarioCurso = UsuarioCurso::where('id_curso',$curso->id_curso)->get();
+        $usuarioCurso = UsuarioCurso::where('id_curso', $curso->id_curso)->get();
         return response()->json([
             'curso' => $curso,
             'modulos' => $modulos,
             'docente' => $docente,
-			'prueba' => $prueba,
-			'usuarioCurso' => $usuarioCurso
+            'prueba' => $prueba,
+            'usuarioCurso' => $usuarioCurso
         ]);
     }
     public function cursarCurso($id)
@@ -368,6 +370,12 @@ class CursoController extends Controller
     {
         $usuarioCurso = UsuarioCurso::findOrFail($id);
         if ($estado == 'aprobado') {
+            //envio de correo electronico
+            $usuario = Usuario::find($usuarioCurso->id_usuario);
+            $correo = $usuario->correo_usuario;
+            $data = ['name' => 'hola'];
+            Mail::to($correo)->send(new AprobacionCompraCursoMail($data));
+            //nevio de correo electronico
             $curso = Curso::find($usuarioCurso->id_curso);
             $curso->modulosCurso;
             $progreso = array();
@@ -384,18 +392,18 @@ class CursoController extends Controller
             $usuarioCurso->estado_usuario_curso = 'adquirido';
             $usuarioCurso->save();
 
-			$examen = UsuarioEvaluacion::where('id_usuario', $usuarioCurso->id_usuario)
-								->where('id_curso', $usuarioCurso->id_curso)
-								->get();
-			if(count($examen) == 0){
-				$result = new UsuarioEvaluacion;
-				$result->id_curso = $usuarioCurso->id_curso;
-				$result->id_usuario = $usuarioCurso->id_usuario;
-				$result->progreso_evaluacion = json_encode(0);
-				$result->save();
-			}
+            $examen = UsuarioEvaluacion::where('id_usuario', $usuarioCurso->id_usuario)
+                ->where('id_curso', $usuarioCurso->id_curso)
+                ->get();
+            if (count($examen) == 0) {
+                $result = new UsuarioEvaluacion;
+                $result->id_curso = $usuarioCurso->id_curso;
+                $result->id_usuario = $usuarioCurso->id_usuario;
+                $result->progreso_evaluacion = json_encode(0);
+                $result->save();
+            }
 
-			$solicitudesAnteriores =  UsuarioCurso::where('id_usuario', $usuarioCurso->id_usuario)
+            $solicitudesAnteriores =  UsuarioCurso::where('id_usuario', $usuarioCurso->id_usuario)
                 ->where('id_curso', $usuarioCurso->id_curso)
                 ->where('estado_usuario_curso', 'no confirmado')
                 ->orWhere('estado_usuario_curso', 'rechazado')

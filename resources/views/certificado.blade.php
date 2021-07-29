@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <title>Certificado</title>
+    <title>Certificado del Curso</title>
 </head>
 
 <body>
@@ -39,7 +39,8 @@
             background-position: center top;
             background-repeat: no-repeat;
             /*background-color: wheat;*/
-            background-image: url('./img/fondo-certificado.png');;
+            background-image: url('./img/fondo-certificado.png');
+            ;
             z-index: -1;
         }
 
@@ -58,6 +59,10 @@
         #date {
             font-weight: bold;
         }
+
+        .title {
+            margin-top: 50px;
+        }
     </style>
 
     <div id="page-body">
@@ -67,18 +72,18 @@
                     <div class="row justify-content-center">
                         <div class="col-md-10">
                             <div class="card">
-                                <h1 style="text-align: center">{{$nombre_curso}}</h1>
-
+                                <div class="title">
+                                    <h1 style="text-align: center; font-size:45px;">CERTIFICADO</h1>
+                                    <!--<h1 style="text-align: center">{{$nombre_curso}}</h1>-->
+                                </div>
                                 <div class="card-body">
-                                    <br><br><br><br><br><br><br><br>
-                                    <p style="font-size:36px; padding-left:300px;">
-                                        Entregado a:
-                                        <span class="nombreEstudiante">{{$nombre_usuario}}</span>
+                                    <br><br>
+                                    <p style="font-size:36px; padding-left:100px;">
+                                        Se certifica a la persona: {{$nombre_usuario}}
                                     </p>
-                                    <br>
+                                    <br><br><br>
                                     <p style="text-transform: lowercase; text-align: center; font-size:26px">
-                                        Por su diligencia, fidelidad y perseverancia al aprender del curso <span
-                                            class="nombreEstudiante">{{$nombre_curso}}</span> se le otorga el
+                                        Por haber finalizado satisfactoriamente el curso <span class="nombreEstudiante">{{$nombre_curso}}</span> se le otorga el
                                         certificado que da constancia del esfuerzo realizado.
                                     </p>
                                 </div>
@@ -87,7 +92,8 @@
                     </div>
                     <br><br><br><br><br><br><br><br><br>
                     <div style="font-size:12px; padding-left:100px;"> El presente certificado tiene validez de 1 año
-                        calendario desde: <strong>{{$fecha_fin}} </strong></div>
+                        calendario desde: <strong>{{$fecha_fin}}</strong>
+                    </div>
                 </div>
             </div>
         </div>

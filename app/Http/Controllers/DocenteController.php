@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Docente;
 use App\Usuario;
 use Illuminate\Http\Request;
+use App\Mail\AprobacionSolicitudDocente;
+use Illuminate\Support\Facades\Mail;
 
 
 class DocenteController extends Controller
@@ -34,6 +36,8 @@ class DocenteController extends Controller
 							->get();*/
         return response()->json($docentes);
     }
+
+
     public function habiliarDocente($id)
     {
         $docente = Docente::where('id_usuario', $id)->first();
@@ -43,6 +47,10 @@ class DocenteController extends Controller
             $usuario->save();
             $docente->estado_docente = 1;
             $docente->save();
+            //envio del correo electronico
+            $correo = $usuario->correo_usuario;
+            $data = ['name' => 'hola'];
+            Mail::to($correo)->send(new AprobacionSolicitudDocente($data));
             return response()->json(['mensaje' => 'el usuario cambio a docente', 'estado' => 'danger']);
         }
         $usuario->id_rol = 3;

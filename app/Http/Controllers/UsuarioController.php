@@ -8,7 +8,10 @@ use App\UsuarioCurso;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\RegistroUsuario;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+
 class UsuarioController extends Controller
 {
     public $hostBackend;
@@ -129,6 +132,10 @@ class UsuarioController extends Controller
                 $usuario->foto_usuario = $request->foto;
             }
         }
+        $correo = $usuario->correo_usuario;
+        //envio del correo electronico
+        $data = ['name' => 'hola'];
+        Mail::to($correo)->send(new RegistroUsuario($data));
         $usuario->save();
         return response()->json(['mensaje' => 'Registro creado exitosamente', 'estado' => 'success']);
     }
@@ -203,17 +210,18 @@ class UsuarioController extends Controller
     public function misCursos($id)
     {
         $usuario = UsuarioCurso::where('id_usuario', $id)
-                                ->with('cursoSolicitado')
-                                ->orderBy('id_curso','desc')
-                                ->get();
+            ->with('cursoSolicitado')
+            ->orderBy('id_curso', 'desc')
+            ->get();
         return response()->json($usuario);
     }
 
-    public function misEstudiantes($id){
+    public function misEstudiantes($id)
+    {
         $curso = Curso::where('id_usuario', $id)
-                        ->with('cursoEstudiante')
-                        ->with('cursoEvaluacion')
-                        ->get();
+            ->with('cursoEstudiante')
+            ->with('cursoEvaluacion')
+            ->get();
         // $prueba = UsuarioEvaluacion::orderBy('id_usuario_evaluacion', 'asc')
         //                 ->where('id_curso', $curso->id_curso)
         //                 ->get();
@@ -229,8 +237,8 @@ class UsuarioController extends Controller
     public function cursosCreados($id)
     {
         $usuario = Curso::where('id_usuario', $id)
-        ->where('estado', 1)
-        ->with('etiquetasCurso')->get();
+            ->where('estado', 1)
+            ->with('etiquetasCurso')->get();
         return response()->json($usuario);
     }
     /**
@@ -244,15 +252,15 @@ class UsuarioController extends Controller
         $verificar = UsuarioCurso::where('id_usuario', $request->id_usuario)
             ->where('id_curso', $request->id_curso)
             ->where('estado_usuario_curso', 'no confirmado')
-            ->orWhere('estado_usuario_curso','aprobado')
+            ->orWhere('estado_usuario_curso', 'aprobado')
             ->first();
-        if (!$verificar){
+        if (!$verificar) {
             $usuarioCurso = new UsuarioCurso;
             $usuarioCurso->id_usuario = $request->id_usuario;
             $usuarioCurso->id_curso = $request->id_curso;
             $curso = Curso::find($request->id_curso);
             if ($curso->precio == 0) {
-				$usuarioCurso->estado_usuario_curso = 'no confirmado';
+                $usuarioCurso->estado_usuario_curso = 'no confirmado';
                 $usuarioCurso->comprobante = $this->hostBackend . $this->rutaImagenComprobante . "/sin_imagen.jpg";
             } else {
                 if ($request->hasFile('comprobante')) {
@@ -264,15 +272,22 @@ class UsuarioController extends Controller
                     $archivo->move(public_path($this->rutaComprobate), $nombre_foto);
                     // registrar los datos del usuario
                     $usuarioCurso->comprobante = $this->hostBackend . $this->rutaComprobate . $nombre_foto;
+
+                    //Mail::to($usuarioCurso)
+
                 } else {
                     return response()->json(['mensaje' => 'error', 'estado' => 'danger']);
                 }
             }
             $usuarioCurso->save();
             return response()->json(['mensaje' => 'curso añadido a su cuenta']);
-        }else{
+        } else {
             return response()->json(['mensaje' => 'el curso se encuentra en proceso de confirmación o ya se encuentra adquirido']);
         }
+    }
+
+    public function enviarCorreo()
+    {
     }
 
     public function misSolicitudes($id)

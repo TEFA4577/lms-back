@@ -14,7 +14,7 @@ class Comentario extends Model
     ];
     public function comentarioRespuesta()
     {
-        return $this->hasMany('App\Respuesta', 'id_comentario');
+        return $this->hasMany('App\Respuesta', 'id_comentario', 'App\Usuario', 'id_usuario');
     }
     public function usuarioComentario()
     {
