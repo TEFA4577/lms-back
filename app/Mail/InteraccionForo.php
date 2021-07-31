@@ -30,7 +30,7 @@ class InteraccionForo extends Mailable
      */
     public function build()
     {
-        return $this->from('stephanyherreravasquez@gmail.com', 'AcademiaCoMarca')
+        return $this->from('info@academiacomarca.com', 'AcademiaCoMarca')
             ->view('correos.comentario_foro_usuario')
             ->subject("Notificación de foro")
             ->with($this->data);

@@ -17,7 +17,7 @@ class DocenteController extends Controller
 
     public function __construct()
     {
-    $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com'/*'http://127.0.0.1:8000/api'*/);
+        $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com'/*'http://127.0.0.1:8000/api'*/);
     }
 
     public function index()
@@ -49,7 +49,9 @@ class DocenteController extends Controller
             $docente->save();
             //envio del correo electronico
             $correo = $usuario->correo_usuario;
-            $data = ['name' => 'hola'];
+            $data = [
+                'nombre_usuario' => $usuario->nombre_usuario
+            ];
             Mail::to($correo)->send(new AprobacionSolicitudDocente($data));
             return response()->json(['mensaje' => 'el usuario cambio a docente', 'estado' => 'danger']);
         }

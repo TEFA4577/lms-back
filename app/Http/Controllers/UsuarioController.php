@@ -134,7 +134,9 @@ class UsuarioController extends Controller
         }
         $correo = $usuario->correo_usuario;
         //envio del correo electronico
-        $data = ['name' => 'hola'];
+        $data = [
+            'nombre_usuario' => $usuario->nombre_usuario
+        ];
         Mail::to($correo)->send(new RegistroUsuario($data));
         $usuario->save();
         return response()->json(['mensaje' => 'Registro creado exitosamente', 'estado' => 'success']);

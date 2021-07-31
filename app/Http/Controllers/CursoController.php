@@ -373,12 +373,17 @@ class CursoController extends Controller
             //envio de correo electronico
             $usuario = Usuario::find($usuarioCurso->id_usuario);
             $correo = $usuario->correo_usuario;
-            $data = ['name' => 'hola'];
-            Mail::to($correo)->send(new AprobacionCompraCursoMail($data));
-            //nevio de correo electronico
             $curso = Curso::find($usuarioCurso->id_curso);
             $curso->modulosCurso;
             $progreso = array();
+
+            $data = [
+                'nombre_curso' => $curso->nombre_curso,
+                'nombre_usuario' => $usuarioCurso->nombre_usuario
+            ];
+            Mail::to($correo)->send(new AprobacionCompraCursoMail($data));
+            //nevio de correo electronico
+
             foreach ($curso->modulosCurso as $modulo) {
                 $arr = array(
                     'id_modulo' => $modulo->id_modulo,
