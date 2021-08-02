@@ -132,18 +132,25 @@ class UsuarioController extends Controller
                 $usuario->foto_usuario = $request->foto;
             }
         }
-
-
         //envio del correo electronico
-        $correo = $usuario->correo_usuario;
+        /*$correo = $usuario->correo_usuario;
         $data = [
             'nombre_usuario' => $usuario->nombre_usuario
         ];
-        Mail::to($correo)->send(new RegistroUsuario($data));
-
+        Mail::to($correo)->send(new RegistroUsuario($data));*/
         $usuario->save();
         return response()->json(['mensaje' => 'Registro creado exitosamente', 'estado' => 'success']);
     }
+
+
+    public function enviarCorreo(){
+        $data = [
+            'nombre_usuario' => 'holaaaaaaaaaaaa'
+        ];
+        Mail::to('tefihvmoonwalker77746@gmail.com')->send(new RegistroUsuario($data));
+        return response()->json(['mensaje' => 'Enviado', 'estado' => 'success']);
+    }
+
     /**
      * Descripcion: La funcion actualiza los datos basicos del usuario
      * Tipo: PUT
@@ -289,10 +296,6 @@ class UsuarioController extends Controller
         } else {
             return response()->json(['mensaje' => 'el curso se encuentra en proceso de confirmación o ya se encuentra adquirido']);
         }
-    }
-
-    public function enviarCorreo()
-    {
     }
 
     public function misSolicitudes($id)

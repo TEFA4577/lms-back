@@ -18,6 +18,7 @@ Route::post('/video/add', 'DocenteController@registrarVideo');
 // RUTAS PARA USUARIOS
 Route::post('login', 'UsuarioController@login');
 Route::post('usuario/registrar', 'UsuarioController@registrarUsuario');
+Route::post('usuario/correo', 'UsuarioController@enviarCorreo');
 Route::get('usuario/mis-cursos/{id}', 'UsuarioController@misCursos');
 Route::get('usuario/cursos-creados/{id}', 'UsuarioController@cursosCreados');
 Route::get('usuario/cursos-estudiantes/{id}', 'UsuarioController@misEstudiantes');
