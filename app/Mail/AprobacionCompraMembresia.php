@@ -30,7 +30,7 @@ class AprobacionCompraMembresia extends Mailable
      */
     public function build()
     {
-        return $this->from('info@academiacomarca.com', 'AcademiaCoMarca')
+        return $this->from('groupcomarca@gmail.com', 'AcademiaCoMarca')
             ->view('correos.aprobacion_compra_membresia')
             ->subject("Notificación de aprobación de la compra de tu membresia")
             ->with($this->data);

@@ -30,7 +30,7 @@ class RegistroUsuario extends Mailable
      */
     public function build()
     {
-        return $this->from('info@academiacomarca.com', 'AcademiaCoMarca')
+        return $this->from('groupcomarca@gmail.com', 'AcademiaCoMarca')
         ->view('correos.registro_usuario_bienvenida')
         ->subject("Notificación de bienvenida.")
         ->with($this->data);

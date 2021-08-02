@@ -31,7 +31,7 @@ class AprobacionCompraCursoMail extends Mailable
      */
     public function build()
     {
-        return $this->from('info@academiacomarca.com', 'AcademiaCoMarca')
+        return $this->from('groupcomarca@gmail.com', 'AcademiaCoMarca')
             ->view('correos.aprobacion_compra_curso')
             ->subject("Notificación de aprobación de la compra de tu curso")
             ->with($this->data);
