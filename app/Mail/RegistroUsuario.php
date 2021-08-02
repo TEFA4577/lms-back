@@ -17,9 +17,10 @@ class RegistroUsuario extends Mailable
      * @return void
      */
     public $data;
-    public function __construct()
+    public function __construct($data)
     {
         //
+        $this->data = $data;
     }
 
     /**
