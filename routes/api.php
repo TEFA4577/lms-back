@@ -72,7 +72,7 @@ Route::put('cursos/actualizar/{id}', 'CursoController@actualizarCurso')->middlew
 Route::put('cursos/registrar-etiqueta/{id}', 'CursoController@registrarCursoEtiquetas')->middleware('auth:api');
 Route::post('cursos/cambiar-imagen', 'CursoController@cambiarImagenCurso')->middleware('auth:api');
 Route::get('cursos/mostrar/{id}', 'CursoController@mostrarCurso');
-Route::get('cursar-curso/{id}', 'CursoController@cursarCurso')->middleware('course:{id}');
+Route::get('cursar-curso/{id}', 'CursoController@cursarCurso')->middleware('auth:api');
 Route::get('cursos/eliminar/{id}', 'CursoController@eliminarCurso')->middleware('auth:api');
 Route::get('cursos/habilitar/{id}', 'CursoController@habilitarCurso')->middleware('auth:api');
 Route::get('cursos/inhabilitar/{id}', 'CursoController@inhabilitarCurso')->middleware('auth:api');
