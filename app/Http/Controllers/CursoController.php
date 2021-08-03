@@ -204,7 +204,7 @@ class CursoController extends Controller
             $curso->membresia_curso = 'INICIO';
         } else {
             $curso->membresia_curso = 'FIN';
-            // return response()->json(['mensaje' => 'Necesita adquirir una membresia, para registrar su curso', 'estado' => 'error']);
+            return response()->json(['mensaje' => 'Necesita adquirir una membresia, para registrar su curso', 'estado' => 'error']);
         }
 //validando membresia según precio
         $memb = Membresia::find($membresia->id_membresia);

@@ -171,13 +171,13 @@ class PruebaController extends Controller
             ->where('id_usuario', $datos)
             ->first();
         if ($result->progreso_evaluacion > 50) {
-            return response()->json(['mensaje' => 'Felicitaciones, terminaste el Exámen. Puedes acceder a tu certificado', 'estado' => 'success']);
+            return response()->json(['mensaje' => 'Felicitaciones, terminaste el exámen. Puedes acceder a tu certificado', 'estado' => 'success']);
         } else {
             if ($result->progreso_evaluacion == 0) {
                 $result->progreso_evaluacion = json_encode(1);
                 $result->save();
             }
-            return response()->json(['mensaje' => 'Vuelva a intentar mañana. Una vez terminado on éxito podrás acceder a tu certificado.', 'estado' => 'warning']);
+            return response()->json(['mensaje' => 'Vuelva a intentar mañana. Una vez terminado con éxito podrás acceder a tu certificado.', 'estado' => 'warning']);
         }
     }
 }
