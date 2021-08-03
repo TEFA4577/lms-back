@@ -211,7 +211,7 @@ class MembresiaController extends Controller
             $data = [
                 'nombre_usuario' => $usuario->nombre_usuario
             ];
-            Mail::to($correo)->send(new AprobacionCompraMembresia($data));
+           Mail::to($correo)->send(new AprobacionCompraMembresia($data));
             $docenteMembresia->save();
             $solicitudesAnteriores =  MembresiaDocente::where('id_usuario', $docenteMembresia->id_usuario)
                 ->where('id_membresia', $docenteMembresia->id_membresia)

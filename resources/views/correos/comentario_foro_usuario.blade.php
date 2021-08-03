@@ -1,5 +1,22 @@
-<h1>Hola, alguien hizo un comentario en tu curso {{$nombre_curso}}</h1>
+<!doctype html>
+<html lang="es">
 
-<h2>El usuario {{$nombre_usuario}} hizo un comentario en tu clase {{$titulo_clase}} del modulo {{$nombre_modulo}} del curso {{$nombre_curso}}</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <title>Notificacíón de interacción en foro- Academia Co Marca</title>
+</head>
 
-<h2>Comentatrio: {{$texto_comentario}}</h2>
+<body>
+    <p>¡Hola, alguien hizo un comentario en tu curso {{$nombre_curso}}!.</p>
+    <p>Detalle del comentario:</p>
+
+    <ul>
+        <li>Curso: {{$nombre_curso}}</li>
+        <li>Clase: {{$titulo_clase}}</li>
+        <li>Usuario: {{$nombre_usuario}}</li>
+        <li>Comentario:{{$texto_comentario}}</li>
+    </ul>
+</body>
+
+</html>

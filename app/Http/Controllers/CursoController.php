@@ -426,7 +426,7 @@ class CursoController extends Controller
                 ->where('estado_usuario_curso', 'no confirmado')
                 ->orWhere('estado_usuario_curso', 'rechazado')
                 ->delete();
-            return response()->json(['mensaje' => 'curso se a habilitado', 'curso' => $usuarioCurso]);
+            return response()->json(['mensaje' => 'curso se ha habilitado', 'curso' => $usuarioCurso]);
         } else if ($estado == 'rechazado') {
             $usuarioCurso->estado_usuario_curso = 'rechazado';
             $usuarioCurso->save();
@@ -438,7 +438,7 @@ class CursoController extends Controller
         $cursoUsuario = UsuarioCurso::find($id);
         $cursoUsuario->progreso_curso = $request->progreso_curso;
         $cursoUsuario->save();
-        return response()->json(['mensaje' => 'curso se a habilitado', 'curso' => $cursoUsuario]);
+        return response()->json(['mensaje' => 'curso se ha habilitado', 'curso' => $cursoUsuario]);
     }
     /**
      * Descripcion: la funcion lista las peticiones de una adquisicion de un curso por medio de deposito
