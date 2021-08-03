@@ -147,7 +147,9 @@ class UsuarioController extends Controller
         $data = [
             'nombre_usuario' => 'holaaaaaaaaaaaa'
         ];
-        Mail::to('tefihvmoonwalker77746@gmail.com')->send(new RegistroUsuario($data));
+        Mail::to('tefihvmoonwalker77746@gmail.com')
+            ->cc('gonza.monti4@gmail.com')
+            ->send(new RegistroUsuario($data));
         return response()->json(['mensaje' => 'Enviado', 'estado' => 'success']);
     }
 

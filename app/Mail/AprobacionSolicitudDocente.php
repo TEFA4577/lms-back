@@ -30,7 +30,7 @@ class AprobacionSolicitudDocente extends Mailable
      */
     public function build()
     {
-        return $this->from('groupcomarca@gmail.com', 'AcademiaCoMarca')
+        return $this->from('info@academiacomarca.com', 'AcademiaCoMarca')
             ->view('correos.aprobacion_solicitud_docente')
             ->subject("Notificación de aprobación de tu solicitud de Instructor.")
             ->with($this->data);
