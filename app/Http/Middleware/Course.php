@@ -18,9 +18,9 @@ class Course
     public function handle($request, Closure $next)
     {
         $id = $request->id;
-		$user=Auth::user()->id_usuario;
+		$user=Auth::user();
         $cursoUsuario = UsuarioCurso::findOrFail($id);
-        if($cursoUsuario->id_usuario == $user){
+        if($cursoUsuario->id_usuario == $user->id_usuario){
             return $next($request);
         }
 		return route('cursos');

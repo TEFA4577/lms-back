@@ -90,23 +90,23 @@ class CursoController extends Controller
             $curso->mensaje = $request->mensaje;
         }
 
-        $membresia = MembresiaDocente::where('id_usuario', $curso->id_usuario)
-            ->where('estado_membresia_usuario', 'adquirido')
-            ->first();
-        if ($curso->membresia_curso == 'FIN') {
-            return response()->json(['mensaje' => 'Necesita adquirir una membresia, para enviar su curso a revisión', 'estado' => 'error']);
-        } elseif ($curso->membresia_curso == 'INICIO') {
-            $memb = Membresia::find($membresia->id_membresia);
-            if ($memb->precio_membresia == 0) {
-                $usuario = Curso::where('id_usuario', $curso->id_usuario)
-                    ->get('id_curso');
+        // $membresia = MembresiaDocente::where('id_usuario', $curso->id_usuario)
+        //     ->where('estado_membresia_usuario', 'adquirido')
+        //     ->first();
+        // if ($curso->membresia_curso == 'FIN') {
+        //     return response()->json(['mensaje' => 'Necesita adquirir una membresia, para enviar su curso a revisión', 'estado' => 'error']);
+        // } elseif ($curso->membresia_curso == 'INICIO') {
+        //     $memb = Membresia::find($membresia->id_membresia);
+        //     if ($memb->precio_membresia == 0) {
+        //         $usuario = Curso::where('id_usuario', $curso->id_usuario)
+        //             ->get('id_curso');
 
-                $numUc = count($usuario);
-                if ($numUc > 3) {
-                    return response()->json(['mensaje' => 'La cantidad de cursos permitidos en la membresia gratuita llegó a su límite', 'estado' => 'warning']);
-                }
-            }
-        }
+        //         $numUc = count($usuario);
+        //         if ($numUc > 3) {
+        //             return response()->json(['mensaje' => 'La cantidad de cursos permitidos en la membresia gratuita llegó a su límite', 'estado' => 'warning']);
+        //         }
+        //     }
+        // }
 
         $modulos = Modulo::where('id_curso', $curso->id_curso)
             ->with('clasesModulo')
@@ -204,7 +204,20 @@ class CursoController extends Controller
             $curso->membresia_curso = 'INICIO';
         } else {
             $curso->membresia_curso = 'FIN';
+            // return response()->json(['mensaje' => 'Necesita adquirir una membresia, para registrar su curso', 'estado' => 'error']);
         }
+//validando membresia según precio
+        $memb = Membresia::find($membresia->id_membresia);
+            if ($memb->precio_membresia == 0) {
+                $usuario = Curso::where('id_usuario', $curso->id_usuario)
+                    ->get('id_curso');
+
+                $numUc = count($usuario);
+                if ($numUc > 2) {
+                    return response()->json(['mensaje' => 'La cantidad de cursos permitidos de su membresia actual llegó a su límite', 'estado' => 'error']);
+                }
+            }
+//fin
         if ($request->hasFile('imagen_curso')) {
             // subir la imagen al servidor
             $archivo = $request->file('imagen_curso');

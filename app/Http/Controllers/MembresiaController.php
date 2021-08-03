@@ -153,18 +153,25 @@ class MembresiaController extends Controller
             $docenteMembresia->id_membresia = $request->id_membresia;
             $membresia = Membresia::find($request->id_membresia);
             if ($membresia->precio_membresia == 0) {
-                $time = $membresia->duracion_membresia;
-                $docenteMembresia->estado_membresia_usuario = 'adquirido';
-                $time1 = Carbon::now();
-                $date = $time1;
-                $time1 = $time1->format('Y-m-d');
-                $time2 = $date->addDay($time);
-                $time2 = $time2->format('Y-m-d');
-                $docenteMembresia->inicio_membresia_usuario = $time1;
-                $docenteMembresia->fin_membresia_usuario = $time2;
-                $curso = Curso::where('id_usuario', $docenteMembresia->id_usuario)
-                    ->where('membresia_curso', 'FIN')
-                    ->update(['membresia_curso' => 'INICIO']);
+                $solAnterior = MembresiaDocente::where('id_usuario', $request->id_usuario)
+                                    ->where('id_membresia', $request->id_membresia)
+                                    ->first();
+                if($solAnterior){
+                    return response()->json(['mensaje' => 'Esta membresía solo se puede adquirir una vez', 'estado'=>'warning']);
+                }else{
+                    $time = $membresia->duracion_membresia;
+                    $docenteMembresia->estado_membresia_usuario = 'adquirido';
+                    $time1 = Carbon::now();
+                    $date = $time1;
+                    $time1 = $time1->format('Y-m-d');
+                    $time2 = $date->addDay($time);
+                    $time2 = $time2->format('Y-m-d');
+                    $docenteMembresia->inicio_membresia_usuario = $time1;
+                    $docenteMembresia->fin_membresia_usuario = $time2;
+                    $curso = Curso::where('id_usuario', $docenteMembresia->id_usuario)
+                        ->where('membresia_curso', 'FIN')
+                        ->update(['membresia_curso' => 'INICIO']);
+                    }
             } else {
                 if ($request->hasFile('comprobante')) {
                     $archivo = $request->file('comprobante');
@@ -172,13 +179,13 @@ class MembresiaController extends Controller
                     $archivo->move(public_path($this->rutaComprobate), $nombre_foto);
                     $docenteMembresia->comprobante = $this->hostBackend . $this->rutaComprobate . $nombre_foto;
                 } else {
-                    return response()->json(['mensaje' => 'error', 'estado' => 'danger']);
+                    return response()->json(['mensaje' => 'Debe incluir comprobante', 'estado' => 'error']);
                 }
             }
             $docenteMembresia->save();
-            return response()->json(['mensaje' => 'membresia añadida a su cuenta']);
+            return response()->json(['mensaje' => 'membresia añadida a su cuenta', 'estado' => 'success']);
         } else {
-            return response()->json(['mensaje' => 'la membresia está en proceso de confirmacion o ya se encuentra adquirido']);
+            return response()->json(['mensaje' => 'la membresia está en proceso de confirmacion o ya se encuentra adquirido', 'estado'=>'warning']);
         }
     }
     public function habilitarMembresia($id, $estado)
