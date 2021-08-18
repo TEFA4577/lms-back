@@ -9,12 +9,12 @@
 
 <body>
     <p>Hola {{$nombre_usuario}}!. Academia Co Marca te da la bienvenida.</p>
-    <p>Nos da mucho gusto saber que eres parte de nuestra comunidad. Inicia ahora explorando nuevo cursos.</p>
+    <p>Nos da mucho gusto saber que eres parte de nuestra comunidad.</p>
 
     <p>Ingresa en el siguiente enlace para explorar nuestros cursos:</p>
     <ul>
         <li>
-            <a href="http://front.academiacomarca.com/#/">
+            <a href="http://academiacomarca.com/#/inicio">
                 Explora nuestras novedades
             </a>
         </li>

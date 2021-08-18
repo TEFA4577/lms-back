@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <title>Certificado del Curso</title>
+    <title>Entrega de tu certificado</title>
 </head>
 
 <body>
@@ -59,10 +59,6 @@
         #date {
             font-weight: bold;
         }
-
-        .title {
-            margin-top: 50px;
-        }
     </style>
 
     <div id="page-body">
@@ -72,28 +68,31 @@
                     <div class="row justify-content-center">
                         <div class="col-md-10">
                             <div class="card">
-                                <div class="title">
-                                    <h1 style="text-align: center; font-size:45px;">CERTIFICADO</h1>
-                                    <!--<h1 style="text-align: center">{{$nombre_curso}}</h1>-->
-                                </div>
+                                <h1 style="text-align: center; font-size:60px;">CERTIFICADO</h1>
+                                <h1 style="text-align: center; font-size:40px;">{{$nombre_curso}}</h1>
+
                                 <div class="card-body">
-                                    <br><br>
-                                    <p style="font-size:36px; padding-left:100px;">
-                                        Se certifica a la persona: {{$nombre_usuario}}
+                                    <p style="font-size:36px; padding-left:300px;">Entregado a:
+                                        <span class="nombreEstudiante">{{$nombre_usuario}}</span>
                                     </p>
-                                    <br><br><br>
-                                    <p style="text-transform: lowercase; text-align: center; font-size:26px">
-                                        Por haber finalizado satisfactoriamente el curso <span class="nombreEstudiante">{{$nombre_curso}}</span> se le otorga el
-                                        certificado que da constancia del esfuerzo realizado.
-                                    </p>
+                                    <br>
+                                    <div class="container">
+                                        <p style="text-transform: lowercase; text-align: center; font-size:20px">
+                                            Por su diligencia, fidelidad y perseverancia al aprender del curso <span class="nombreEstudiante">{{$nombre_curso}}</span> se le otorga el
+                                            certificado que da constancia del esfuerzo realizado.
+                                        </p>
+                                    </div>
+                                    <br>
+                                    <div style="font-size:20px; padding-left:600px;">
+                                        Ortogado por: {{$docente}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <br><br><br><br><br><br><br><br><br>
                     <div style="font-size:12px; padding-left:100px;"> El presente certificado tiene validez de 1 año
-                        calendario desde: <strong>{{$fecha_fin}}</strong>
-                    </div>
+                        calendario desde: <strong>{{$fecha_fin}} </strong></div>
                 </div>
             </div>
         </div>

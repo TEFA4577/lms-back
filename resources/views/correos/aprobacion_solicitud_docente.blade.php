@@ -9,12 +9,13 @@
 
 <body>
     <p>¡Felicitaciones {{$nombre_usuario}}!. Ahora formas parte de la Academia Co Marca.</p>
-    <p>Nos da mucho gusto informarte que tu solicitud de instructor ha sido aprobada y nos da gusto saber que eres parte de nuestra comunidad.</p>
+    <p>Nos da mucho gusto informarte que tu solicitud de instructor ha sido aprobada. Ahora eres parte de nuestra comunidad.</p>
 
-    <p>Ahora que forma parte de nuestro panel de Instructores, adquiere una de nuestras membresías.</p>
+    <p>
+        Te inivitamos a ingresar a tu panel de instructor y adquirir tu membresia gratis. Si tienes alguna dificultad cierra e inicia sesión nuevamente.</p>
     <ul>
         <li>
-            <a href="http://front.academiacomarca.com/#/">
+            <a href="http://academiacomarca.com/#/inicio">
                 Explora nuestras membresías
             </a>
         </li>

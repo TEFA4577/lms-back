@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::post('/video/add', 'ClaseController@registrarVideo');
 Route::post('/video/add', 'DocenteController@registrarVideo');
 
@@ -49,6 +50,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('logout', 'UsuarioController@logout');
     /** TODAS LAS RUTAS QUE SE DEBEN PROTEGER */
 });
+
+
+
 
 // RUTAS PARA DOCENTE
 Route::get('docentes', 'DocenteController@index');

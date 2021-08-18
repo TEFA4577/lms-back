@@ -27,7 +27,8 @@ class RecursoController extends Controller
         $recurso->id_clase = $request->id_clase;
         $recurso->nombre_recurso = $request->nombre_recurso;
         $recurso->id_recurso_tipo = 1;
-        if ($request->hasFile('link_recurso')) {
+        $recurso->link_recurso = $request->link_recurso;
+        /*if ($request->hasFile('link_recurso')) {
             // subir el archivo al servidor
             $archivo = $request->file('link_recurso');
             // $archivoNombre = $archivo->getClientOriginalName();
@@ -39,7 +40,7 @@ class RecursoController extends Controller
             $recurso->link_recurso = $this->hostBackend . $this->ruta . $nombre_archivo;
         } else {
             return response()->json(['mensaje' => 'No se encontró el archivo', 'estado' => 'danger']);
-        }
+        }*/
         $recurso->save();
         return response()->json(['mensaje' => 'Registro Realizado con éxito', 'estado' => 'success']);
     }

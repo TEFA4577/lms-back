@@ -19,7 +19,7 @@ class Curso extends Model
     }
     public function cursoEstudiante()
     {
-        return $this->hasMany('App\UsuarioCurso', 'id_curso', 'id_curso');
+        return $this->hasMany('App\UsuarioCurso', 'id_curso', 'id_curso', 'App\Usuario', 'id_usuario', 'id_usuario');
     }
     public function usuarioCursos()
     {

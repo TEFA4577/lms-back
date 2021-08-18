@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Clase;
 use App\Curso;
 use App\CursoEtiqueta;
+use App\Docente;
 use App\Etiqueta;
 use App\Modulo;
 use App\Recurso;
@@ -206,18 +207,18 @@ class CursoController extends Controller
             $curso->membresia_curso = 'FIN';
             return response()->json(['mensaje' => 'Necesita adquirir una membresia, para registrar su curso', 'estado' => 'error']);
         }
-//validando membresia según precio
+        //validando membresia según precio
         $memb = Membresia::find($membresia->id_membresia);
-            if ($memb->precio_membresia == 0) {
-                $usuario = Curso::where('id_usuario', $curso->id_usuario)
-                    ->get('id_curso');
+        if ($memb->precio_membresia == 0) {
+            $usuario = Curso::where('id_usuario', $curso->id_usuario)
+                ->get('id_curso');
 
-                $numUc = count($usuario);
-                if ($numUc > 2) {
-                    return response()->json(['mensaje' => 'La cantidad de cursos permitidos de su membresia actual llegó a su límite', 'estado' => 'error']);
-                }
+            $numUc = count($usuario);
+            if ($numUc > 2) {
+                return response()->json(['mensaje' => 'La cantidad de cursos permitidos de su membresia actual llegó a su límite', 'estado' => 'error']);
             }
-//fin
+        }
+        //fin
         if ($request->hasFile('imagen_curso')) {
             // subir la imagen al servidor
             $archivo = $request->file('imagen_curso');
@@ -279,13 +280,15 @@ class CursoController extends Controller
         $docente = Usuario::find($curso->id_usuario);
         $prueba = Prueba::where('id_curso', $id)->with('pruebaOpcion')->get();
         $docente->datosDocente;
-        $usuarioCurso = UsuarioCurso::where('id_curso', $curso->id_curso)->get();
+        $usuarioCurso = UsuarioCurso::where('id_curso', $curso->id_curso)->with('usuario')->get();
+        //$estudiante = UsuarioCurso::where('id_curso' , $id)->with('usuarioCursos')->get();
         return response()->json([
             'curso' => $curso,
             'modulos' => $modulos,
             'docente' => $docente,
             'prueba' => $prueba,
-            'usuarioCurso' => $usuarioCurso
+            'usuarioCurso' => $usuarioCurso,
+            //'estudiante' => $estudiante
         ]);
     }
     public function cursarCurso($id)
@@ -464,6 +467,7 @@ class CursoController extends Controller
             return response()->json(['mensaje' => 'error', 'estado' => 'error', 'user' => $datos]);
         }
         $curso = Curso::find($datos->id_curso);
+        $docente = Usuario::where('id_usuario', $curso->id_usuario)->pluck('nombre_usuario')->first();
         $usuario = Usuario::find($datos->id_usuario);
         $fecha = Carbon::parse($datos->updated_at)
             ->format('d-m-Y');
@@ -471,6 +475,7 @@ class CursoController extends Controller
         $data = [
             'nombre_curso' => $curso->nombre_curso,
             'nombre_usuario' => $usuario->nombre_usuario,
+            'docente' => $docente,
             'fecha_fin' => $fecha,
         ];
         $pdf = PDF::loadView('certificado', $data);

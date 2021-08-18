@@ -16,7 +16,7 @@
     <h2>"Mis Cursos"</h2> en tu panel de cursos adquiridos para que puedas empezar con tu curso.</p>
     <ul>
         <li>
-            <a href="http://front.academiacomarca.com/#/">
+            <a href="http://academiacomarca.com/#/inicio">
                 Ingresa a la Academia
             </a>
         </li>

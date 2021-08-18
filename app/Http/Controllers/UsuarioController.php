@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Curso;
+use App\Modulo;
+use App\Clase;
+use App\Mail\RecuperarPasswordMail;
 use App\Usuario;
 use App\UsuarioCurso;
 use Carbon\Carbon;
@@ -143,7 +146,8 @@ class UsuarioController extends Controller
     }
 
 
-    public function enviarCorreo(){
+    public function enviarCorreo()
+    {
         $data = [
             'nombre_usuario' => 'holaaaaaaaaaaaa'
         ];
@@ -210,10 +214,20 @@ class UsuarioController extends Controller
      */
     public function cambiarPassword(Request $request)
     {
-        $usuario = Usuario::findOrFail($request->id_usuario);
+        //$usuario = Usuario::findOrFail($request->correo_usuario);
+        $usuario =  Usuario::where('correo_usuario', $request->correo_usuario)->first();
+
+        //envio del correo electronico
+        $correo = $usuario->correo_usuario;
+        $data = [
+            'nombre_usuario' => $usuario->nombre_usuario
+        ];
+        Mail::to($correo)->send(new RecuperarPasswordMail($data));
+
+        $usuario = Usuario::findOrFail($correo);
         $usuario->password_usuario = bcrypt($request->nuevo_password);
         $usuario->save();
-        return response()->json(['mensaje' => 'contraseña cambiada existosamente', 'estado' => 'success']);
+        return response()->json(['mensaje' => 'Contraseña modificada existosamente', 'estado' => 'success']);
     }
     /**
      * Descripcion: esta funcion lista los cursos del usuario que esta registrado
@@ -277,16 +291,16 @@ class UsuarioController extends Controller
                 $usuarioCurso->estado_usuario_curso = 'no confirmado';
                 $usuarioCurso->comprobante = $this->hostBackend . $this->rutaImagenComprobante . "/sin_imagen.jpg";
             } else {
-                if ($request->hasFile('comprobante')) {
+                if ($curso->precio != 0) {
+                    $usuarioCurso->comprobante = $request->comprobante;
                     // subir la imagen al servidor
-                    $archivo = $request->file('comprobante');
+                    //$archivo = $request->file('comprobante');
                     // Nombre del archivo con el que se guardara en el servidor
-                    $nombre_foto = time() . "_" . $archivo->getClientOriginalName();
+                    //$nombre_foto = time() . "_" . $archivo->getClientOriginalName();
                     // ruta donde se guardara la imagen en el servidor
-                    $archivo->move(public_path($this->rutaComprobate), $nombre_foto);
+                    //$archivo->move(public_path($this->rutaComprobate), $nombre_foto);
                     // registrar los datos del usuario
-                    $usuarioCurso->comprobante = $this->hostBackend . $this->rutaComprobate . $nombre_foto;
-
+                    //$usuarioCurso->comprobante = $this->hostBackend . $this->rutaComprobate . $nombre_foto;
                     //Mail::to($usuarioCurso)
 
                 } else {

@@ -14,7 +14,7 @@
     <p>Ingresa en el siguiente enlace para crear y publicar tus nuevos cursos:</p>
     <ul>
         <li>
-            <a href="http://front.academiacomarca.com/#/">
+            <a href="http://academiacomarca.com/#/inicio">
                 Ingresa ahora!
             </a>
         </li>

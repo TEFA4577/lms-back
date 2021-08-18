@@ -21,4 +21,9 @@ class UsuarioCurso extends Model
     {
         return $this->hasOne('App\Usuario', 'id_usuario', 'id_usuario');
     }
+    public function usuarioCursos()
+    {
+        return $this->belongsToMany('App\Curso', 'lms_usuario_cursos', 'id_usuario', 'id_curso', 'App\Usuario', 'id_usuario', 'id_usuario')
+            ->wherePivot('estado_usuario_curso', 'adquirido');
+    }
 }

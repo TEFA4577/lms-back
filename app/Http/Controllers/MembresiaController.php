@@ -66,14 +66,14 @@ class MembresiaController extends Controller
         $date = $date->format('Y-m-d');
         //$duracion = $this->calcularTiempo($date, $request->duracion_membresia);
         $membresia->duracion_membresia = $request->duracion_membresia;
-        if ($request->hasFile('imagen_membresia')) {
+        /*if ($request->hasFile('imagen_membresia')) {
             $archivo = $request->file('imagen_membresia');
             $nombre_foto = time() . "_" . $archivo->getClientOriginalName();
             $archivo->move(public_path($this->ruta), $nombre_foto);
             $membresia->imagen_membresia = $this->hostBackend . $this->ruta . $nombre_foto;
         } else {
             $membresia->imagen_membresia = $this->hostBackend . $this->ruta . "sin_imagen.jpg";
-        }
+        }*/
         $membresia->save();
         return response()->json(['mensaje' => 'membresia registrada', 'estado' => 'success']);
     }
@@ -128,7 +128,7 @@ class MembresiaController extends Controller
     public function membresiaDocente($id)
     {
         $docente = MembresiaDocente::where('id_usuario', $id)
-            ->where('estado_membresia_usuario', 'adilquirido')
+            ->where('estado_membresia_usuario', 'adquirido')
             ->get();
         return $docente;
     }
@@ -205,8 +205,9 @@ class MembresiaController extends Controller
             $curso = Curso::where('id_usuario', $docenteMembresia->id_usuario)
                 ->where('membresia_curso', 'FIN')
                 ->update(['membresia_curso' => 'INICIO']);
+
             //envio del correo electronico
-            $usuario = Usuario::find($curso->id_usuario);
+            $usuario = Usuario::find($docenteMembresia->id_usuario);
             $correo = $usuario->correo_usuario;
             $data = [
                 'nombre_usuario' => $usuario->nombre_usuario
