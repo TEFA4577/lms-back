@@ -57,6 +57,7 @@ class CurrentMemberships extends Command
                 $docenteMembresia->save();
                 }
             }
+            break;
         }
     }
 }
