@@ -23,6 +23,10 @@ class CreateLmsDocentesTable extends Migration
             $table->longText('video_presentacion')->comment('video de presentacion del docente(opcional)')->nullable();
             $table->string('cv_docente')->comment('cv del docente(opcional)')->nullable();
             $table->string('experiencia_docente')->comment('experiencia del docente(opcional)')->nullable();
+            $table->integer('numero_cuenta')->comment('numero de cuenta del docente');
+            $table->string('tipo_cuenta')->comment('tipo de cuenta del docente');
+            $table->string('nombre_banco')->comment('nombre del banco al que pertenece su cuenta');
+            $table->integer('carnet_identidad')->comment('carnet de identidad del docente');
             $table->timestamps();
         });
     }

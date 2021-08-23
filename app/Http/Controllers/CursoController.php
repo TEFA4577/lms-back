@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use PDF;
 use Illuminate\Support\Carbon;
+use App\Mail\AprobarCursoSolicitud;
 use App\Mail\AprobacionCompraCursoMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -55,6 +56,7 @@ class CursoController extends Controller
             ->get();
         return response()->json($cursos);
     }
+
 
     public function estadoCursos()
     {
@@ -135,8 +137,21 @@ class CursoController extends Controller
         } else {
             return response()->json(['mensaje' => 'Su curso necesita preguntas para el exámen', 'estado' => 'error']);
         }
-
         $curso->save();
+
+         //envio de correo electronico
+         $usuario = Usuario::find($curso->id_usuario);
+         $correo = $usuario->correo_usuario;
+         $curso = Curso::find($curso->id_curso);
+         $curso->modulosCurso;
+         $progreso = array();
+
+         $data = [
+             'nombre_curso' => $curso->nombre_curso,
+             'nombre_usuario' => $curso->nombre_usuario
+         ];
+         Mail::to($correo)->send(new AprobarCursoSolicitud($data));
+         //nevio de correo electronico
         return response()->json(['mensaje' => 'Solicitud realizada con exito', 'estado' => 'success']);
     }
     /**
@@ -195,7 +210,7 @@ class CursoController extends Controller
         $curso->nombre_curso = $request->nombre_curso;
         $curso->descripcion_curso = $request->descripcion_curso;
         $curso->precio = $request->precio;
-
+        $curso->imagen_curso = $request->imagen_curso;
         $membresia = MembresiaDocente::where('id_usuario', $curso->id_usuario)
             ->where('estado_membresia_usuario', 'adquirido')
             ->first();
@@ -219,7 +234,7 @@ class CursoController extends Controller
             }
         }
         //fin
-        if ($request->hasFile('imagen_curso')) {
+        /*if ($request->hasFile('imagen_curso')) {
             // subir la imagen al servidor
             $archivo = $request->file('imagen_curso');
             // $archivoNombre = $archivo->getClientOriginalName();
@@ -232,7 +247,7 @@ class CursoController extends Controller
             $curso->imagen_curso = $this->hostBackend . Storage::url($archivo);
         } else {
             $curso->imagen_curso = $this->hostBackend . $this->ruta . "/sin_imagen.jpg";
-        }
+        }*/
         $curso->save();
         return response()->json(['mensaje' => 'Registro Realizado con Exito', 'estado' => 'success']);
     }
@@ -429,7 +444,7 @@ class CursoController extends Controller
                 ->where('estado_usuario_curso', 'no confirmado')
                 ->orWhere('estado_usuario_curso', 'rechazado')
                 ->delete();
-            return response()->json(['mensaje' => 'curso se ha habilitado', 'curso' => $usuarioCurso]);
+            return response()->json(['mensaje' => 'El curso se ha habilitado', 'curso' => $usuarioCurso]);
         } else if ($estado == 'rechazado') {
             $usuarioCurso->estado_usuario_curso = 'rechazado';
             $usuarioCurso->save();

@@ -17,10 +17,13 @@ class CreateLmsMembresiasTable extends Migration
             $table->bigIncrements('id_membresia')->comment('identificador de membresia');
             $table->string('nombre_membresia')->comment('titulo de la membrecia');
             $table->string('texto_membresia')->comment('texto de membresia');
+            $table->decimal('curso_membresia')->comment('cantidad de cursos')->nullable();
+            $table->decimal('modulo_membresia')->comment('cantidad de modulo')->nullable();
+            $table->decimal('clase_membresia')->comment('cantidad de clases')->nullable();
             $table->string('imagen_membresia')->comment('imagen de las opciones de la membresia')->nullable();
             $table->boolean('estado_membresia')->comment('estado para eliminación lógica de membresia')->default(1);
-            $table->decimal('precio_membresia',16,2)->comment('precio de la membresia');
-            $table->decimal('duracion_membresia', 16,2)->comment('tiempo que dura la membresia en días, al ser adquirida por el usuario');
+            $table->decimal('precio_membresia', 16, 2)->comment('precio de la membresia');
+            $table->decimal('duracion_membresia', 16, 2)->comment('tiempo que dura la membresia en días, al ser adquirida por el usuario');
             $table->timestamps();
         });
     }

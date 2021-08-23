@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-    <title>Notificación de compra de membresía- Academia Co Marca</title>
+    <title>Notificación de compra de tu membresía- Academia Co Marca</title>
 </head>
 
 <body>

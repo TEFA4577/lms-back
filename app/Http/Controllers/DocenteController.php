@@ -81,8 +81,11 @@ class DocenteController extends Controller
             $docente->experiencia_docente = $request->experiencia_docente;
             $docente->video_presentacion = $request->video_presentacion;
             $docente->cv_docente = $request->cv_docente;
+            $docente->numero_cuenta = $request->numero_cuenta;
+            $docente->tipo_cuenta = $request->tipo_cuenta;
+            $docente->nombre_banco = $request->nombre_banco;
+            $docente->carnet_identidad = $request->carnet_identidad;
             $docente->estado_docente = 0;
-
             /*if ($request->hasFile('video')) {
 				// subir la imagen al servidor
 				$archivo = $request->file('video');
