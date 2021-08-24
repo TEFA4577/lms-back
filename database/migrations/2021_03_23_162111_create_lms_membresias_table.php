@@ -15,8 +15,8 @@ class CreateLmsMembresiasTable extends Migration
     {
         Schema::create('lms_membresias', function (Blueprint $table) {
             $table->bigIncrements('id_membresia')->comment('identificador de membresia');
-            $table->string('nombre_membresia')->comment('titulo de la membrecia');
-            $table->string('texto_membresia')->comment('texto de membresia');
+            $table->string('nombre_membresia', 20)->comment('titulo de la membrecia');
+            $table->string('texto_membresia', 500)->comment('texto de membresia');
             $table->decimal('curso_membresia')->comment('cantidad de cursos')->nullable();
             $table->decimal('modulo_membresia')->comment('cantidad de modulo')->nullable();
             $table->decimal('clase_membresia')->comment('cantidad de clases')->nullable();
