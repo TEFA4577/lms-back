@@ -39,7 +39,7 @@
             background-position: center top;
             background-repeat: no-repeat;
             /*background-color: wheat;*/
-            background-image: url('./img/fondo-certificado.png');
+            background-image: url('./img/1.png');
             ;
             z-index: -1;
         }
