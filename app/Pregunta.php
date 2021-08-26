@@ -14,6 +14,6 @@ class Pregunta extends Model
     ];
     public function preguntaRespuesta()
     {
-        return $this->hasMany('App\RespuestaPregunta', 'id_pregunta');
+        return $this->hasMany('App\RespuestaPregunta', 'id_pregunta')->where('estado_respuesta_pregunta', 1);
     }
 }
