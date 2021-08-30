@@ -7,6 +7,7 @@ use App\Modulo;
 use App\Clase;
 use GuzzleHttp\Client;
 use App\Mail\RecuperarPasswordMail;
+use App\Mail\PagoMoneMail;
 use App\Usuario;
 use App\UsuarioCurso;
 use Carbon\Carbon;
@@ -316,63 +317,74 @@ class UsuarioController extends Controller
     }
 
 
-    public function moneAdquirirCursoTest(Request $request)
+    public function moneAdquirirCurso(Request $request)
     {
-        $client = new Client();
-
-        $response = $client->request('POST', "https://www.monepagos.com/testpago/generaToken", [
-            'json' => [
-                "PK" => "13tDNs6liAesigu-_N-c8A16Y_ObBK3e",
-                "SK" => "9521aea6e011fc84629768d27faeb2e546045bf64cc111bc4b5900544c420bd9be513a8e9565a3c9957ea1f1118f5636032bce497b2f978d16c706b2a7f7fc11Gkkv4Ed1pC3yom1UY3z9f4WThEQRvG8hV1ux6ngyyL0="
-            ]
-        ]);
-        $response_body = json_decode($response->getBody()->getContents());
-
-        //print_r($response_body);
-
-        $values = get_object_vars($response_body);
-
-        //print_r($values["token"]);
-
-        $token = $values["token"];
-
-        //DATOS DEL USUARIO Y DEL CURSO
-        /*$verificar = UsuarioCurso::where('id_usuario', $request->id_usuario)
+        //DATOS DEL CURSO Y DEL USUARIO
+        $verificar = UsuarioCurso::where('id_usuario', $request->id_usuario)
             ->where('id_curso', $request->id_curso)
             ->where('estado_usuario_curso', 'no confirmado')
             ->orWhere('estado_usuario_curso', 'aprobado')
-            ->first();*/
+            ->first();
 
-        $usuarioCurso = new UsuarioCurso;
-        $usuarioCurso->id_usuario = $request->id_usuario;
-        $usuarioCurso->id_curso = $request->id_curso;
-        $curso = Curso::find($request->id_curso);
+        if (!$verificar) {
+            $usuarioCurso = new UsuarioCurso;
+            $usuarioCurso->id_usuario = $request->id_usuario;
+            $usuarioCurso->id_curso = $request->id_curso;
+            $curso = Curso::find($request->id_curso);
 
-        $client2 = new Client();
-        $response2 = $client2->request(
-            'POST',
-            "https://www.monepagos.com/testpago/registra",
-            [
+            //DATOS MONE
+            $usuarioCurso->comprobante = $this->hostBackend . $this->rutaImagenComprobante . "/sin_imagen.jpg";
+            $client = new Client();
+            $response = $client->request('POST', "https://www.monepagos.com/testpago/generaToken", [
                 'json' => [
-                    "Token" => $token,
-                    "Monto" => $curso->precio,
-                    //"Curso" => $curso->nombre_curso,
-                    "Glosa" => 'Compra del curso:',
-                    "CodigoVenta" => $curso->nombre_curso,
-                    "Correo" => 'Gracias por la compra de tu curso!'
+                    "PK" => "13tDNs6liAesigu-_N-c8A16Y_ObBK3e",
+                    "SK" => "9521aea6e011fc84629768d27faeb2e546045bf64cc111bc4b5900544c420bd9be513a8e9565a3c9957ea1f1118f5636032bce497b2f978d16c706b2a7f7fc11Gkkv4Ed1pC3yom1UY3z9f4WThEQRvG8hV1ux6ngyyL0="
                 ]
-            ]
-        );
+            ]);
+            $response_body = json_decode($response->getBody()->getContents());
+            $values = get_object_vars($response_body);
+            $token = $values["token"];
+            $client2 = new Client();
 
-        $response_body2 = json_decode($response2->getBody()->getContents());
-        //print_r($response_body2);
-        $values2 = get_object_vars($response_body2);
-        $link = $values2["urlpago"];
-        $idmone = $values2["idpago"];
+            $response2 = $client2->request(
+                'POST',
+                "https://www.monepagos.com/testpago/registra",
+                [
+                    'json' => [
+                        "Token" => $token,
+                        "Monto" => $curso->precio,
+                        //"Curso" => $curso->nombre_curso,
+                        "Glosa" => $curso->nombre_curso,
+                        "CodigoVenta" => 'ACAD',
+                        "Correo" => 'Gracias por la compra de tu curso!'
+                    ]
+                ]
+            );
 
-        return response()->json(['token' => $token, 'values' => $values2, 'urlpago' => $link, 'idpago' => $idmone], 200);
+            $response_body2 = json_decode($response2->getBody()->getContents());
+            $values2 = get_object_vars($response_body2);
+            $link = $values2["urlpago"];
+            $idmone = $values2["idpago"];
+
+            //CORREO PARA MANDAR EL LINK DE PAGO
+            $usuario = Usuario::find($usuarioCurso->id_usuario);
+
+            $correo = $usuario->correo_usuario;
+            $data = [
+                'nombre_curso' => $curso->nombre_curso,
+                'nombre_usuario' => $usuario->nombre_usuario,
+                'enlace' => $link
+            ];
+
+            Mail::to($correo)->send(new PagoMoneMail($data));
+
+            $usuarioCurso->save();
+
+            return response()->json(['mensaje' => 'curso añadido a su cuenta', 'token' => $token, 'values' => $values2, 'urlpago' => $link, 'idpago' => $idmone], 200);
+        } else {
+            return response()->json(['mensaje' => 'el curso se encuentra en proceso de confirmación o ya se encuentra adquirido']);
+        }
     }
-
 
     public function misSolicitudes($id)
     {

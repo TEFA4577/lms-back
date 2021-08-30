@@ -17,7 +17,7 @@ class CreateLmsDocentesTable extends Migration
             $table->bigIncrements('id_docente')->comment('identificador del docente');
             $table->foreign('id_usuario')->references('id_usuario')->on('lms_usuarios')->onDelete('cascade');
             $table->unsignedbigInteger('id_usuario')->comment('identificador del usuario');
-            $table->integer('telefono_docente')->comment('telefono del docente');
+            $table->integer('telefono_docente')->comment('telefono del docente')->nullable();
             $table->boolean('estado_docente')->comment('estado del docente')->default(1);
             $table->string('descripcion_docente')->comment('descripcion del docente')->nullable();
             $table->longText('video_presentacion')->comment('video de presentacion del docente(opcional)')->nullable();

@@ -53,7 +53,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
 //RUTA PARA MONE PAGOS
-Route::post('mone', 'UsuarioController@moneAdquirirCursoTest');
+Route::post('mone', 'UsuarioController@moneAdquirirCurso');
 
 // RUTAS PARA DOCENTE
 Route::get('docentes', 'DocenteController@index');
