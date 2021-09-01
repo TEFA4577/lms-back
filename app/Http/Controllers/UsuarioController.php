@@ -29,12 +29,7 @@ class UsuarioController extends Controller
     {
         $this->hostBackend = env("HOST_BACKEND", 'http://back.academiacomarca.com');
     }
-    /**
-     * Descripcion: esta funcion realiza el inicio de sesion y devuelve un token
-     * Tipo: POST
-     * URL: api/login
-     * @Autor: @AlexAguilarP
-     */
+
     public function login(Request $request)
     {
         $usuario = Usuario::where('correo_usuario', $request->correo_usuario)->first();
@@ -85,12 +80,7 @@ class UsuarioController extends Controller
             ]);
         }
     }
-    /**
-     * Descripcion: esta funcion realiza el cierre de sesion y elimina todos los tokens del usuario
-     * Tipo:GET
-     * URL: api/logout
-     * @Autor: @AlexAguilarP
-     */
+
     public function logout()
     {
         $user = auth()->user();
@@ -102,12 +92,7 @@ class UsuarioController extends Controller
             'mensaje' => 'Saliste de la plataforma'
         ]);
     }
-    /**
-     * Descripcion: La funcion registra al usuario
-     * Tipo: POST
-     * URL: api/usuario/registrar
-     * @Autor: @AlexAguilarP
-     */
+
     public function registrarUsuario(Request $request)
     {
         $verificarEmail = Usuario::Where('correo_usuario', $request->correo_usuario)->first();
@@ -159,12 +144,6 @@ class UsuarioController extends Controller
         return response()->json(['mensaje' => 'Enviado', 'estado' => 'success']);
     }
 
-    /**
-     * Descripcion: La funcion actualiza los datos basicos del usuario
-     * Tipo: PUT
-     * URL: api/usuario/actualizar/{id}
-     * @Autor: @AlexAguilarP
-     */
     public function actualizarUsuario(Request $request, $id)
     {
         $usuario = Usuario::findOrFail($id);
@@ -192,12 +171,7 @@ class UsuarioController extends Controller
             'datosUsuario' => $usuario
         ]);
     }
-    /**
-     * Descripcion: La funcion lista los datos del usuario
-     * Tipo: GET
-     * URL: api/informacion-usuario/{id}
-     * @Autor: @AlexAguilarP
-     */
+
     public function informacionUsuario($id)
     {
         $usuario = Usuario::findOrFail($id);
@@ -208,19 +182,14 @@ class UsuarioController extends Controller
             'datosUsuario' => $usuario
         ]);
     }
-    /**
-     * Descripcion: La funcion cambia la contraseña de un usuario
-     * Tipo: POST
-     * URL: api/usuario/cambiar-password
-     * @Autor: @AlexAguilarP
-     */
-    public function cambiarPassword(Request $request)
+
+    public function sendEmailPass(Request $request)
     {
         //$usuario = Usuario::findOrFail($request->correo_usuario);
-        $usuario =  Usuario::where('correo_usuario', $request->correo_usuario)->first();
+        //$usuario =  Usuario::where('correo_usuario', $request->correo_usuario)->first();
 
         //envio del correo electronico
-        $correo = $usuario->correo_usuario;
+        /*$correo = $usuario->correo_usuario;
         $data = [
             'nombre_usuario' => $usuario->nombre_usuario
         ];
@@ -229,14 +198,39 @@ class UsuarioController extends Controller
         $usuario = Usuario::findOrFail($correo);
         $usuario->password_usuario = bcrypt($request->nuevo_password);
         $usuario->save();
-        return response()->json(['mensaje' => 'Contraseña modificada existosamente', 'estado' => 'success']);
+        return response()->json(['mensaje' => 'Contraseña modificada existosamente', 'estado' => 'success']);*/
+
+        $verificarEmail = Usuario::Where('correo_usuario', $request->correo_usuario)->first();
+        if (isset($verificarEmail) != null) {
+
+            //envio del correo electronico
+            $correo = $verificarEmail->correo_usuario;
+            $data = [
+                'nombre_usuario' => $verificarEmail->nombre_usuario
+            ];
+            Mail::to($correo)->send(new RecuperarPasswordMail($data));
+            //envio del correo electronico
+
+            return response()->json(['mensaje' => 'Revise su bandeja de entrada en su email.', 'estado' => 'success']);
+        } else {
+            return response()->json(['mensaje' => 'Este correo no se encuentra asociado a una cuenta dentro de la plataforma.', 'estado' => 'danger']);
+        }
     }
-    /**
-     * Descripcion: esta funcion lista los cursos del usuario que esta registrado
-     * Tipo: GET
-     * URL: api/usuario/mis-cursos/{id}
-     * @Autor: @AlexAguilarP
-     */
+
+
+    public function resetPass(Request $request)
+    {
+        $verificarEmail = Usuario::Where('correo_usuario', $request->correo_usuario)->first();
+        if (isset($verificarEmail) != null) {
+            //$usuario = Usuario::findOrFail($request->correo_usuario);
+            $verificarEmail->password_usuario = bcrypt($request->password);
+            $verificarEmail->update();
+            return response()->json(['mensaje' => 'contraseña cambiada existosamente', 'estado' => 'success']);
+        } else {
+            return response()->json(['mensaje' => 'Este correo no se encuentra asociado a una cuenta dentro de la plataforma.', 'estado' => 'danger']);
+        }
+    }
+
     public function misCursos($id)
     {
         $usuario = UsuarioCurso::where('id_usuario', $id)
@@ -258,12 +252,6 @@ class UsuarioController extends Controller
         return response()->json($curso);
     }
 
-    /**
-     * Descripcion: esta funcion lista los cursos creados por el usuario
-     * Tipo: GET
-     * URL: api/usuario/cursos-creados/{id}
-     * @Autor: @AlexAguilarP
-     */
     public function cursosCreados($id)
     {
         $usuario = Curso::where('id_usuario', $id)
@@ -271,12 +259,7 @@ class UsuarioController extends Controller
             ->with('etiquetasCurso')->get();
         return response()->json($usuario);
     }
-    /**
-     * Descripcion: La funcion registra la adquisicion de un usuario con un curso
-     * Tipo: POST
-     * URL: api/adquirir-curso
-     * @Autor: @AlexAguilarP
-     */
+
     public function adquirirCurso(Request $request)
     {
         $verificar = UsuarioCurso::where('id_usuario', $request->id_usuario)
