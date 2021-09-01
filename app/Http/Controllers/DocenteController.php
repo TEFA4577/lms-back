@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
 use App\Docente;
 use App\Usuario;
 use Illuminate\Http\Request;
@@ -23,7 +24,12 @@ class DocenteController extends Controller
     public function index()
     {
         $docentes = Usuario::where('id_rol', 2)->with('datosDocente', 'redesDocente')->get();
+
+        //$curso = Curso::where('id_usuario', $docentes->id_usuario);
+        //$numC = count($curso);
+        //if ($curso > 0) {
         return response()->json($docentes);
+        //}
     }
     public function listaDocente()
     {

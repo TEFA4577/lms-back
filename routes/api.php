@@ -42,10 +42,12 @@ Route::get('prueba-evaluar/{id}/{datos}', 'PruebaController@darExamen');
 Route::get('prueba/evaluando/{id}/{idC}/{idU}', 'PruebaController@evaluarExamen');
 Route::post('inicio/evaluacion', 'PruebaController@inicioExamen');
 Route::get('evaluacion-progreso/{id}/{datos}', 'PruebaController@resultExamen');
+//CAMBIO DE PASSWORD
+Route::post('usuario/send-email', 'UsuarioController@sendEmailPass');
+Route::post('usuario/reset-pass', 'UsuarioController@resetPass');
 // GRUPO DE RUTAS POR AUTENTICACION
 Route::group(['middleware' => 'auth:api'], function () {
     Route::put('usuario/actualizar/{id}', 'UsuarioController@actualizarUsuario');
-    Route::post('usuario/cambiar-password', 'UsuarioController@cambiarPassword');
     Route::get('informacion-usuario/{id}', 'UsuarioController@informacionUsuario');
     Route::get('logout', 'UsuarioController@logout');
     /** TODAS LAS RUTAS QUE SE DEBEN PROTEGER */
