@@ -47,7 +47,8 @@ Route::post('usuario/send-email', 'UsuarioController@sendEmailPass');
 Route::post('usuario/reset-pass', 'UsuarioController@resetPass');
 // GRUPO DE RUTAS POR AUTENTICACION
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::put('usuario/actualizar/{id}', 'UsuarioController@actualizarUsuario');
+    Route::post('usuario/actualizar/{id}', 'UsuarioController@actualizarUsuario');
+    Route::post('foto-usuario/actualizar/{id}', 'UsuarioController@actualizarFotoUsuario');
     Route::get('informacion-usuario/{id}', 'UsuarioController@informacionUsuario');
     Route::get('logout', 'UsuarioController@logout');
     /** TODAS LAS RUTAS QUE SE DEBEN PROTEGER */

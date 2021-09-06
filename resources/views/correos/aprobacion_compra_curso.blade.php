@@ -9,7 +9,7 @@
 
 <body>
     <p>Hola {{$nombre_usuario}}!.</p>
-    <p>La solicitud de compra de tu curso
+    <p>La solicitud de la compra de tu curso
     <h2>{{$nombre_curso}}</h2> ha sido aprobada.</p>
 
     <p>Inicia sesión con tu cuenta e ingresa en la sección de

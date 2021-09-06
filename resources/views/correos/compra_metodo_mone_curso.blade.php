@@ -10,7 +10,7 @@
 <body>
 
     <p>Hola {{$nombre_usuario}}!. Ingresa en el siguiente enlace para concretar la compra del curso {{$nombre_curso}}</p>
-    <p>Este es un enlace de compra emdiante código QR. Atención: Este enlace estará disponible por 24 horas. Haz el pago correspondiente lo
+    <p>Este es un enlace de compra mediante código QR. Atención: Este enlace estará disponible por 24 horas. Haz el pago correspondiente lo
         más antes posible o tu solicitud será cancelada. Gracias!</p>
     <a href="{{$enlace}}">
         {{$enlace}}

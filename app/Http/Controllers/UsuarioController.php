@@ -147,7 +147,7 @@ class UsuarioController extends Controller
     public function actualizarUsuario(Request $request, $id)
     {
         $usuario = Usuario::findOrFail($id);
-        if ($request->hasFile('foto')) {
+        /*if ($request->foto_usuario) {
             // subir la imagen al servidor
             $archivo = $request->file('foto');
             // $archivoNombre = $archivo->getClientOriginalName();
@@ -158,13 +158,26 @@ class UsuarioController extends Controller
             $archivo->move(public_path($this->ruta), $nombre_foto);
             // registrar los datos del usuario
             $usuario->foto_usuario = $this->hostBackend . $this->ruta . $nombre_foto;
-        }
+            $usuario->foto_usuario = $request->foto_usuario;
+        }*/
         $usuario->nombre_usuario = $request->nombre_usuario;
         $usuario->correo_usuario = $request->correo_usuario;
+        //$usuario->foto_usuario = $request->foto_usuario;
         $usuario->save();
         $usuario->rolUsuario;
         $usuario->datosDocente;
         $usuario->redesDocente;
+        return response()->json([
+            'mensaje' => 'actualizado con exito',
+            'estado' => 'success',
+            'datosUsuario' => $usuario
+        ]);
+    }
+
+    public function actualizarFotoUsuario(Request $request, $id){
+        $usuario = Usuario::findOrFail($id);
+        $usuario->foto_usuario = $request->foto_usuario;
+        $usuario->save();
         return response()->json([
             'mensaje' => 'actualizado con exito',
             'estado' => 'success',

@@ -11,8 +11,8 @@
     <p>Hola {{$nombre_usuario}}!. Ingresa en el siguiente enlace para recuperar tu contraseña:</p>
     <ul>
         <li>
-            <a href="http://academiacomarca.com/#/password">
-                Recupera tu contraseñe
+            <a href="http://academiacomarca.com/#/pass/change-pass">
+                Recupera tu contraseña
             </a>
         </li>
     </ul>

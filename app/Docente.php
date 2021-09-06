@@ -21,4 +21,5 @@ class Docente extends Model
     {
         return $this->belongsTo('App\Usuario', 'id_usuario');
     }
+
 }

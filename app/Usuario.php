@@ -27,7 +27,12 @@ class Usuario extends Authenticatable
     }
     public function redesDocente()
     {
-        return $this->hasMany('App\RedSocial','id_usuario');
+        return $this->hasMany('App\RedSocial', 'id_usuario');
+    }
+
+    public function cursosDocente()
+    {
+        return $this->hasMany('App\Curso', 'id_usuario')->where('estado_curso', 'aprobado');
     }
     public function usuarioCursos()
     {
@@ -45,15 +50,15 @@ class Usuario extends Authenticatable
     }
     public function usuarioComentario()
     {
-        return $this->hasMany('App\Comentario','id_comentario');
+        return $this->hasMany('App\Comentario', 'id_comentario');
     }
     public function usuarioRespuestaComentario()
     {
-        return $this->hasMany('App\respuesta','id_respuesta');
+        return $this->hasMany('App\respuesta', 'id_respuesta');
     }
     public function usuarioRespuestaEncuesta()
     {
-        return $this->hasMany('App\EncuestaRespuesta','id_encuesta_respuesta');
+        return $this->hasMany('App\EncuestaRespuesta', 'id_encuesta_respuesta');
     }
     public function docenteMembresias()
     {
